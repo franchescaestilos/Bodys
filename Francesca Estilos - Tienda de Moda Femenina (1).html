@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Francesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#faf7f5',
+                            100: '#f4ede6',
+                            200: '#e8d9cc',
+                            300: '#d7beaa',
+                            400: '#c59f85',
+                            500: '#b68366',
+                            600: '#9d664c',
+                            700: '#81503e',
+                            800: '#6a4236',
+                            900: '#57382e',
+                            gold: '#c5a059',
+                            rose: '#e8c5b8',
+                            dark: '#121212',
+                            lightGray: '#f8f8f8'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b68366;
+            border-radius: 4px;
+        }
+        .bg-pattern {
+            background-image: radial-gradient(#d7beaa 0.5px, transparent 0.5px);
+            background-size: 16px 16px;
+        }
+        .hero-overlay {
+            background: linear-gradient(180deg, rgba(18, 18, 18, 0.45) 0%, rgba(18, 18, 18, 0.75) 100%);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 14px rgba(37, 211, 102, 0); }
+        }
+        .wa-float {
+            animation: pulseGlow 2.5s infinite;
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-[#faf8f5] antialiased selection:bg-brand-300 selection:text-brand-900 overflow-x-hidden">
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="bg-brand-dark text-white text-xs py-2 px-4 text-center tracking-widest uppercase font-medium flex justify-center items-center gap-2">
+        <span>✨ Confección exclusiva en Gamarra | Envíos a todo el Perú</span>
+        <span class="hidden md:inline">•</span>
+        <span class="hidden md:inline">WhatsApp: +51 944 737 700</span>
+    </div>
+
+    <!-- HEADER / NAVBAR -->
+    <header id="main-header" class="fixed top-8 left-0 right-0 z-40 transition-all duration-500 py-4 px-4 md:px-8">
+        <div class="max-w-7xl mx-auto rounded-full transition-all duration-500 py-3 px-6 flex items-center justify-between" id="navbar-container">
+            
+            <!-- Logo -->
+            <a href="#" class="flex flex-col group">
+                <span class="font-serif text-2xl md:text-3xl tracking-widest font-bold text-white group-hover:text-brand-rose transition-colors duration-300 uppercase" id="brand-logo">FRANCESCA</span>
+                <span class="text-[9px] tracking-[0.3em] font-sans font-light text-gray-300 uppercase -mt-1 text-center" id="brand-sublogo">ESTILOS</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="hidden lg:flex items-center space-x-8 text-sm tracking-wider uppercase font-medium text-white/90" id="nav-links">
+                <a href="#inicio" class="hover:text-brand-rose transition-colors">Inicio</a>
+                <a href="#bodies" class="hover:text-brand-rose transition-colors">Bodies</a>
+                <a href="#polos" class="hover:text-brand-rose transition-colors">Polos</a>
+                <a href="#nosotros" class="hover:text-brand-rose transition-colors">Nosotros</a>
+                <a href="#ubicacion" class="hover:text-brand-rose transition-colors">Ubicación</a>
+                <a href="#contacto" class="hover:text-brand-rose transition-colors">Contacto</a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="flex items-center space-x-4 md:space-x-6 text-white" id="header-actions">
+                <button onclick="toggleSearchModal()" aria-label="Buscar" class="hover:text-brand-rose transition-colors p-2">
+                    <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                </button>
+                <button onclick="toggleCartDrawer()" aria-label="Carrito de Compras" class="hover:text-brand-rose transition-colors p-2 relative">
+                    <i class="fa-solid fa-bag-shopping text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-brand-500 text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">0</span>
+                </button>
+                
+                <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs uppercase tracking-wider font-semibold py-2.5 px-5 rounded-full shadow-lg transition-all transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Comprar por WhatsApp</span>
+                </a>
+
+                <!-- Mobile Hamburger Button -->
+                <button onclick="toggleMobileMenu()" aria-label="Abrir Menú" class="lg:hidden text-2xl p-1 focus:outline-none">
+                    <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-menu" class="fixed inset-0 bg-brand-dark/95 backdrop-blur-md z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between p-8 text-white lg:hidden">
+        <div class="flex justify-between items-center border-b border-white/10 pb-6">
+            <div class="flex flex-col">
+                <span class="font-serif text-2xl tracking-widest font-bold">FRANCESCA</span>
+                <span class="text-[10px] tracking-[0.3em] font-sans text-brand-300">ESTILOS • GAMARRA</span>
+            </div>
+            <button onclick="toggleMobileMenu()" aria-label="Cerrar Menú" class="text-2xl text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="flex flex-col space-y-6 text-xl font-serif tracking-wider my-auto">
+            <a href="#inicio" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Inicio</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+            <a href="#bodies" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Bodies</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+            <a href="#polos" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Polos</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+            <a href="#nosotros" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Nosotros</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+            <a href="#ubicacion" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Ubicación</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="hover:text-brand-rose transition-colors flex items-center justify-between"><span>Contacto</span> <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i></a>
+        </nav>
+
+        <div class="space-y-4 pt-6 border-t border-white/10">
+            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-full flex items-center justify-center gap-3 font-semibold uppercase tracking-wider text-sm shadow-lg">
+                <i class="fa-brands fa-whatsapp text-lg"></i>
+                <span>Comprar por WhatsApp</span>
+            </a>
+            <p class="text-xs text-center text-gray-400">Atención personalizada en Gamarra, Lima</p>
+        </div>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section id="inicio" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+        <!-- Background Image with Soft Gradient -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=80" alt="Francesca Estilos Colección" class="w-full h-full object-cover object-center scale-105 transform animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center px-4 sm:px-6 py-20 flex flex-col items-center">
+            
+            <span class="inline-block px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs md:text-sm tracking-[0.25em] uppercase font-light mb-6">
+                Francesca Estilos • Gamarra
+            </span>
+
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white font-medium tracking-tight mb-6 leading-[1.1]">
+                Moda que realza <br><span class="italic font-normal text-brand-rose">tu estilo</span>
+            </h1>
+
+            <p class="text-gray-200 text-base sm:text-lg md:text-xl max-w-2xl font-light mb-10 leading-relaxed">
+                Bodies y polos confeccionados para mujeres que buscan sentirse cómodas, seguras y con estilo. Más de 20 modelos únicos para ti.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+                <a href="#coleccion" class="bg-white hover:bg-brand-100 text-brand-dark px-8 py-4 rounded-full font-medium tracking-wider text-xs sm:text-sm uppercase shadow-2xl transition-all duration-300 transform hover:-translate-y-1 text-center">
+                    Ver Colección
+                </a>
+                <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" class="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full font-medium tracking-wider text-xs sm:text-sm uppercase shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Comprar por WhatsApp</span>
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <a href="#categorias" class="mt-16 sm:mt-24 text-white/80 hover:text-white flex flex-col items-center gap-2 transition-colors group">
+                <span class="text-xs uppercase tracking-widest font-light">Descubre nuestra colección</span>
+                <i class="fa-solid fa-arrow-down text-sm animate-bounce group-hover:text-brand-rose"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- CATEGORIES SECTION -->
+    <section id="categorias" class="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-2xl mx-auto mb-16">
+            <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">Categorías Principales</span>
+            <h2 class="font-serif text-3xl md:text-5xl font-medium text-brand-dark mb-4">Descubre nuestra colección</h2>
+            <div class="w-16 h-0.5 bg-brand-400 mx-auto mb-4"></div>
+            <p class="text-gray-600 text-sm md:text-base">Encuentra el modelo que mejor se adapta a tu estilo y personalidad.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+            
+            <!-- CARD 1: BODIES -->
+            <div class="group relative rounded-3xl overflow-hidden shadow-2xl h-[480px] md:h-[550px] cursor-pointer flex flex-col justify-end p-8 sm:p-10" onclick="filterCatalog('body')">
+                <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=80" alt="Bodies Francesca Estilos" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/40 to-transparent transition-opacity duration-300 group-hover:opacity-90"></div>
+                
+                <div class="relative z-10 transform transition-transform duration-300 group-hover:-translate-y-2">
+                    <span class="bg-brand-500 text-white text-[10px] uppercase font-bold tracking-widest py-1 px-3 rounded-full mb-3 inline-block">Más Vendidos</span>
+                    <h3 class="font-serif text-4xl text-white font-medium mb-3">BODIES</h3>
+                    <p class="text-gray-300 text-sm md:text-base font-light mb-6 max-w-md">Más de 20 modelos diseñados para realzar tu figura con elegancia para diferentes estilos y ocasiones.</p>
+                    <a href="#coleccion" class="inline-flex items-center gap-3 bg-white text-brand-dark px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-brand-100 transition-colors">
+                        <span>Ver Bodies</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 2: POLOS -->
+            <div class="group relative rounded-3xl overflow-hidden shadow-2xl h-[480px] md:h-[550px] cursor-pointer flex flex-col justify-end p-8 sm:p-10" onclick="filterCatalog('polo')">
+                <img src="https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80" alt="Polos de Mujer Francesca Estilos" class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-110">
+                <div class="absolute inset-0 bg-gradient-to-t from-brand-dark/90 via-brand-dark/40 to-transparent transition-opacity duration-300 group-hover:opacity-90"></div>
+                
+                <div class="relative z-10 transform transition-transform duration-300 group-hover:-translate-y-2">
+                    <span class="bg-brand-rose text-brand-dark text-[10px] uppercase font-bold tracking-widest py-1 px-3 rounded-full mb-3 inline-block">Tendencia</span>
+                    <h3 class="font-serif text-4xl text-white font-medium mb-3">POLOS</h3>
+                    <p class="text-gray-300 text-sm md:text-base font-light mb-6 max-w-md">Diseños femeninos modernos, cómodos y fáciles de combinar. Confeccionados con telas suaves de alta durabilidad.</p>
+                    <a href="#coleccion" class="inline-flex items-center gap-3 bg-white text-brand-dark px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-brand-100 transition-colors">
+                        <span>Ver Polos</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- PRODUCT CATALOG SECTION -->
+    <section id="coleccion" class="py-20 bg-white border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+                <div>
+                    <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">Catálogo Exclusivo</span>
+                    <h2 class="font-serif text-3xl md:text-5xl font-medium text-brand-dark">Colección destacada</h2>
+                    <p class="text-gray-500 text-sm mt-2">Conoce algunos de nuestros modelos confeccionados en Gamarra.</p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex items-center gap-2 mt-6 md:mt-0 bg-gray-100 p-1.5 rounded-full self-start md:self-auto overflow-x-auto max-w-full">
+                    <button onclick="filterCatalog('all')" id="filter-all" class="filter-btn px-6 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all bg-brand-dark text-white shadow-sm">
+                        Todos
+                    </button>
+                    <button onclick="filterCatalog('body')" id="filter-body" class="filter-btn px-6 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all text-gray-600 hover:text-brand-dark">
+                        Bodies
+                    </button>
+                    <button onclick="filterCatalog('polo')" id="filter-polo" class="filter-btn px-6 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all text-gray-600 hover:text-brand-dark">
+                        Polos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid (4 cols desktop, 2 cols mobile) -->
+            <div id="product-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+                <!-- Dynamic products rendered via Javascript -->
+            </div>
+
+            <div class="mt-16 text-center">
+                <p class="text-sm text-gray-500 mb-4">¿Buscas algún color, talla especial o diseño al por mayor?</p>
+                <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20ver%20el%20cat%C3%A1logo%20completo%20con%20m%C3%A1s%20de%2020%20modelos." target="_blank" class="inline-flex items-center gap-3 bg-brand-dark hover:bg-brand-800 text-white px-8 py-4 rounded-full text-xs font-medium uppercase tracking-widest transition-all shadow-lg hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-base text-emerald-400"></i>
+                    <span>Solicitar Catálogo Completo (+20 Modelos)</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WHY FRANCESCA ESTILOS -->
+    <section class="py-20 bg-[#faf7f5] relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">Nuestra Promesa</span>
+                <h2 class="font-serif text-3xl md:text-5xl font-medium text-brand-dark mb-3">Tu estilo, tu esencia</h2>
+                <div class="w-16 h-0.5 bg-brand-400 mx-auto"></div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-center flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-shirt"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-brand-dark mb-2">Más de 20 modelos</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Variedad constante en bodies escotados, básicos, polos crop y mangas largas.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-center flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-gem"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-brand-dark mb-2">Confección de calidad</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Telas seleccionadas con exelente estiramiento, moldeado y durabilidad al lavado.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-center flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-brand-dark mb-2">Diseños modernos</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Patrones estilizados que se adaptan perfectamente a tu figura y ocasiones reales.</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow text-center flex flex-col items-center">
+                    <div class="w-16 h-16 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-2xl mb-6">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="font-serif text-xl font-medium text-brand-dark mb-2">Atención personalizada</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Te asesoramos con tallas, colores y combinaciones directamente por WhatsApp.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT US SECTION -->
+    <section id="nosotros" class="py-24 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                
+                <!-- Image Column with Overlay Frame -->
+                <div class="relative">
+                    <div class="relative z-10 rounded-3xl overflow-hidden shadow-2xl aspect-[4/5] max-w-lg mx-auto">
+                        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1000&q=80" alt="Tienda y Confección Francesca Estilos" class="w-full h-full object-cover">
+                    </div>
+                    <!-- Aesthetic Accent Box -->
+                    <div class="absolute -bottom-6 -left-6 w-48 h-48 bg-brand-100 rounded-3xl -z-0 hidden sm:block"></div>
+                    <div class="absolute -top-6 -right-6 w-48 h-48 border-2 border-brand-300 rounded-3xl -z-0 hidden sm:block"></div>
+                    
+                    <div class="absolute bottom-8 right-8 z-20 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl max-w-xs border border-white/40">
+                        <p class="font-serif text-3xl font-bold text-brand-600 mb-1">Gamarra</p>
+                        <p class="text-xs text-gray-600 uppercase tracking-widest font-semibold">Cuna de la Moda en Lima</p>
+                    </div>
+                </div>
+
+                <!-- Text Content Column -->
+                <div class="space-y-6">
+                    <span class="text-brand-500 font-medium tracking-widest text-xs uppercase block">Conoce nuestra historia</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-brand-dark leading-tight">
+                        Sobre Francesca Estilos
+                    </h2>
+                    <div class="w-16 h-0.5 bg-brand-400"></div>
+
+                    <p class="text-gray-600 leading-relaxed font-light text-base md:text-lg">
+                        Somos una tienda dedicada a la confección y venta de <strong class="font-semibold text-brand-dark">bodies y polos para damas</strong>. Trabajamos cada prenda pensando en ofrecer diseños modernos, versátiles y cómodos que puedan formar parte del estilo diario de cada mujer.
+                    </p>
+
+                    <p class="text-gray-600 leading-relaxed font-light text-base md:text-lg">
+                        Nuestra pasión es realzar la confianza femenina a través de prendas con excelente calce y acabados impecables. Cada diseño es probado y ajustado para garantizar la máxima comodidad sin perder el toque chic.
+                    </p>
+
+                    <div class="p-6 bg-brand-50 rounded-2xl border-l-4 border-brand-500 my-6">
+                        <p class="font-serif italic text-brand-800 text-lg">
+                            "Visítanos en Gamarra y conoce nuestros modelos, telas y colores en persona."
+                        </p>
+                    </div>
+
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <a href="#ubicacion" class="bg-brand-dark hover:bg-brand-800 text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-widest transition-all shadow-lg">
+                            Conocer Ubicación
+                        </a>
+                        <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos." target="_blank" class="border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white px-8 py-4 rounded-full text-xs font-semibold uppercase tracking-widest transition-all">
+                            Escribir a WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION SECTION -->
+    <section id="ubicacion" class="py-24 bg-[#faf7f5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">Tienda Física</span>
+                <h2 class="font-serif text-3xl md:text-5xl font-medium text-brand-dark mb-3">Visítanos en Gamarra</h2>
+                <div class="w-16 h-0.5 bg-brand-400 mx-auto mb-4"></div>
+                <p class="text-gray-600 text-sm md:text-base">Ven a conocer nuestros modelos directamente en nuestra tienda física en Lima.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                
+                <!-- Info Box -->
+                <div class="lg:col-span-5 bg-white p-8 sm:p-10 rounded-3xl shadow-xl flex flex-col justify-between border border-gray-100">
+                    <div class="space-y-8">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center shrink-0 text-xl">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-brand-dark mb-1">Dirección</h3>
+                                <p class="text-gray-600 text-sm leading-relaxed">Gamarra – La Victoria, Lima, Perú</p>
+                                <p class="text-xs text-brand-500 mt-1 font-medium">Emporio Comercial de Gamarra</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 text-xl">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-brand-dark mb-1">WhatsApp / Pedidos</h3>
+                                <a href="https://wa.me/51944737700" target="_blank" class="text-gray-700 hover:text-emerald-600 text-sm font-semibold transition-colors">
+                                    +51 944 737 700
+                                </a>
+                                <p class="text-xs text-gray-400 mt-1">Atención rápida y envío de fotos de stock</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center shrink-0 text-xl">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-brand-dark mb-1">Horario de Atención</h3>
+                                <p class="text-gray-600 text-sm">Lunes a Sábado: 9:30 am – 7:30 pm</p>
+                                <p class="text-xs text-gray-400">Domingos: Consultar por WhatsApp</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-8 border-t border-gray-100 mt-8">
+                        <a href="https://maps.google.com/?q=Gamarra+La+Victoria+Lima+Peru" target="_blank" rel="noopener" class="w-full bg-brand-dark hover:bg-brand-800 text-white py-4 rounded-full flex items-center justify-center gap-3 font-semibold uppercase tracking-wider text-xs shadow-lg transition-all">
+                            <i class="fa-solid fa-diamond-turn-right text-base text-brand-rose"></i>
+                            <span>Cómo llegar con Google Maps</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Google Maps iFrame Container -->
+                <div class="lg:col-span-7 rounded-3xl overflow-hidden shadow-xl border border-gray-200 min-h-[380px] bg-gray-100 relative">
+                    <iframe 
+                        title="Ubicación Francesca Estilos en Gamarra"
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15606.315187760981!2d-77.0175529128418!3d-12.072481000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8ba0e28f729%3A0xb35a0542df4ff421!2sGamarra!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe" 
+                        class="w-full h-full min-h-[400px] border-0" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- WHATSAPP BANNER SECTION -->
+    <section id="contacto" class="py-20 bg-gradient-to-r from-brand-dark via-stone-900 to-brand-dark text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 bg-pattern"></div>
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-3xl mb-6">
+                <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <h2 class="font-serif text-3xl sm:text-5xl font-medium mb-4">¿Encontraste tu modelo ideal?</h2>
+            <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto mb-8 font-light">
+                Escríbenos directamente a WhatsApp para consultar disponibilidad inmediata, variedad de colores, tallas y precios al detalle o al por mayor.
+            </p>
+            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" class="inline-flex items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white px-10 py-5 rounded-full font-bold uppercase tracking-widest text-sm shadow-2xl transition-all transform hover:scale-105">
+                <i class="fa-brands fa-whatsapp text-2xl"></i>
+                <span>Consultar por WhatsApp</span>
+            </a>
+            <p class="text-xs text-gray-400 mt-4">Respuesta inmediata en horario comercial</p>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS SECTION -->
+    <section class="py-24 bg-white border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">Experiencias de Marca</span>
+                <h2 class="font-serif text-3xl md:text-5xl font-medium text-brand-dark mb-3">Lo que dicen nuestras clientas</h2>
+                <div class="w-16 h-0.5 bg-brand-400 mx-auto mb-3"></div>
+                <p class="text-xs text-gray-400 italic">(Ejemplos de referencias de diseño y atención)</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <div class="bg-[#faf8f5] p-8 rounded-3xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
+                    <div class="text-brand-400 text-2xl mb-4">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic font-light text-base mb-6 leading-relaxed">
+                        "Me encantaron los modelos y la atención. La tela del body modelador es espectacular y horma divino. Definitivamente volveré a comprar."
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div class="w-10 h-10 rounded-full bg-brand-300 text-brand-900 flex items-center justify-center font-bold text-sm">
+                            M
+                        </div>
+                        <div>
+                            <p class="font-serif font-bold text-brand-dark text-sm">María V.</p>
+                            <p class="text-[11px] text-gray-500 uppercase tracking-wider">Cliente de Francesca Estilos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#faf8f5] p-8 rounded-3xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
+                    <div class="text-brand-400 text-2xl mb-4">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic font-light text-base mb-6 leading-relaxed">
+                        "Encontré varios modelos de polos crop y bodies que estaba buscando para mi tienda. Muy buena atención en su tienda de Gamarra."
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div class="w-10 h-10 rounded-full bg-brand-rose text-brand-dark flex items-center justify-center font-bold text-sm">
+                            K
+                        </div>
+                        <div>
+                            <p class="font-serif font-bold text-brand-dark text-sm">Karla S.</p>
+                            <p class="text-[11px] text-gray-500 uppercase tracking-wider">Cliente Mayorista</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#faf8f5] p-8 rounded-3xl border border-gray-100 flex flex-col justify-between relative shadow-sm">
+                    <div class="text-brand-400 text-2xl mb-4">
+                        <i class="fa-solid fa-quote-left"></i>
+                    </div>
+                    <p class="text-gray-700 italic font-light text-base mb-6 leading-relaxed">
+                        "Los diseños son super modernos y tienen bastante variedad de colores. Hice mi pedido por WhatsApp y me llegó rápido a provincia."
+                    </p>
+                    <div class="flex items-center gap-3 pt-4 border-t border-gray-200/60">
+                        <div class="w-10 h-10 rounded-full bg-brand-200 text-brand-800 flex items-center justify-center font-bold text-sm">
+                            L
+                        </div>
+                        <div>
+                            <p class="font-serif font-bold text-brand-dark text-sm">Lucía R.</p>
+                            <p class="text-[11px] text-gray-500 uppercase tracking-wider">Envío a Provincia</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL MEDIA / INSTAGRAM GRID -->
+    <section class="py-20 bg-[#faf7f5]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-brand-500 font-medium tracking-widest text-xs uppercase mb-2 block">@FrancescaEstilos</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-medium text-brand-dark mb-3">Síguenos en redes</h2>
+                <p class="text-gray-600 text-sm">Descubre nuestros nuevos modelos, avances de temporada y novedades diarias.</p>
+            </div>
+
+            <!-- Image Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-facebook-f text-xl"></i>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-facebook-f text-xl"></i>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-facebook-f text-xl"></i>
+                    </div>
+                </div>
+                <div class="group relative rounded-2xl overflow-hidden aspect-square shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=400&q=80" alt="Lookbook Francesca Estilos" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-brand-dark/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                        <i class="fa-brands fa-instagram text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4">
+                <a href="https://facebook.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-[#1877F2] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider shadow-md transition-all">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span>Seguir en Facebook</span>
+                </a>
+                <a href="https://instagram.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 hover:opacity-90 text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider shadow-md transition-all">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Seguir en Instagram</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-gray-300 pt-20 pb-10 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Brand Info -->
+                <div class="space-y-4">
+                    <div class="flex flex-col">
+                        <span class="font-serif text-3xl tracking-widest font-bold text-white">FRANCESCA</span>
+                        <span class="text-[10px] tracking-[0.3em] font-sans text-brand-300 uppercase">ESTILOS</span>
+                    </div>
+                    <p class="text-gray-400 text-sm font-light leading-relaxed">
+                        Moda femenina para expresar tu estilo. Confección y venta exclusiva de bodies y polos para damas en Gamarra, Lima, Perú.
+                    </p>
+                    <div class="flex space-x-3 pt-2">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-500 text-white flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-facebook-f text-sm"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="w-9 h-9 rounded-full bg-white/10 hover:bg-brand-500 text-white flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-instagram text-sm"></i>
+                        </a>
+                        <a href="https://wa.me/51944737700" target="_blank" aria-label="WhatsApp" class="w-9 h-9 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center transition-colors">
+                            <i class="fa-brands fa-whatsapp text-sm"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div>
+                    <h3 class="font-serif text-lg font-medium text-white mb-6 tracking-wide">Navegación</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li><a href="#inicio" class="hover:text-brand-rose transition-colors">Inicio</a></li>
+                        <li><a href="#bodies" onclick="filterCatalog('body')" class="hover:text-brand-rose transition-colors">Bodies</a></li>
+                        <li><a href="#polos" onclick="filterCatalog('polo')" class="hover:text-brand-rose transition-colors">Polos</a></li>
+                        <li><a href="#nosotros" class="hover:text-brand-rose transition-colors">Nosotros</a></li>
+                        <li><a href="#ubicacion" class="hover:text-brand-rose transition-colors">Ubicación</a></li>
+                        <li><a href="#contacto" class="hover:text-brand-rose transition-colors">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care / Store info -->
+                <div>
+                    <h3 class="font-serif text-lg font-medium text-white mb-6 tracking-wide">Atención y Tienda</h3>
+                    <ul class="space-y-3 text-sm text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                            <a href="https://wa.me/51944737700" target="_blank" class="hover:text-white transition-colors">+51 944 737 700</a>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-store text-brand-400 mt-1"></i>
+                            <span>Tienda física en Emporio Comercial de Gamarra</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-400"></i>
+                            <span>Gamarra – La Victoria, Lima</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa-solid fa-truck text-brand-400"></i>
+                            <span>Envíos a todo el Perú</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter / Info -->
+                <div>
+                    <h3 class="font-serif text-lg font-medium text-white mb-6 tracking-wide">Consulta Rápida</h3>
+                    <p class="text-gray-400 text-sm mb-4">¿Deseas atención inmediata o catálogo mayorista?</p>
+                    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20informaci%C3%B3n%20para%20ventas%20por%20mayor%20y%20menor." target="_blank" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-3 rounded-xl flex items-center justify-center gap-2 text-xs uppercase font-semibold tracking-wider transition-colors shadow-md">
+                        <i class="fa-brands fa-whatsapp text-base"></i>
+                        <span>Escribir al WhatsApp</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bottom Footer Bar -->
+            <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>© 2026 Francesca Estilos. Todos los derechos reservados.</p>
+                <div class="flex space-x-6">
+                    <button onclick="openModal('politicas-modal')" class="hover:text-gray-400 transition-colors">Política de privacidad</button>
+                    <button onclick="openModal('terminos-modal')" class="hover:text-gray-400 transition-colors">Términos y condiciones</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float fixed bottom-6 right-6 bg-emerald-500 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl shadow-2xl z-40 transition-transform hover:scale-110">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- PRODUCT QUICK VIEW MODAL -->
+    <div id="product-modal" class="fixed inset-0 bg-brand-dark/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col md:flex-row my-auto">
+            <button onclick="closeModal('product-modal')" aria-label="Cerrar" class="absolute top-4 right-4 bg-white/80 hover:bg-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center z-20 shadow-md">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="md:w-1/2 h-72 md:h-auto relative bg-gray-100">
+                <img id="modal-img" src="" alt="Producto" class="w-full h-full object-cover object-top">
+            </div>
+
+            <div class="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
+                <div>
+                    <span id="modal-category" class="bg-brand-100 text-brand-800 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full inline-block mb-3">Categoría</span>
+                    <h3 id="modal-title" class="font-serif text-2xl sm:text-3xl font-bold text-brand-dark mb-2">Nombre del Producto</h3>
+                    <p id="modal-price" class="text-xl font-bold text-brand-600 mb-4">Consultar precio</p>
+                    <p id="modal-description" class="text-gray-600 text-sm mb-6 font-light leading-relaxed">
+                        Confeccionado en tela de alta calidad, suave al tacto y con ajuste perfecto que realza la silueta femenina. Ideal para combinar con jeans, faldas o pantalones de vestir.
+                    </p>
+
+                    <!-- Color Swatches -->
+                    <div class="mb-5">
+                        <label class="text-xs uppercase font-bold tracking-wider text-gray-700 mb-2 block">Colores Disponibles:</label>
+                        <div id="modal-colors" class="flex gap-2"></div>
+                    </div>
+
+                    <!-- Size Badges -->
+                    <div class="mb-6">
+                        <label class="text-xs uppercase font-bold tracking-wider text-gray-700 mb-2 block">Tallas Disponibles:</label>
+                        <div id="modal-sizes" class="flex gap-2"></div>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-4 border-t border-gray-100">
+                    <button id="modal-buy-wa" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-full flex items-center justify-center gap-2 font-semibold uppercase tracking-wider text-xs shadow-lg transition-all">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Pedir por WhatsApp</span>
+                    </button>
+                    <button id="modal-add-cart" class="w-full border border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-all">
+                        Agregar a la Bolsa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer" class="fixed inset-0 bg-brand-dark/70 backdrop-blur-sm z-50 translate-x-full transition-transform duration-300 flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl flex flex-col justify-between p-6">
+            <div>
+                <div class="flex justify-between items-center pb-4 border-b border-gray-200">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-xl text-brand-dark"></i>
+                        <h3 class="font-serif text-2xl font-bold text-brand-dark">Tu Bolsa de Compras</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-gray-700 text-xl p-1">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items" class="py-4 overflow-y-auto max-h-[60vh] space-y-4">
+                    <p class="text-center text-gray-400 text-sm py-10">Tu bolsa está vacía actualmente.</p>
+                </div>
+            </div>
+
+            <div id="cart-footer" class="border-t border-gray-200 pt-4 space-y-4 hidden">
+                <div class="flex justify-between items-center text-sm font-semibold">
+                    <span>Total estimado:</span>
+                    <span id="cart-total" class="text-brand-600 text-base">Consultar por WhatsApp</span>
+                </div>
+                <button onclick="sendCartToWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-4 rounded-full flex items-center justify-center gap-2 font-bold uppercase tracking-wider text-xs shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>Finalizar pedido por WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="fixed inset-0 bg-brand-dark/80 backdrop-blur-md z-50 hidden flex-col p-6 sm:p-12">
+        <div class="max-w-3xl w-full mx-auto flex justify-between items-center mb-8">
+            <span class="font-serif text-white text-2xl">Búsqueda de Modelos</span>
+            <button onclick="toggleSearchModal()" class="text-white text-2xl hover:text-brand-rose">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="max-w-3xl w-full mx-auto relative">
+            <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar por 'Body', 'Polo', 'Escote', 'Básico'..." class="w-full bg-white/10 border-2 border-white/20 text-white placeholder-gray-400 text-lg sm:text-2xl rounded-full py-4 px-8 focus:outline-none focus:border-brand-rose">
+            <i class="fa-solid fa-magnifying-glass absolute right-6 top-1/2 -translate-y-1/2 text-white/60 text-xl"></i>
+        </div>
+        <div id="search-results" class="max-w-3xl w-full mx-auto mt-8 grid grid-cols-2 sm:grid-cols-3 gap-4 overflow-y-auto">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY & TERMS MODALS -->
+    <div id="politicas-modal" class="fixed inset-0 bg-brand-dark/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-8 relative max-h-[80vh] overflow-y-auto">
+            <button onclick="closeModal('politicas-modal')" class="absolute top-4 right-4 text-gray-500 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-serif text-2xl font-bold mb-4">Política de Privacidad</h3>
+            <p class="text-sm text-gray-600 leading-relaxed mb-4">En Francesca Estilos garantizamos la protección y confidencialidad de tus datos personales proporcionados para la realización de pedidos y consultas por WhatsApp.</p>
+            <p class="text-sm text-gray-600 leading-relaxed">No compartimos tu información con terceros y la utilizamos exclusivamente para coordinar envíos y atención al cliente.</p>
+        </div>
+    </div>
+
+    <div id="terminos-modal" class="fixed inset-0 bg-brand-dark/80 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-8 relative max-h-[80vh] overflow-y-auto">
+            <button onclick="closeModal('terminos-modal')" class="absolute top-4 right-4 text-gray-500 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-serif text-2xl font-bold mb-4">Términos y Condiciones</h3>
+            <p class="text-sm text-gray-600 leading-relaxed mb-4">Todos los pedidos se confirman formalmente por WhatsApp. Los envíos a provincias se realizan previa verificación de pago.</p>
+            <p class="text-sm text-gray-600 leading-relaxed">Los precios, disponibilidad de colores y modelos pueden variar según stock disponible en tienda física en Gamarra.</p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 bg-brand-dark text-white px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider shadow-2xl z-50 hidden transition-all duration-300 transform translate-y-4">
+        <span id="toast-msg">Mensaje de notificación</span>
+    </div>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        // Catalog Data
+        const products = [
+            {
+                id: 1,
+                name: "Body Básico",
+                category: "Body",
+                type: "body",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80",
+                colors: ["#121212", "#ffffff", "#c59f85", "#81503e"],
+                colorNames: ["Negro", "Blanco", "Nude", "Marrón"],
+                sizes: ["S", "M", "L"],
+                desc: "Body básico de corte estilizado con broche inferior de alta durabilidad. Elaborado en suplex de alta elasticidad."
+            },
+            {
+                id: 2,
+                name: "Body Escote",
+                category: "Body",
+                type: "body",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80",
+                colors: ["#121212", "#e8c5b8", "#81503e"],
+                colorNames: ["Negro", "Palo Rosa", "Chocolate"],
+                sizes: ["S", "M"],
+                desc: "Diseño sensual y elegante con escote pronunciado en V. Perfecto para eventos de noche y salidas casuales."
+            },
+            {
+                id: 3,
+                name: "Body Manga Larga",
+                category: "Body",
+                type: "body",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=800&q=80",
+                colors: ["#121212", "#ffffff", "#3b82f6"],
+                colorNames: ["Negro", "Blanco", "Azul"],
+                sizes: ["S", "M", "L"],
+                desc: "Body manga larga ideal para media estación o invierno. Ajuste anatómico que realza la silueta."
+            },
+            {
+                id: 4,
+                name: "Body Modelador",
+                category: "Body",
+                type: "body",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80",
+                colors: ["#121212", "#c59f85"],
+                colorNames: ["Negro", "Nude"],
+                sizes: ["S", "M", "L"],
+                desc: "Confección especial con compresión suave en la zona abdominal para una figura ultra moldeada."
+            },
+            {
+                id: 5,
+                name: "Polo Básico",
+                category: "Polo",
+                type: "polo",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=800&q=80",
+                colors: ["#ffffff", "#121212", "#e8c5b8", "#10b981"],
+                colorNames: ["Blanco", "Negro", "Rosa", "Verde"],
+                sizes: ["S", "M", "L"],
+                desc: "Polo para dama confeccionado en algodón reactivo de tacto suave. No pierde color ni forma al lavar."
+            },
+            {
+                id: 6,
+                name: "Polo Crop",
+                category: "Polo",
+                type: "polo",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80",
+                colors: ["#ffffff", "#f59e0b", "#121212"],
+                colorNames: ["Blanco", "Mostaza", "Negro"],
+                sizes: ["S", "M"],
+                desc: "Polo estilo crop top moderno, corte fresco y juvenil ideal para combinar con jeans de tiro alto."
+            },
+            {
+                id: 7,
+                name: "Polo Manga Larga",
+                category: "Polo",
+                type: "polo",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=800&q=80",
+                colors: ["#121212", "#ef4444", "#ffffff"],
+                colorNames: ["Negro", "Rojo", "Blanco"],
+                sizes: ["S", "M", "L"],
+                desc: "Diseño atemporal con tela de pima estirable, cómodo, elegante y fácil de accesorizar."
+            },
+            {
+                id: 8,
+                name: "Polo Casual",
+                category: "Polo",
+                type: "polo",
+                price: "Consultar precio",
+                img: "https://images.unsplash.com/photo-1554412933-514a83d2f3c8?auto=format&fit=crop&w=800&q=80",
+                colors: ["#c59f85", "#121212", "#ffffff"],
+                colorNames: ["Nude", "Negro", "Blanco"],
+                sizes: ["S", "M", "L"],
+                desc: "Polo versátil para uso diario en el trabajo o salidas casuales. Tela fresca y con caída suave."
+            }
+        ];
+
+        let cart = [];
+        let currentProduct = null;
+
+        // Initialize Page
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            setupHeaderScroll();
+        });
+
+        // Header Dynamic Effect on Scroll
+        function setupHeaderScroll() {
+            const header = document.getElementById('main-header');
+            const navContainer = document.getElementById('navbar-container');
+            const logo = document.getElementById('brand-logo');
+            const sublogo = document.getElementById('brand-sublogo');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navContainer.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-xl', 'border', 'border-gray-100');
+                    navContainer.classList.remove('bg-transparent');
+                    logo.classList.remove('text-white');
+                    logo.classList.add('text-brand-dark');
+                    sublogo.classList.remove('text-gray-300');
+                    sublogo.classList.add('text-brand-600');
+                    
+                    document.querySelectorAll('#nav-links a').forEach(a => {
+                        a.classList.remove('text-white/90');
+                        a.classList.add('text-gray-800');
+                    });
+                    document.querySelectorAll('#header-actions button, #header-actions i').forEach(icon => {
+                        icon.classList.remove('text-white');
+                        icon.classList.add('text-gray-800');
+                    });
+                } else {
+                    navContainer.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-xl', 'border', 'border-gray-100');
+                    logo.classList.add('text-white');
+                    logo.classList.remove('text-brand-dark');
+                    sublogo.classList.add('text-gray-300');
+                    sublogo.classList.remove('text-brand-600');
+
+                    document.querySelectorAll('#nav-links a').forEach(a => {
+                        a.classList.add('text-white/90');
+                        a.classList.remove('text-gray-800');
+                    });
+                    document.querySelectorAll('#header-actions button, #header-actions i').forEach(icon => {
+                        icon.classList.add('text-white');
+                        icon.classList.remove('text-gray-800');
+                    });
+                }
+            });
+        }
+
+        // Render Product Catalog Cards
+        function renderProducts(items) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group";
+                
+                card.innerHTML = `
+                    <div class="relative aspect-[3/4] overflow-hidden bg-gray-100 cursor-pointer" onclick="openProductModal(${product.id})">
+                        <img src="${product.img}" alt="${product.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-brand-dark text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                            ${product.category}
+                        </span>
+                        <div class="absolute inset-0 bg-brand-dark/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                            <span class="bg-white text-brand-dark text-xs font-semibold uppercase tracking-wider py-2 px-4 rounded-full shadow-lg transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                                Ver Detalle
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 sm:p-5 flex flex-col justify-between flex-grow">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <h3 class="font-serif text-lg font-bold text-brand-dark group-hover:text-brand-600 transition-colors">${product.name}</h3>
+                            </div>
+                            <p class="text-xs text-brand-500 font-semibold mb-3">${product.price}</p>
+                            
+                            <!-- Color Dot Preview -->
+                            <div class="flex items-center gap-1.5 mb-4">
+                                ${product.colors.map(color => `<span class="w-3.5 h-3.5 rounded-full border border-gray-300" style="background-color: ${color}"></span>`).join('')}
+                                <span class="text-[10px] text-gray-400 ml-1">+ colores</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-gray-100">
+                            <button onclick="openProductModal(${product.id})" class="text-[11px] font-semibold uppercase tracking-wider py-2 px-3 border border-gray-300 rounded-full hover:border-brand-dark transition-colors text-center">
+                                Detalle
+                            </button>
+                            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20comprar%20el%20producto%3A%20${encodeURIComponent(product.name)}" target="_blank" class="bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-semibold uppercase tracking-wider py-2 px-3 rounded-full flex items-center justify-center gap-1 shadow-sm transition-colors">
+                                <i class="fa-brands fa-whatsapp text-sm"></i>
+                                <span>Comprar</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Products by Category
+        function filterCatalog(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-dark', 'text-white', 'shadow-sm');
+                btn.classList.add('text-gray-600');
+            });
+
+            const activeBtn = document.getElementById(`filter-${category}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-brand-dark', 'text-white', 'shadow-sm');
+                activeBtn.classList.remove('text-gray-600');
+            }
+
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.type === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // Product Modal Logic
+        function openProductModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+
+            document.getElementById('modal-img').src = currentProduct.img;
+            document.getElementById('modal-title').innerText = currentProduct.name;
+            document.getElementById('modal-category').innerText = currentProduct.category;
+            document.getElementById('modal-price').innerText = currentProduct.price;
+            document.getElementById('modal-description').innerText = currentProduct.desc;
+
+            // Render colors
+            const colorsContainer = document.getElementById('modal-colors');
+            colorsContainer.innerHTML = currentProduct.colors.map((c, i) => `
+                <div class="flex items-center gap-1 bg-gray-100 px-3 py-1.5 rounded-full text-xs font-medium border border-gray-200">
+                    <span class="w-3.5 h-3.5 rounded-full border border-gray-400" style="background-color: ${c}"></span>
+                    <span>${currentProduct.colorNames[i] || 'Color'}</span>
+                </div>
+            `).join('');
+
+            // Render sizes
+            const sizesContainer = document.getElementById('modal-sizes');
+            sizesContainer.innerHTML = currentProduct.sizes.map(s => `
+                <span class="px-3.5 py-1.5 bg-brand-dark text-white rounded-lg text-xs font-bold">${s}</span>
+            `).join('');
+
+            // WhatsApp direct buy button
+            const waBtn = document.getElementById('modal-buy-wa');
+            waBtn.onclick = () => {
+                const msg = `Hola Francesca Estilos, me interesa el modelo: *${currentProduct.name}* (Categoría: ${currentProduct.category}). Quisiera consultar disponiblidad de colores y precio.`;
+                window.open(`https://wa.me/51944737700?text=${encodeURIComponent(msg)}`, '_blank');
+            };
+
+            // Add to Cart button
+            const addCartBtn = document.getElementById('modal-add-cart');
+            addCartBtn.onclick = () => {
+                addToCart(currentProduct);
+                closeModal('product-modal');
+            };
+
+            openModal('product-modal');
+        }
+
+        // Cart Drawer Logic
+        function addToCart(product) {
+            cart.push(product);
+            updateCartUI();
+            showToast(`¡${product.name} agregado a la bolsa!`);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartCount = document.getElementById('cart-count');
+            const cartItems = document.getElementById('cart-items');
+            const cartFooter = document.getElementById('cart-footer');
+
+            cartCount.innerText = cart.length;
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-gray-400 text-sm py-10">Tu bolsa está vacía actualmente.</p>';
+                cartFooter.classList.add('hidden');
+                return;
+            }
+
+            cartFooter.classList.remove('hidden');
+            cartItems.innerHTML = cart.map((item, idx) => `
+                <div class="flex items-center justify-between bg-gray-50 p-3 rounded-2xl border border-gray-100">
+                    <div class="flex items-center gap-3">
+                        <img src="${item.img}" alt="${item.name}" class="w-12 h-16 object-cover rounded-xl">
+                        <div>
+                            <h4 class="font-serif font-bold text-sm text-brand-dark">${item.name}</h4>
+                            <p class="text-xs text-brand-600 font-semibold">${item.price}</p>
+                        </div>
+                    </div>
+                    <button onclick="removeFromCart(${idx})" class="text-gray-400 hover:text-red-500 p-2">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function sendCartToWhatsApp() {
+            if (cart.length === 0) return;
+            const itemsList = cart.map((item, i) => `${i + 1}. *${item.name}* (${item.category})`).join('%0A');
+            const msg = `Hola Francesca Estilos, quisiera consultar disponibilidad y precios para mi lista de prendas:%0A%0A${itemsList}%0A%0A¿Me podrían brindar información?`;
+            window.open(`https://wa.me/51944737700?text=${msg}`, '_blank');
+        }
+
+        // Search Overlay Function
+        function handleSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('search-results');
+            
+            if (query === '') {
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            const matches = products.filter(p => p.name.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+
+            if (matches.length === 0) {
+                resultsContainer.innerHTML = '<p class="col-span-full text-center text-gray-400 text-sm py-6">No encontramos modelos para esa búsqueda.</p>';
+                return;
+            }
+
+            resultsContainer.innerHTML = matches.map(p => `
+                <div onclick="openProductModal(${p.id}); toggleSearchModal();" class="bg-white/10 hover:bg-white/20 p-3 rounded-2xl cursor-pointer flex items-center gap-3 transition-colors text-white">
+                    <img src="${p.img}" class="w-12 h-12 rounded-xl object-cover">
+                    <div>
+                        <p class="font-bold text-sm font-serif">${p.name}</p>
+                        <p class="text-xs text-brand-rose">${p.category}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // UI Helpers & Drawer Toggles
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('translate-x-full');
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('translate-x-full');
+        }
+
+        function toggleSearchModal() {
+            const modal = document.getElementById('search-modal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+            if (!modal.classList.contains('hidden')) {
+                document.getElementById('search-input').focus();
+            }
+        }
+
+        function openModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            }
+        }
+
+        function closeModal(id) {
+            const m = document.getElementById(id);
+            if (m) {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            toast.classList.remove('hidden', 'translate-y-4');
+            setTimeout(() => {
+                toast.classList.add('hidden', 'translate-y-4');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
