@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo | Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="page-body page-catalogo">
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="page-div">
+        <span>Confección exclusiva en Gamarra | Envíos a todo el Perú</span>
+        <span class="page-span">•</span>
+        <span class="page-span">WhatsApp: +51 944 737 700</span>
+    </div>
+
+    <!-- HEADER / NAVBAR -->
+    <header id="main-header" class="main-header">
+        <div class="navbar-container" id="navbar-container">
+
+            <!-- Logo -->
+            <a href="index.html" class="group navbar-container-a">
+                <span class="brand-logo" id="brand-logo">Franchesca</span>
+                <span class="brand-sublogo" id="brand-sublogo">ESTILOS</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <nav class="nav-links" id="nav-links">
+                <a href="index.html" class="nav-links-a">Inicio</a>
+                <a href="catalogo.html" class="nav-links-a">Catálogo</a>
+                <a href="index.html#nosotros" class="nav-links-a">Nosotros</a>
+                <a href="index.html#ubicacion" class="nav-links-a">Ubicación</a>
+                <a href="index.html#contacto" class="nav-links-a">Contacto</a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="header-actions" id="header-actions">
+                <button onclick="toggleSearchModal()" aria-label="Buscar" class="header-actions-button">
+                    <i class="fa-solid fa-magnifying-glass header-actions-i"></i>
+                </button>
+                <button onclick="toggleCartDrawer()" aria-label="Carrito de Compras" class="header-actions-button-2">
+                    <i class="fa-solid fa-bag-shopping header-actions-i-2"></i>
+                    <span id="cart-count" class="cart-count">0</span>
+                </button>
+
+                <!-- Mobile Hamburger Button -->
+                <button onclick="toggleMobileMenu()" aria-label="Abrir Menú" class="header-actions-button-3">
+                    <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU DRAWER -->
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="mobile-menu-div">
+            <div class="navbar-container-a">
+                <span class="mobile-menu-span">FRANCHESCA</span>
+                <span class="mobile-menu-span-2">ESTILOS • GAMARRA</span>
+            </div>
+            <button onclick="toggleMobileMenu()" aria-label="Cerrar Menú" class="mobile-menu-button">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="index.html" class="mobile-menu-a"><span>Inicio</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="catalogo.html" class="mobile-menu-a"><span>Catálogo</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="index.html#nosotros" class="mobile-menu-a"><span>Nosotros</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="index.html#ubicacion" class="mobile-menu-a"><span>Ubicación</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="index.html#contacto" class="mobile-menu-a"><span>Contacto</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+        </nav>
+
+        <div class="mobile-menu-div-2">
+            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" class="mobile-menu-a-2">
+                <i class="fa-brands fa-whatsapp header-actions-i"></i>
+                <span>Comprar por WhatsApp</span>
+            </a>
+            <p class="mobile-menu-p">Atención personalizada en Gamarra, Lima</p>
+        </div>
+    </div>
+
+    <!-- CATALOG INTRO -->
+    <section class="catalogo-hero">
+    <h1 class="inicio-h1">
+               Viste lo que te hace <br><span class="inicio-span-2">única.</span>
+            </h1>
+    </section>
+
+    <!-- PRODUCT CATALOG SECTION -->
+    <section id="coleccion" class="coleccion">
+        <div class="coleccion-div">
+
+            <div class="coleccion-div-2">
+                <div>
+                    <span class="categorias-span">Todas las categorías</span>
+                    <h2 class="coleccion-h2">Bodies y polos</h2>
+                    <p class="coleccion-p">Filtra por categoría para ver solo lo que buscas.</p>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="coleccion-div-3">
+                    <button onclick="filterCatalog('all')" id="filter-all" class="filter-btn active filter-all">
+                        Todos
+                    </button>
+                    <button onclick="filterCatalog('body')" id="filter-body" class="filter-btn filter-all">
+                        Bodies
+                    </button>
+                    <button onclick="filterCatalog('polo')" id="filter-polo" class="filter-btn filter-all">
+                        Polos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Products Grid (4 cols desktop, 2 cols mobile) -->
+            <div id="product-grid" class="product-grid">
+                <!-- Dynamic products rendered via Javascript -->
+            </div>
+
+            <div class="product-grid-div">
+                <p class="product-grid-p">¿Buscas algún color, talla especial o diseño al por mayor?</p>
+                <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20ver%20el%20cat%C3%A1logo%20completo%20con%20m%C3%A1s%20de%2020%20modelos." target="_blank" class="product-grid-a">
+                    <i class="fa-brands fa-whatsapp product-grid-i"></i>
+                    <span>Solicitar Catálogo Completo (+20 Modelos)</span>
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer1-footer">
+        <div class="coleccion-div">
+            <div class="footer1-div">
+
+                <!-- Brand Info -->
+                <div class="footer1-div-2">
+                    <div class="navbar-container-a">
+                        <span class="footer1-span">FRANCESCA</span>
+                        <span class="footer1-span-2">ESTILOS</span>
+                    </div>
+                    <p class="footer1-p">
+                        Moda femenina para expresar tu estilo. Confección y venta exclusiva de bodies y polos para damas en Gamarra, Lima, Perú.
+                    </p>
+                    <div class="footer1-div-3">
+                        <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="footer1-a">
+                            <i class="fa-brands fa-facebook-f footer1-i"></i>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" aria-label="Instagram" class="footer1-a">
+                            <i class="fa-brands fa-instagram footer1-i"></i>
+                        </a>
+                        <a href="https://wa.me/51944737700" target="_blank" aria-label="WhatsApp" class="footer1-a-2">
+                            <i class="fa-brands fa-whatsapp footer1-i"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Navigation Links -->
+                <div>
+                    <h3 class="footer1-h3">Navegación</h3>
+                    <ul class="footer1-ul">
+                        <li><a href="index.html" class="nav-links-a">Inicio</a></li>
+                        <li><a href="catalogo.html" class="nav-links-a">Catálogo</a></li>
+                        <li><a href="index.html#nosotros" class="nav-links-a">Nosotros</a></li>
+                        <li><a href="index.html#ubicacion" class="nav-links-a">Ubicación</a></li>
+                        <li><a href="index.html#contacto" class="nav-links-a">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <!-- Customer Care / Store info -->
+                <div>
+                    <h3 class="footer1-h3">Atención y Tienda</h3>
+                    <ul class="footer1-ul-2">
+                        <li class="footer1-li">
+                            <i class="fa-brands fa-whatsapp footer1-i-2"></i>
+                            <a href="https://wa.me/51944737700" target="_blank" class="footer1-a-3">+51 944 737 700</a>
+                        </li>
+                        <li class="footer1-li-2">
+                            <i class="fa-solid fa-store footer1-i-3"></i>
+                            <span>Tienda física en Emporio Comercial de Gamarra</span>
+                        </li>
+                        <li class="footer1-li">
+                            <i class="fa-solid fa-location-dot footer1-i-4"></i>
+                            <span>Gamarra – La Victoria, Lima</span>
+                        </li>
+                        <li class="footer1-li">
+                            <i class="fa-solid fa-truck footer1-i-4"></i>
+                            <span>Envíos a todo el Perú</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter / Info -->
+                <div>
+                    <h3 class="footer1-h3">Consulta Rápida</h3>
+                    <p class="footer1-p-2">¿Deseas atención inmediata o catálogo mayorista?</p>
+                    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20informaci%C3%B3n%20para%20ventas%20por%20mayor%20y%20menor." target="_blank" class="footer1-a-4">
+                        <i class="fa-brands fa-whatsapp header-actions-i-3"></i>
+                        <span>Escribir al WhatsApp</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Bottom Footer Bar -->
+            <div class="footer1-div-4">
+                <p>© 2026 Francesca Estilos. Todos los derechos reservados.</p>
+                <div class="footer1-div-5">
+                    <button onclick="openModal('politicas-modal')" class="footer1-button">Política de privacidad</button>
+                    <button onclick="openModal('terminos-modal')" class="footer1-button">Términos y condiciones</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float footer1-a-5">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- PRODUCT QUICK VIEW MODAL -->
+    <div id="product-modal" class="product-modal">
+        <div class="product-modal-div">
+            <button onclick="closeModal('product-modal')" aria-label="Cerrar" class="product-modal-button">
+                <i class="fa-solid fa-xmark header-actions-i"></i>
+            </button>
+
+            <div class="product-modal-div-2">
+                <img id="modal-img" src="" alt="Producto" class="modal-img">
+            </div>
+
+            <div class="product-modal-div-3">
+                <div>
+                    <span id="modal-category" class="modal-category">Categoría</span>
+                    <h3 id="modal-title" class="modal-title">Nombre del Producto</h3>
+                    <p id="modal-price" class="modal-price">Consultar precio</p>
+                    <p id="modal-description" class="modal-description">
+                        Confeccionado en tela de alta calidad, suave al tacto y con ajuste perfecto que realza la silueta femenina. Ideal para combinar con jeans, faldas o pantalones de vestir.
+                    </p>
+
+                    <!-- Color Swatches -->
+                    <div class="product-modal-div-4">
+                        <label class="product-modal-label">Colores Disponibles:</label>
+                        <div id="modal-colors" class="modal-colors"></div>
+                    </div>
+
+                    <!-- Size Badges -->
+                    <div class="modal-colors-div">
+                        <label class="product-modal-label">Tallas Disponibles:</label>
+                        <div id="modal-sizes" class="modal-colors"></div>
+                    </div>
+                </div>
+
+                <div class="modal-sizes-div">
+                    <button id="modal-buy-wa" class="modal-buy-wa">
+                        <i class="fa-brands fa-whatsapp header-actions-i"></i>
+                        <span>Pedir por WhatsApp</span>
+                    </button>
+                    <button id="modal-add-cart" class="modal-add-cart">
+                        Agregar a la Bolsa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-drawer-div">
+            <div>
+                <div class="cart-drawer-div-2">
+                    <div class="footer1-li">
+                        <i class="fa-solid fa-bag-shopping cart-drawer-i"></i>
+                        <h3 class="cart-drawer-h3">Tu Bolsa de Compras</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="cart-drawer-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items" class="cart-items">
+                    <p class="cart-items-p">Tu bolsa está vacía actualmente.</p>
+                </div>
+            </div>
+
+            <div id="cart-footer" class="is-hidden cart-footer">
+                <div class="cart-footer-div">
+                    <span>Total estimado:</span>
+                    <span id="cart-total" class="cart-total">Consultar por WhatsApp</span>
+                </div>
+                <button onclick="sendCartToWhatsApp()" class="cart-footer-button">
+                    <i class="fa-brands fa-whatsapp header-actions-i"></i>
+                    <span>Finalizar pedido por WhatsApp</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-div">
+            <span class="search-modal-span">Búsqueda de Modelos</span>
+            <button onclick="toggleSearchModal()" class="search-modal-button">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="search-modal-div-2">
+            <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar por 'Body', 'Polo', 'Escote', 'Básico'..." class="search-input">
+            <i class="fa-solid fa-magnifying-glass search-modal-i"></i>
+        </div>
+        <div id="search-results" class="search-results">
+            <!-- Results will be injected here -->
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY & TERMS MODALS -->
+    <div id="politicas-modal" class="politicas-modal">
+        <div class="politicas-modal-div">
+            <button onclick="closeModal('politicas-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="politicas-modal-h3">Política de Privacidad</h3>
+            <p class="politicas-modal-p">En Francesca Estilos garantizamos la protección y confidencialidad de tus datos personales proporcionados para la realización de pedidos y consultas por WhatsApp.</p>
+            <p class="politicas-modal-p-2">No compartimos tu información con terceros y la utilizamos exclusivamente para coordinar envíos y atención al cliente.</p>
+        </div>
+    </div>
+
+    <div id="terminos-modal" class="politicas-modal">
+        <div class="politicas-modal-div">
+            <button onclick="closeModal('terminos-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="politicas-modal-h3">Términos y Condiciones</h3>
+            <p class="politicas-modal-p">Todos los pedidos se confirman formalmente por WhatsApp. Los envíos a provincias se realizan previa verificación de pago.</p>
+            <p class="politicas-modal-p-2">Los precios, disponibilidad de colores y modelos pueden variar según stock disponible en tienda física en Gamarra.</p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <span id="toast-msg">Mensaje de notificación</span>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script src="js/main.js"></script>
+</body>
+</html>
