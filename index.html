@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
     <!-- Google Fonts -->
-     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fleur+De+Leah&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Estilos propios -->
@@ -18,18 +16,18 @@
 <body class="page-body">
 
     <!-- ANNOUNCEMENT BAR -->
-<div class="page-div">
-    <span>Confección en Gamarra | Viste lo que te hace única</span>
-    <span class="page-dot">•</span>
-    <span>Envíos a todo el Perú</span>
-</div>
+    <div class="page-div">
+        <span>Confección en Gamarra | Viste lo que te hace única</span>
+        <span class="page-dot">•</span>
+        <span>Envíos a todo el Perú</span>
+    </div>
 
     <!-- HEADER / NAVBAR -->
     <header id="main-header" class="main-header">
         <div class="navbar-container" id="navbar-container">
-            
+
             <!-- Logo -->
-            <a href="#" class="group navbar-container-a">
+            <a href="#inicio" class="group navbar-container-a">
                 <span class="brand-logo" id="brand-logo">Franchesca</span>
                 <span class="brand-sublogo" id="brand-sublogo">ESTILOS</span>
             </a>
@@ -52,7 +50,6 @@
                     <i class="fa-solid fa-bag-shopping header-actions-i-2"></i>
                     <span id="cart-count" class="cart-count">0</span>
                 </button>
-            
 
                 <!-- Mobile Hamburger Button -->
                 <button onclick="toggleMobileMenu()" aria-label="Abrir Menú" class="header-actions-button-3">
@@ -93,34 +90,29 @@
 
     <!-- HERO SECTION -->
     <section id="inicio" class="inicio">
-        <!-- Background Image with Soft Gradient -->
-   <div class="inicio-div">
-     <picture>
-    <source media="(max-width: 760px)" srcset="img/hero-movil.png">
-  <img src="img/heroo.png" alt="Bodies y Polos Francesca Estilos" class="inicio-img">
-  </picture>
-</div>
+        <!-- Imagen de fondo (cambia a versión móvil en pantallas chicas) -->
+        <div class="inicio-div">
+                <img src="img/img.png" alt="Bodies y Polos Francesca Estilos" class="inicio-img">
+        </div>
 
         <div class="inicio-div-3">
-
-    <!-- Textos del hero -->
-    <div class="inicio-texto">
-        <span class="inicio-eyebrow">Nueva colección</span>
-        <h1 class="inicio-titulo">
-            Comodidad que <em>se siente</em>,<br>
-            estilo que <em>se nota</em>
-        </h1>
-        <p class="inicio-subtitulo">
-            Bodies y polos de algodón suave, pensados para acompañarte todo el día.
-            Diseños que se adaptan a ti.
-        </p>
-        <div class="inicio-botones">
-            <a href="catalogo.html" class="inicio-btn-principal">Ver catálogo</a>
-            <a href="#contacto" class="inicio-btn-secundario">Escríbenos</a>
+            <!-- Textos del hero -->
+            <div class="inicio-texto">
+                <span class="inicio-eyebrow">Nueva colección</span>
+                <h1 class="inicio-titulo">
+                    Comodidad que <em>se siente</em>,<br>
+                    estilo que <em>se nota</em>
+                </h1>
+                <p class="inicio-subtitulo">
+                    Bodies y polos de algodón suave, pensados para acompañarte todo el día.
+                    Diseños que se adaptan a ti.
+                </p>
+                <div class="inicio-botones">
+                    <a href="catalogo.html" class="inicio-btn-principal">Ver catálogo</a>
+                    <a href="#contacto" class="inicio-btn-secundario">Escríbenos</a>
+                </div>
+            </div>
         </div>
-    </div>
-
-</div>
     </section>
 
     <!-- CATEGORIES SECTION -->
@@ -133,10 +125,10 @@
         </div>
 
         <div class="categorias-div-3">
-            
+
             <!-- CARD 1: BODIES -->
             <div class="group categorias-div-4" onclick="filterCatalog('body')">
-             <img src="img/coleccion2.png" alt="Bodies Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion2.png" alt="Bodies Francesca Estilos" class="categorias-img">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
@@ -152,9 +144,9 @@
 
             <!-- CARD 2: POLOS -->
             <div class="group categorias-div-4" onclick="filterCatalog('polo')">
-               <img src="img/coleccion1.png" alt="Bodies Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion1.png" alt="Polos Francesca Estilos" class="categorias-img">
                 <div class="categorias-div-5"></div>
-                
+
                 <div class="categorias-div-6">
                     <span class="categorias-span-3">Tendencia</span>
                     <h3 class="categorias-h3">POLOS</h3>
@@ -169,92 +161,78 @@
         </div>
     </section>
 
-    <!-- PRODUCT CATALOG SECTION -->
-  <section id="destacados" class="fe-destacados">
-    <div class="fe-wrap">
- 
-        <header class="fe-head">
-            <div>
-                <span class="fe-eyebrow">Lo más pedido</span>
-                <h2 class="fe-title">Piezas que <em>enamoran</em></h2>
+    <!-- DESTACADOS -->
+    <section id="destacados" class="fe-destacados">
+        <div class="fe-wrap">
+
+            <header class="fe-head">
+                <div>
+                    <span class="fe-eyebrow">Lo más pedido</span>
+                    <h2 class="fe-title">Piezas que <em>enamoran</em></h2>
+                </div>
+                <p class="fe-lead">
+                    Diseños confeccionados en Gamarra con telas suaves, cortes que favorecen y
+                    precios pensados para ti y para tu negocio.
+                </p>
+            </header>
+
+            <div class="fe-bento">
+
+                <!-- Tarjeta grande -->
+                <article class="fe-card fe-card--hero">
+                    <div class="fe-media">
+                        <img class="fe-img fe-img--main" src="img/destacado-1.png" alt="Body manga larga" loading="lazy">
+                        <img class="fe-img fe-img--alt" src="img/destacado-1-a.jpeg" alt="" loading="lazy">
+                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body manga larga"></a>
+                        <span class="fe-badge">Más vendido</span>
+                    </div>
+                </article>
+
+                <article class="fe-card">
+                    <div class="fe-media">
+                        <img class="fe-img fe-img--main" src="img/destacado-2.png" alt="Polo oversize" loading="lazy">
+                        <img class="fe-img fe-img--alt" src="img/destacado-2-a.jpeg" alt="" loading="lazy">
+                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Polo oversize"></a>
+                    </div>
+                </article>
+
+                <article class="fe-card">
+                    <div class="fe-media">
+                        <img class="fe-img fe-img--main" src="img/destacado-5.png" alt="Body básico" loading="lazy">
+                        <img class="fe-img fe-img--alt" src="img/destacado-5-a.jpeg" alt="" loading="lazy">
+                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body básico"></a>
+                        <span class="fe-badge fe-badge--new">Nuevo</span>
+                    </div>
+                </article>
+
+                <article class="fe-card">
+                    <div class="fe-media">
+                        <img class="fe-img fe-img--main" src="img/destacado-4.jpeg" alt="Polo crop" loading="lazy">
+                        <img class="fe-img fe-img--alt" src="img/destacado-4-a.png" alt="" loading="lazy">
+                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Polo crop"></a>
+                        <span class="fe-badge fe-badge--new">Nuevo</span>
+                    </div>
+                </article>
+
+                <article class="fe-card">
+                    <div class="fe-media">
+                        <img class="fe-img fe-img--main" src="img/destacado-3.png" alt="Body cuello alto" loading="lazy">
+                        <img class="fe-img fe-img--alt" src="img/destacado-3-a.jpeg" alt="" loading="lazy">
+                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body cuello alto"></a>
+                    </div>
+                </article>
+
             </div>
-            <p class="fe-lead">
-                Diseños confeccionados en Gamarra con telas suaves, cortes que favorecen y
-                precios pensados para ti y para tu negocio.
-            </p>
-        </header>
- 
-        <div class="fe-bento">
- 
-            <!-- Tarjeta grande -->
-            <article class="fe-card fe-card--hero">
-                <div class="fe-media">
-                    <img class="fe-img fe-img--main" src="img/destacado-1.png" alt="Body manga larga" loading="lazy">
-                    <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <img class="fe-img fe-img--alt" src="img/destacado-1-a.jpeg" alt="" loading="lazy">
-                    <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <span class="fe-badge">Más vendido</span>
 
-                </div>
+            <div class="fe-footer">
+                <a href="catalogo.html" class="fe-link">
+                    Ver catálogo completo
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+            </div>
 
-            </article>
- 
-            <article class="fe-card">
-                <div class="fe-media">
-                    <img class="fe-img fe-img--main" src="img/destacado-2.png" alt="Polo oversize" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <img class="fe-img fe-img--alt" src="img/destacado-2-a.jpeg" alt="" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-
-                </div>
-
-            </article>
- 
-            <article class="fe-card">
-                <div class="fe-media">
-                    <img class="fe-img fe-img--main" src="img/destacado-5.png" alt="Body básico" loading="lazy">
-                     <a href="catalogos.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <img class="fe-img fe-img--alt" src="img/destacado-5-a.jpeg" alt="" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <span class="fe-badge fe-badge--new">Nuevo</span>
-    
-                </div>
-
-            </article>
- 
-            <article class="fe-card">
-                <div class="fe-media">
-                    <img class="fe-img fe-img--main" src="img/destacado-4.jpeg" alt="Polo crop" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <img class="fe-img fe-img--alt" src="img/destacado-4-a.png" alt="" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-     <span class="fe-badge fe-badge--new">Nuevo</span>
-                </div>
-
-            </article>
- 
-            <article class="fe-card">
-                <div class="fe-media">
-                    <img class="fe-img fe-img--main" src="img/destacado-3.png" alt="Body cuello alto" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-                    <img class="fe-img fe-img--alt" src="img/destacado-3-a.jpeg" alt="" loading="lazy">
-                     <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo"></a>
-
-                </div>
-
-            </article>
- 
         </div>
- 
-        <div class="fe-footer">
-            <a href="catalogo.html" class="fe-link">
-                Ver catálogo completo
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
-        </div>
- 
-    </div>
-</section>
+    </section>
 
     <!-- WHY FRANCESCA ESTILOS -->
     <section class="section1-section">
@@ -265,27 +243,22 @@
             </div>
 
             <div class="section1-div-2">
-                
                 <div class="section1-div-3">
-                   
                     <h3 class="section1-h3">Más de 20 modelos</h3>
                     <p class="section1-p">Variedad constante en bodies escotados, básicos, polos crop y mangas largas.</p>
                 </div>
 
                 <div class="section1-div-3">
-                    
                     <h3 class="section1-h3">Confección de calidad</h3>
-                    <p class="section1-p">Telas seleccionadas con exelente estiramiento, moldeado y durabilidad al lavado.</p>
+                    <p class="section1-p">Telas seleccionadas con excelente estiramiento, moldeado y durabilidad al lavado.</p>
                 </div>
 
                 <div class="section1-div-3">
-                    
                     <h3 class="section1-h3">Diseños modernos</h3>
                     <p class="section1-p">Patrones estilizados que se adaptan perfectamente a tu figura y ocasiones reales.</p>
                 </div>
 
                 <div class="section1-div-3">
-                    
                     <h3 class="section1-h3">Atención personalizada</h3>
                     <p class="section1-p">Te asesoramos con tallas, colores y combinaciones directamente por WhatsApp.</p>
                 </div>
@@ -298,7 +271,7 @@
     <section id="nosotros" class="nosotros">
         <div class="coleccion-div">
             <div class="nosotros-div">
-                
+
                 <!-- Image Column with Overlay Frame -->
                 <div class="nosotros-div-2">
                     <div class="nosotros-div-3">
@@ -307,7 +280,7 @@
                     <!-- Aesthetic Accent Box -->
                     <div class="nosotros-div-4"></div>
                     <div class="nosotros-div-5"></div>
-                    
+
                     <div class="nosotros-div-6">
                         <p class="nosotros-p">Gamarra</p>
                         <p class="nosotros-p-2">Cuna de la Moda en Lima</p>
@@ -352,7 +325,7 @@
     <!-- LOCATION SECTION -->
     <section id="ubicacion" class="ubicacion">
         <div class="coleccion-div">
-            
+
             <div class="categorias-div">
                 <span class="categorias-span">Tienda Física</span>
                 <h2 class="categorias-h2">Visítanos en Gamarra</h2>
@@ -361,7 +334,7 @@
             </div>
 
             <div class="ubicacion-div">
-                
+
                 <!-- Info Box -->
                 <div class="ubicacion-div-2">
                     <div class="ubicacion-div-3">
@@ -411,12 +384,12 @@
 
                 <!-- Google Maps iFrame Container -->
                 <div class="ubicacion-div-8">
-                    <iframe 
+                    <iframe
                         title="Ubicación Francesca Estilos en Gamarra"
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15606.315187760981!2d-77.0175529128418!3d-12.072481000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8ba0e28f729%3A0xb35a0542df4ff421!2sGamarra!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe" 
-                        class="ubicacion-iframe" 
-                        allowfullscreen="" 
-                        loading="lazy" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15606.315187760981!2d-77.0175529128418!3d-12.072481000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8ba0e28f729%3A0xb35a0542df4ff421!2sGamarra!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe"
+                        class="ubicacion-iframe"
+                        allowfullscreen=""
+                        loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
@@ -447,7 +420,7 @@
     <!-- TESTIMONIALS SECTION -->
     <section class="section2-section">
         <div class="coleccion-div">
-            
+
             <div class="categorias-div">
                 <span class="categorias-span">Experiencias de Marca</span>
                 <h2 class="categorias-h2">Lo que dicen nuestras clientas</h2>
@@ -456,7 +429,7 @@
             </div>
 
             <div class="section2-div-2">
-                
+
                 <div class="section2-div-3">
                     <div class="section2-div-4">
                         <i class="fa-solid fa-quote-left"></i>
@@ -581,7 +554,7 @@
     <footer class="footer1-footer">
         <div class="coleccion-div">
             <div class="footer1-div">
-                
+
                 <!-- Brand Info -->
                 <div class="footer1-div-2">
                     <div class="navbar-container-a">
@@ -609,7 +582,7 @@
                     <h3 class="footer1-h3">Navegación</h3>
                     <ul class="footer1-ul">
                         <li><a href="#inicio" class="nav-links-a">Inicio</a></li>
-                      <li><a href="catalogo.html" class="nav-links-a">Catálogo</a></li>
+                        <li><a href="catalogo.html" class="nav-links-a">Catálogo</a></li>
                         <li><a href="#nosotros" class="nav-links-a">Nosotros</a></li>
                         <li><a href="#ubicacion" class="nav-links-a">Ubicación</a></li>
                         <li><a href="#contacto" class="nav-links-a">Contacto</a></li>
@@ -639,7 +612,7 @@
                     </ul>
                 </div>
 
-                <!-- Newsletter / Info -->
+                <!-- Consulta rápida -->
                 <div>
                     <h3 class="footer1-h3">Consulta Rápida</h3>
                     <p class="footer1-p-2">¿Deseas atención inmediata o catálogo mayorista?</p>
