@@ -1125,7 +1125,7 @@ html {
 
 @media (max-width: 768px) {
   .inicio {
-    min-height:90svh;      /* antes 100vh; prueba 60svh o 65svh si la quieres aún más corta */
+    min-height:100svh;      /* antes 100vh; prueba 60svh o 65svh si la quieres aún más corta */
     padding-top: 4rem;
   }
 
