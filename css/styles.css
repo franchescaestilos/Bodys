@@ -3126,10 +3126,10 @@ img {
 /* ---------- Hasta 760px: celular (hero, catálogo y contacto) ---------- */
 @media (max-width: 760px) {
   /* Hero del inicio: texto en columna angosta a la izquierda */
-  .inicio-div-3 {
+.inicio-div-3 {
   justify-content: center;
   align-items: flex-end;      /* antes flex-start: ahora va a la derecha */
-  padding: 20rem 0.25rem 0 0; /* arriba, derecha, abajo, izquierda */
+  padding: 0rem 0.25rem 0 0; /* arriba, derecha, abajo, izquierda */
   text-align: left;
 }
 
