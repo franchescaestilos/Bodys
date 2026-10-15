@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    
     <meta charset="UTF-8">
+    <style>.restoring body { opacity: 0; }</style>
+<script>
+(function () {
+    try {
+        var n = performance.getEntriesByType('navigation')[0];
+        var y = parseInt(sessionStorage.getItem('scrollY_' + location.pathname), 10);
+        if (n && n.type === 'reload' && y > 0) {
+            document.documentElement.classList.add('restoring');
+            // Seguro: si algo falla, la página se muestra igual a los 2.5 s
+            setTimeout(function () {
+                document.documentElement.classList.remove('restoring');
+            }, 2500);
+        }
+    } catch (e) {}
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo | Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
     <!-- Google Fonts -->
+     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lobster&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
     <!-- Estilos propios -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/checkout.css">
 </head>
 <body class="page-body page-catalogo">
 
@@ -50,7 +71,12 @@
                     <i class="fa-solid fa-bag-shopping header-actions-i-2"></i>
                     <span id="cart-count" class="cart-count">0</span>
                 </button>
-
+        <script>
+            try {
+                document.getElementById('cart-count').textContent =
+                    (JSON.parse(localStorage.getItem('franchesca_cart')) || []).length;
+            } catch (e) {}
+        </script>
                 <!-- Mobile Hamburger Button -->
                 <button onclick="toggleMobileMenu()" aria-label="Abrir Menú" class="header-actions-button-3">
                     <i class="fa-solid fa-bars" id="hamburger-icon"></i>
@@ -267,9 +293,9 @@
 
                 <div class="modal-sizes-div">
                     <button id="modal-buy-wa" class="modal-buy-wa">
-                        <i class="fa-brands fa-whatsapp header-actions-i"></i>
-                        <span>Pedir por WhatsApp</span>
-                    </button>
+    <i class="fa-solid fa-bag-shopping header-actions-i"></i>
+    <span>Comprar ahora</span>
+</button>
                     <button id="modal-add-cart" class="modal-add-cart">
                         Agregar a la Bolsa
                     </button>
@@ -303,9 +329,9 @@
                     <span>Total estimado:</span>
                     <span id="cart-total" class="cart-total">Consultar por WhatsApp</span>
                 </div>
-                <button onclick="sendCartToWhatsApp()" class="cart-footer-button">
+                   <button onclick="openCheckout()" class="cart-footer-button">
                     <i class="fa-brands fa-whatsapp header-actions-i"></i>
-                    <span>Finalizar pedido por WhatsApp</span>
+                    <span>Continuar con el Pedido</span>
                 </button>
             </div>
         </div>
@@ -354,5 +380,6 @@
 
     <!-- JAVASCRIPT -->
     <script src="js/main.js"></script>
+   <script src="js/checkout.js"></script>
 </body>
 </html>

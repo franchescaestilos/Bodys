@@ -1,206 +1,85 @@
-// Catalog Data
-const products = [
-    {
-        id: 1,
-        name: "Body Básico",
-        category: "Body",
-        type: "body",
-        price: "Consultar precio",
-      img: "img/polo_02_celeste.png",
-        colors: ["#121212", "#ffffff", "#c59f85", "#81503e"],
-        colorNames: ["Negro", "Blanco", "Nude", "Marrón"],
-        sizes: ["S", "M", "L"],
-        desc: "Body básico de corte estilizado con broche inferior de alta durabilidad. Elaborado en suplex de alta elasticidad."
-    },
-    {
-        id: 2,
-        name: "Body Escote",
-        category: "Body",
-        type: "body",
-        price: "Consultar precio",
-        img: "img/polo_01_negro.png",
-        colors: ["#121212", "#e8c5b8", "#81503e"],
-        colorNames: ["Negro", "Palo Rosa", "Chocolate"],
-        sizes: ["S", "M"],
-        desc: "Diseño sensual y elegante con escote pronunciado en V. Perfecto para eventos de noche y salidas casuales."
-    },
-    {
-        id: 3,
-        name: "Body Manga Larga",
-        category: "Body",
-        type: "body",
-        price: "Consultar precio",
-        img: "img/body_03_negro.png",
-        colors: ["#121212", "#ffffff", "#3b82f6"],
-        colorNames: ["Negro", "Blanco", "Azul"],
-        sizes: ["S", "M", "L"],
-        desc: "Body manga larga ideal para media estación o invierno. Ajuste anatómico que realza la silueta."
-    },
-    {
-        id: 4,
-        name: "Body Modelador",
-        category: "Body",
-        type: "body",
-        price: "Consultar precio",
-       img: "img/destacado-3.png",
-        colors: ["#121212", "#c59f85"],
-        colorNames: ["Negro", "Nude"],
-        sizes: ["S", "M", "L"],
-        desc: "Confección especial con compresión suave en la zona abdominal para una figura ultra moldeada."
-    },
-    {
-        id: 5,
-        name: "Polo Básico",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-      img: "img/body_04_rojo.jpeg",
-        colors: ["#ffffff", "#121212", "#e8c5b8", "#10b981"],
-        colorNames: ["Blanco", "Negro", "Rosa", "Verde"],
-        sizes: ["S", "M", "L"],
-        desc: "Polo para dama confeccionado en algodón reactivo de tacto suave. No pierde color ni forma al lavar."
-    },
-    {
-        id: 6,
-        name: "Polo Crop",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-      img: "img/destacado-1.png",
-        colors: ["#ffffff", "#f59e0b", "#121212"],
-        colorNames: ["Blanco", "Mostaza", "Negro"],
-        sizes: ["S", "M"],
-        desc: "Polo estilo crop top moderno, corte fresco y juvenil ideal para combinar con jeans de tiro alto."
-    },
-    {
-        id: 7,
-        name: "Polo Manga Larga",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/destacado-5.png",
-        colors: ["#121212", "#ef4444", "#ffffff"],
-        colorNames: ["Negro", "Rojo", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Diseño atemporal con tela de pima estirable, cómodo, elegante y fácil de accesorizar."
-    },
-    {
-        id: 8,
-        name: "Polo Casual",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/destacado-3-a.jpeg",
-        colors: ["#c59f85", "#121212", "#ffffff"],
-        colorNames: ["Nude", "Negro", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Polo versátil para uso diario en el trabajo o salidas casuales. Tela fresca y con caída suave."
-    },
-    {
-        id: 9,
-        name: "Body Modelador",
-        category: "Body",
-        type: "body",
-        price: "Consultar precio",
-       img: "img/body_02_beige.png",
-        colors: ["#121212", "#c59f85"],
-        colorNames: ["Negro", "Nude"],
-        sizes: ["S", "M", "L"],
-        desc: "Confección especial con compresión suave en la zona abdominal para una figura ultra moldeada."
-    },
-    {
-        id: 10,
-        name: "Polo Básico",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-      img: "img/body_03_beige.png",
-        colors: ["#ffffff", "#121212", "#e8c5b8", "#10b981"],
-        colorNames: ["Blanco", "Negro", "Rosa", "Verde"],
-        sizes: ["S", "M", "L"],
-        desc: "Polo para dama confeccionado en algodón reactivo de tacto suave. No pierde color ni forma al lavar."
-    },
-    {
-        id: 11,
-        name: "Polo Crop",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-      img: "img/body_01_humo.jpeg",
-        colors: ["#ffffff", "#f59e0b", "#121212"],
-        colorNames: ["Blanco", "Mostaza", "Negro"],
-        sizes: ["S", "M"],
-        desc: "Polo estilo crop top moderno, corte fresco y juvenil ideal para combinar con jeans de tiro alto."
-    },
-    {
-        id: 12,
-        name: "Polo Manga Larga",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/destacado-5.png",
-        colors: ["#121212", "#ef4444", "#ffffff"],
-        colorNames: ["Negro", "Rojo", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Diseño atemporal con tela de pima estirable, cómodo, elegante y fácil de accesorizar."
-    },
-    {
-        id: 13,
-        name: "Polo Casual",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/polo_02_camello.png",
-        colors: ["#c59f85", "#121212", "#ffffff"],
-        colorNames: ["Nude", "Negro", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Polo versátil para uso diario en el trabajo o salidas casuales. Tela fresca y con caída suave."
-    },
-    {
-        id: 14,
-        name: "Polo Crop",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-      img: "img/destacado-1.png",
-        colors: ["#ffffff", "#f59e0b", "#121212"],
-        colorNames: ["Blanco", "Mostaza", "Negro"],
-        sizes: ["S", "M"],
-        desc: "Polo estilo crop top moderno, corte fresco y juvenil ideal para combinar con jeans de tiro alto."
-    },
-    {
-        id: 15,
-        name: "Polo Manga Larga",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/body_01_blanco.png",
-        colors: ["#121212", "#ef4444", "#ffffff"],
-        colorNames: ["Negro", "Rojo", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Diseño atemporal con tela de pima estirable, cómodo, elegante y fácil de accesorizar."
-    },
-    {
-        id: 16,
-        name: "Polo Casual",
-        category: "Polo",
-        type: "polo",
-        price: "Consultar precio",
-       img: "img/polo_01_beige.png",
-        colors: ["#c59f85", "#121212", "#ffffff"],
-        colorNames: ["Nude", "Negro", "Blanco"],
-        sizes: ["S", "M", "L"],
-        desc: "Polo versátil para uso diario en el trabajo o salidas casuales. Tela fresca y con caída suave."
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+// Catalog Data (viene de Supabase)
+const db = window.supabase.createClient(
+    "https://vlfcuyekpnsmziamacle.supabase.co",
+    "sb_publishable_6NCCtkox0sQIR2zXT-6vEQ_Xv7_6Uia"
+);
+
+let products = [];
+
+// Estilo de la talla elegida (con prioridad sobre cualquier otro CSS)
+(function () {
+    const s = document.createElement('style');
+    s.textContent =
+        '#modal-sizes .js-span-6 { background: #ffffff !important; color: #121212 !important; border: 1px solid #d9d9d9 !important; }' +
+        '#modal-sizes .size-activa { background: #121212 !important; color: #ffffff !important; border-color: #121212 !important; font-weight: 600 !important; box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #121212 !important; }';
+    document.head.appendChild(s);
+})();
+
+const COLORES_HEX = {
+    "Blanco": "#ffffff", "Negro": "#121212", "Beige": "#d9c2a3",
+    "Marrón": "#81503e", "Humo": "#8e8e93", "Plomo": "#6b7280",
+    "Rojo": "#ef4444", "Vino": "#722f37", "Rosa": "#f4b6c2",
+    "Melón": "#f4a283", "Camello": "#c19a6b", "Verde": "#10b981",
+    "Azul": "#3b82f6", "Celeste": "#7dd3fc"
+};
+
+function adaptarProducto(p) {
+    const variantes = p.variantes || [];
+    const tallasConStock = new Set();
+    variantes.forEach(v =>
+        Object.entries(v.tallas || {}).forEach(([talla, n]) => {
+            if (n > 0) tallasConStock.add(talla);
+        })
+    );
+    const esBody = p.categoria === "Bodys";
+
+    return {
+        id: p.id,
+        name: p.nombre,
+        category: esBody ? "Body" : "Polo",
+        type: esBody ? "body" : "polo",
+        price: `S/ ${Number(p.precio).toFixed(2)}`,
+        img: variantes[0]?.imagen || "",
+        colors: variantes.map(v => COLORES_HEX[v.color] || "#cccccc"),
+        colorNames: variantes.map(v => v.color),
+        sizes: ["S", "M", "L", "XL"].filter(t => tallasConStock.has(t)),
+        desc: p.descripcion || "",
+        variantes: variantes
+    };
+}
+
+async function cargarProductos() {
+    const { data, error } = await db
+        .from("productos")
+        .select("*")
+        .eq("activo", true)
+        .order("categoria")
+        .order("nombre");
+
+    if (error) {
+        console.error("Error cargando productos:", error.message);
+        return;
     }
-    
-];
+    products = data.map(adaptarProducto);
+}
 
 let cart = [];
+try {
+    cart = JSON.parse(localStorage.getItem('franchesca_cart')) || [];
+} catch (e) {
+    cart = [];
+}
 let currentProduct = null;
+updateCartUI();
 
 // Initialize Page
-window.addEventListener('DOMContentLoaded', () => {
-    setupHeaderScroll(); // primero, para que nada lo bloquee
+window.addEventListener('DOMContentLoaded', async () => {
+    setupHeaderScroll();
+    updateCartUI();
+
+    await cargarProductos();
 
     if (document.getElementById('product-grid')) {
         renderProducts(products);
@@ -213,21 +92,35 @@ window.addEventListener('DOMContentLoaded', () => {
 // Header: efecto al hacer scroll (.scrolled) + se pega arriba al bajar (.header-up)
 function setupHeaderScroll() {
     const header = document.getElementById('main-header');
+    if (!header) return;
     let stuck = false;
 
-    const onScroll = () => {
-        const y = window.scrollY;
+    // Desactiva las transiciones solo durante la primera aplicación
+    const noAnim = document.createElement('style');
+    noAnim.textContent = '.no-anim, .no-anim * { transition: none !important; animation: none !important; }';
+    document.head.appendChild(noAnim);
 
-        // Histéresis: se pega al pasar 40px y solo se suelta al volver casi arriba
+    const apply = () => {
+        const y = window.scrollY;
         if (!stuck && y > 40) stuck = true;
         else if (stuck && y < 15) stuck = false;
-
         header.classList.toggle('scrolled', stuck);
         header.classList.toggle('header-up', stuck);
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    // Estado inicial: sin animación
+    header.classList.add('no-anim');
+    apply();
+    requestAnimationFrame(() => requestAnimationFrame(() => header.classList.remove('no-anim')));
+
+    // El navegador restaura el scroll un poco después de cargar: se resincroniza sin animar
+    window.addEventListener('load', () => {
+        header.classList.add('no-anim');
+        apply();
+        requestAnimationFrame(() => requestAnimationFrame(() => header.classList.remove('no-anim')));
+    });
+
+    window.addEventListener('scroll', apply, { passive: true });
 }
 
 // Render Product Catalog Cards
@@ -240,7 +133,7 @@ function renderProducts(items) {
         const card = document.createElement('div');
         card.className = "group product-card";
         card.style.cursor = "pointer";
-        card.setAttribute('onclick', `openProductModal(${product.id})`);
+        card.setAttribute('onclick', `openProductModal('${product.id}')`);
 
         card.innerHTML = `
             <div class="js-div">
@@ -289,48 +182,103 @@ function filterCatalog(category) {
     renderProducts(category === 'all' ? products : products.filter(p => p.type === category));
 }
 
+
 // Product Modal Logic
+
+// Selección actual en el modal
+let selectedColorIdx = 0;
+let selectedSize = null;
+
+function renderModalOptions() {
+    const p = currentProduct;
+    const variante = p.variantes[selectedColorIdx] || { tallas: {} };
+
+    // La foto cambia según el color elegido
+    document.getElementById('modal-img').src = variante.imagen || p.img;
+
+    // Colores
+    document.getElementById('modal-colors').innerHTML = p.variantes.map((v, i) => {
+        const activo = i === selectedColorIdx;
+        return `
+        <div class="js-div-7" onclick="selectColor(${i})" style="cursor:pointer;">
+            <span class="js-span-5" style="background-color: ${p.colors[i]}; ${activo ? 'outline: 2px solid #121212; outline-offset: 2px;' : ''}"></span>
+            <span style="${activo ? 'font-weight: 600;' : ''}">${v.color}</span>
+        </div>`;
+    }).join('');
+
+    // Tallas (las sin stock en ese color se ven tachadas y no se pueden elegir)
+    document.getElementById('modal-sizes').innerHTML =
+        ['S', 'M', 'L', 'XL'].map(t => {
+            const agotada = !((variante.tallas || {})[t] > 0);
+            const activa = t === selectedSize;
+            const estilo = agotada
+                ? 'opacity: .35; text-decoration: line-through; cursor: not-allowed;'
+                : 'cursor: pointer;';
+            return `<span class="js-span-6${activa ? ' size-activa' : ''}" style="${estilo}"${agotada ? '' : `onclick="selectSize('${t}')"`}>${t}</span>`;
+        }).join('') +
+        '<p id="size-error" style="display:none; color:#c0392b; font-size:13px; flex-basis:100%; width:100%; margin-top:6px;">Elige una talla para continuar.</p>';
+}
+
+function selectColor(i) {
+    selectedColorIdx = i;
+    const tallas = currentProduct.variantes[i].tallas || {};
+    if (selectedSize && !(tallas[selectedSize] > 0)) selectedSize = null;
+    renderModalOptions();
+}
+
+function selectSize(t) {
+    selectedSize = t;
+    console.log('Talla elegida:', t);
+    renderModalOptions();
+}
+
+// Devuelve el producto con el color y la talla elegidos (o null si falta la talla)
+function itemSeleccionado() {
+    if (!selectedSize) {
+        const err = document.getElementById('size-error');
+        if (err) err.style.display = 'block';
+        return null;
+    }
+    const v = currentProduct.variantes[selectedColorIdx] || {};
+    const { variantes, ...base } = currentProduct;
+    return { ...base, color: v.color || '', size: selectedSize, img: v.imagen || currentProduct.img };
+}
+
 function openProductModal(id) {
     currentProduct = products.find(p => p.id === id);
     if (!currentProduct) return;
 
-    document.getElementById('modal-img').src = currentProduct.img;
+    selectedColorIdx = 0;
+    selectedSize = null;
+
     document.getElementById('modal-title').innerText = currentProduct.name;
     document.getElementById('modal-category').innerText = currentProduct.category;
     document.getElementById('modal-price').innerText = currentProduct.price;
     document.getElementById('modal-description').innerText = currentProduct.desc;
 
-    // Render colors
-    const colorsContainer = document.getElementById('modal-colors');
-    colorsContainer.innerHTML = currentProduct.colors.map((c, i) => `
-        <div class="js-div-7">
-            <span class="js-span-5" style="background-color: ${c}"></span>
-            <span>${currentProduct.colorNames[i] || 'Color'}</span>
-        </div>
-    `).join('');
+    renderModalOptions();
 
-    // Render sizes
-    const sizesContainer = document.getElementById('modal-sizes');
-    sizesContainer.innerHTML = currentProduct.sizes.map(s => `
-        <span class="js-span-6">${s}</span>
-    `).join('');
-
-    // WhatsApp direct buy button
-    const waBtn = document.getElementById('modal-buy-wa');
-    waBtn.onclick = () => {
-        const msg = `Hola Francesca Estilos, me interesa el modelo: *${currentProduct.name}* (Categoría: ${currentProduct.category}). Quisiera consultar disponiblidad de colores y precio.`;
-        window.open(`https://wa.me/51944737700?text=${encodeURIComponent(msg)}`, '_blank');
+    // Comprar ahora: agrega a la bolsa y abre la bolsa
+    document.getElementById('modal-buy-wa').onclick = () => {
+        const item = itemSeleccionado();
+        if (!item) return;
+        cart.push(item);
+        updateCartUI();
+        closeModal('product-modal');
+        document.getElementById('cart-drawer').classList.add('is-open');
     };
 
-    // Add to Cart button
-    const addCartBtn = document.getElementById('modal-add-cart');
-    addCartBtn.onclick = () => {
-        addToCart(currentProduct);
+    // Agregar a la bolsa
+    document.getElementById('modal-add-cart').onclick = () => {
+        const item = itemSeleccionado();
+        if (!item) return;
+        addToCart(item);
         closeModal('product-modal');
     };
 
     openModal('product-modal');
 }
+
 
 // Cart Drawer Logic
 function addToCart(product) {
@@ -345,6 +293,7 @@ function removeFromCart(index) {
 }
 
 function updateCartUI() {
+    try { localStorage.setItem('franchesca_cart', JSON.stringify(cart)); } catch (e) {}
     const cartCount = document.getElementById('cart-count');
     const cartItems = document.getElementById('cart-items');
     const cartFooter = document.getElementById('cart-footer');
@@ -365,6 +314,7 @@ function updateCartUI() {
                 <div>
                     <h4 class="js-h4">${item.name}</h4>
                     <p class="js-p-2">${item.price}</p>
+                    <p class="js-p-2">${[item.color, item.size && 'Talla ' + item.size].filter(Boolean).join(' · ')}</p>
                 </div>
             </div>
             <button onclick="removeFromCart(${idx})" class="js-button-2">
@@ -374,12 +324,6 @@ function updateCartUI() {
     `).join('');
 }
 
-function sendCartToWhatsApp() {
-    if (cart.length === 0) return;
-    const itemsList = cart.map((item, i) => `${i + 1}. *${item.name}* (${item.category})`).join('%0A');
-    const msg = `Hola Francesca Estilos, quisiera consultar disponibilidad y precios para mi lista de prendas:%0A%0A${itemsList}%0A%0A¿Me podrían brindar información?`;
-    window.open(`https://wa.me/51944737700?text=${msg}`, '_blank');
-}
 
 // Search Overlay Function
 function handleSearch() {
@@ -399,7 +343,7 @@ function handleSearch() {
     }
 
     resultsContainer.innerHTML = matches.map(p => `
-        <div onclick="openProductModal(${p.id}); toggleSearchModal();" class="js-div-10">
+        <div onclick="openProductModal('${p.id}'); toggleSearchModal();" class="js-div-10">
             <img src="${p.img}" class="js-img-3">
             <div>
                 <p class="js-p-4">${p.name}</p>
@@ -444,3 +388,23 @@ function showToast(msg) {
         toast.classList.remove('is-open');
     }, 3000);
 }
+
+// Conservar la posición del scroll al actualizar
+const scrollKey = 'scrollY_' + location.pathname;
+
+window.addEventListener('pagehide', () => {
+    try { sessionStorage.setItem(scrollKey, window.scrollY); } catch (e) {}
+});
+
+function restoreScroll() {
+    const nav = performance.getEntriesByType('navigation')[0];
+    if (!nav || nav.type !== 'reload') return;
+    const y = parseInt(sessionStorage.getItem(scrollKey), 10);
+    if (y) window.scrollTo({ top: y, behavior: 'instant' });
+}
+
+window.addEventListener('DOMContentLoaded', restoreScroll);
+window.addEventListener('load', () => {
+    restoreScroll();
+    requestAnimationFrame(() => document.documentElement.classList.remove('restoring'));
+});

@@ -1,18 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
+    <style>.restoring body { opacity: 0; }</style>
+<script>
+(function () {
+    try {
+        var n = performance.getEntriesByType('navigation')[0];
+        var y = parseInt(sessionStorage.getItem('scrollY_' + location.pathname), 10);
+        if (n && n.type === 'reload' && y > 0) {
+            document.documentElement.classList.add('restoring');
+            // Seguro: si algo falla, la página se muestra igual a los 2.5 s
+            setTimeout(function () {
+                document.documentElement.classList.remove('restoring');
+            }, 2500);
+        }
+    } catch (e) {}
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Estilos propios -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/checkout.css">
 </head>
+
 <body class="page-body">
 
     <!-- ANNOUNCEMENT BAR -->
@@ -50,6 +73,12 @@
                     <i class="fa-solid fa-bag-shopping header-actions-i-2"></i>
                     <span id="cart-count" class="cart-count">0</span>
                 </button>
+                <script>
+                try {
+                    document.getElementById('cart-count').textContent =
+                        (JSON.parse(localStorage.getItem('franchesca_cart')) || []).length;
+                } catch (e) {}
+            </script>
 
                 <!-- Mobile Hamburger Button -->
                 <button onclick="toggleMobileMenu()" aria-label="Abrir Menú" class="header-actions-button-3">
@@ -72,15 +101,21 @@
         </div>
 
         <nav class="mobile-menu-nav">
-            <a href="#inicio" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Inicio</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
-            <a href="catalogo.html" class="mobile-menu-a"><span>Catálogo</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
-            <a href="#nosotros" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Nosotros</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
-            <a href="#ubicacion" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Ubicación</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
-            <a href="#contacto" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Contacto</span> <i class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="#inicio" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Inicio</span> <i
+                    class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="catalogo.html" class="mobile-menu-a"><span>Catálogo</span> <i
+                    class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="#nosotros" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Nosotros</span> <i
+                    class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="#ubicacion" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Ubicación</span> <i
+                    class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
+            <a href="#contacto" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Contacto</span> <i
+                    class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
         </nav>
 
         <div class="mobile-menu-div-2">
-            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" class="mobile-menu-a-2">
+            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos."
+                target="_blank" class="mobile-menu-a-2">
                 <i class="fa-brands fa-whatsapp header-actions-i"></i>
                 <span>Comprar por WhatsApp</span>
             </a>
@@ -92,7 +127,7 @@
     <section id="inicio" class="inicio">
         <!-- Imagen de fondo (cambia a versión móvil en pantallas chicas) -->
         <div class="inicio-div">
-                <img src="img/img.png" alt="Bodies y Polos Francesca Estilos" class="inicio-img">
+            <img src="img/hero.png" alt="Bodies y Polos Francesca Estilos" class="inicio-img">
         </div>
 
         <div class="inicio-div-3">
@@ -128,15 +163,16 @@
 
             <!-- CARD 1: BODIES -->
             <div class="group categorias-div-4" onclick="filterCatalog('body')">
-                <img src="img/coleccion2.png" alt="Bodies Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion1.png" alt="Bodies Francesca Estilos" class="categorias-img">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
-                    <span class="categorias-span-2">Más Vendidos</span>
-                    <h3 class="categorias-h3">BODIES</h3>
-                    <p class="categorias-p-2">Más de 20 modelos diseñados para realzar tu figura con elegancia para diferentes estilos y ocasiones.</p>
+                    <span class="categorias-span-3">Tendencia</span>
+                    <h3 class="categorias-h3">POLOS</h3>
+                    <p class="categorias-p-2">Diseños femeninos modernos, cómodos y fáciles de combinar. Confeccionados
+                        con telas suaves de alta durabilidad.</p>
                     <a href="#coleccion" class="categorias-a">
-                        <span>Ver Bodies</span>
+                        <span>Ver Polos</span>
                         <i class="fa-solid fa-arrow-right categorias-i"></i>
                     </a>
                 </div>
@@ -144,15 +180,33 @@
 
             <!-- CARD 2: POLOS -->
             <div class="group categorias-div-4" onclick="filterCatalog('polo')">
-                <img src="img/coleccion1.png" alt="Polos Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion2.png" alt="Polos Francesca Estilos" class="categorias-img">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
-                    <span class="categorias-span-3">Tendencia</span>
-                    <h3 class="categorias-h3">POLOS</h3>
-                    <p class="categorias-p-2">Diseños femeninos modernos, cómodos y fáciles de combinar. Confeccionados con telas suaves de alta durabilidad.</p>
+                    <span class="categorias-span-2">Más Vendidos</span>
+                    <h3 class="categorias-h3">BODIES</h3>
+                    <p class="categorias-p-2">Más de 20 modelos diseñados para realzar tu figura con elegancia para
+                        diferentes estilos y ocasiones.</p>
                     <a href="#coleccion" class="categorias-a">
-                        <span>Ver Polos</span>
+                        <span>Ver Bodies</span>
+                        <i class="fa-solid fa-arrow-right categorias-i"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CARD 3: CONJUNTOS -->
+            <div class="group categorias-div-4" onclick="filterCatalog('conjunto')">
+                <img src="img/coleccion3.png" alt="Conjuntos Francesca Estilos" class="categorias-img">
+                <div class="categorias-div-5"></div>
+
+                <div class="categorias-div-6">
+                    <span class="categorias-span-2">Nuevo</span>
+                    <h3 class="categorias-h3">CONJUNTOS</h3>
+                    <p class="categorias-p-2">Combinaciones listas para lucir, cómodas y con estilo para cualquier
+                        ocasión.</p>
+                    <a href="#coleccion" class="categorias-a">
+                        <span>Ver Conjuntos</span>
                         <i class="fa-solid fa-arrow-right categorias-i"></i>
                     </a>
                 </div>
@@ -181,7 +235,8 @@
                 <!-- Tarjeta grande -->
                 <article class="fe-card fe-card--hero">
                     <div class="fe-media">
-                        <img class="fe-img fe-img--main" src="img/destacado-1.png" alt="Body manga larga" loading="lazy">
+                        <img class="fe-img fe-img--main" src="img/destacado-1.png" alt="Body manga larga"
+                            loading="lazy">
                         <img class="fe-img fe-img--alt" src="img/destacado-1-a.jpeg" alt="" loading="lazy">
                         <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body manga larga"></a>
                         <span class="fe-badge">Más vendido</span>
@@ -216,7 +271,8 @@
 
                 <article class="fe-card">
                     <div class="fe-media">
-                        <img class="fe-img fe-img--main" src="img/destacado-3.png" alt="Body cuello alto" loading="lazy">
+                        <img class="fe-img fe-img--main" src="img/destacado-3.png" alt="Body cuello alto"
+                            loading="lazy">
                         <img class="fe-img fe-img--alt" src="img/destacado-3-a.jpeg" alt="" loading="lazy">
                         <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body cuello alto"></a>
                     </div>
@@ -227,7 +283,10 @@
             <div class="fe-footer">
                 <a href="catalogo.html" class="fe-link">
                     Ver catálogo completo
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                    </svg>
                 </a>
             </div>
 
@@ -245,22 +304,26 @@
             <div class="section1-div-2">
                 <div class="section1-div-3">
                     <h3 class="section1-h3">Más de 20 modelos</h3>
-                    <p class="section1-p">Variedad constante en bodies escotados, básicos, polos crop y mangas largas.</p>
+                    <p class="section1-p">Variedad constante en bodies escotados, básicos, polos crop y mangas largas.
+                    </p>
                 </div>
 
                 <div class="section1-div-3">
                     <h3 class="section1-h3">Confección de calidad</h3>
-                    <p class="section1-p">Telas seleccionadas con excelente estiramiento, moldeado y durabilidad al lavado.</p>
+                    <p class="section1-p">Telas seleccionadas con excelente estiramiento, moldeado y durabilidad al
+                        lavado.</p>
                 </div>
 
                 <div class="section1-div-3">
                     <h3 class="section1-h3">Diseños modernos</h3>
-                    <p class="section1-p">Patrones estilizados que se adaptan perfectamente a tu figura y ocasiones reales.</p>
+                    <p class="section1-p">Patrones estilizados que se adaptan perfectamente a tu figura y ocasiones
+                        reales.</p>
                 </div>
 
                 <div class="section1-div-3">
                     <h3 class="section1-h3">Atención personalizada</h3>
-                    <p class="section1-p">Te asesoramos con tallas, colores y combinaciones directamente por WhatsApp.</p>
+                    <p class="section1-p">Te asesoramos con tallas, colores y combinaciones directamente por WhatsApp.
+                    </p>
                 </div>
 
             </div>
@@ -295,11 +358,15 @@
                     </h2>
 
                     <p class="nosotros-p-3">
-                        Somos una tienda dedicada a la confección y venta de <strong class="nosotros-strong">bodies y polos para damas</strong>. Trabajamos cada prenda pensando en ofrecer diseños modernos, versátiles y cómodos que puedan formar parte del estilo diario de cada mujer.
+                        Somos una tienda dedicada a la confección y venta de <strong class="nosotros-strong">bodies y
+                            polos para damas</strong>. Trabajamos cada prenda pensando en ofrecer diseños modernos,
+                        versátiles y cómodos que puedan formar parte del estilo diario de cada mujer.
                     </p>
 
                     <p class="nosotros-p-3">
-                        Nuestra pasión es realzar la confianza femenina a través de prendas con excelente calce y acabados impecables. Cada diseño es probado y ajustado para garantizar la máxima comodidad sin perder el toque chic.
+                        Nuestra pasión es realzar la confianza femenina a través de prendas con excelente calce y
+                        acabados impecables. Cada diseño es probado y ajustado para garantizar la máxima comodidad sin
+                        perder el toque chic.
                     </p>
 
                     <div class="nosotros-div-9">
@@ -312,7 +379,8 @@
                         <a href="#ubicacion" class="nosotros-a">
                             Conocer Ubicación
                         </a>
-                        <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos." target="_blank" class="nosotros-a-2">
+                        <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20sus%20productos."
+                            target="_blank" class="nosotros-a-2">
                             Escribir a WhatsApp
                         </a>
                     </div>
@@ -330,7 +398,8 @@
                 <span class="categorias-span">Tienda Física</span>
                 <h2 class="categorias-h2">Visítanos en Gamarra</h2>
                 <div class="categorias-div-2"></div>
-                <p class="categorias-p">Ven a conocer nuestros modelos directamente en nuestra tienda física en Lima.</p>
+                <p class="categorias-p">Ven a conocer nuestros modelos directamente en nuestra tienda física en Lima.
+                </p>
             </div>
 
             <div class="ubicacion-div">
@@ -375,7 +444,8 @@
                     </div>
 
                     <div class="ubicacion-div-7">
-                        <a href="https://maps.google.com/?q=Gamarra+La+Victoria+Lima+Peru" target="_blank" rel="noopener" class="ubicacion-a-2">
+                        <a href="https://maps.google.com/?q=Gamarra+La+Victoria+Lima+Peru" target="_blank"
+                            rel="noopener" class="ubicacion-a-2">
                             <i class="fa-solid fa-diamond-turn-right ubicacion-i"></i>
                             <span>Cómo llegar con Google Maps</span>
                         </a>
@@ -384,12 +454,9 @@
 
                 <!-- Google Maps iFrame Container -->
                 <div class="ubicacion-div-8">
-                    <iframe
-                        title="Ubicación Francesca Estilos en Gamarra"
+                    <iframe title="Ubicación Francesca Estilos en Gamarra"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15606.315187760981!2d-77.0175529128418!3d-12.072481000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105c8ba0e28f729%3A0xb35a0542df4ff421!2sGamarra!5e0!3m2!1ses!2spe!4v1700000000000!5m2!1ses!2spe"
-                        class="ubicacion-iframe"
-                        allowfullscreen=""
-                        loading="lazy"
+                        class="ubicacion-iframe" allowfullscreen="" loading="lazy"
                         referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
@@ -407,9 +474,11 @@
             </div>
             <h2 class="contacto-h2">¿Encontraste tu modelo ideal?</h2>
             <p class="contacto-p">
-                Escríbenos directamente a WhatsApp para consultar disponibilidad inmediata, variedad de colores, tallas y precios al detalle o al por mayor.
+                Escríbenos directamente a WhatsApp para consultar disponibilidad inmediata, variedad de colores, tallas
+                y precios al detalle o al por mayor.
             </p>
-            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" class="contacto-a">
+            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos."
+                target="_blank" rel="noopener" class="contacto-a">
                 <i class="fa-brands fa-whatsapp contacto-i"></i>
                 <span>Consultar por WhatsApp</span>
             </a>
@@ -435,7 +504,8 @@
                         <i class="fa-solid fa-quote-left"></i>
                     </div>
                     <p class="section2-p-2">
-                        "Me encantaron los modelos y la atención. La tela del body modelador es espectacular y horma divino. Definitivamente volveré a comprar."
+                        "Me encantaron los modelos y la atención. La tela del body modelador es espectacular y horma
+                        divino. Definitivamente volveré a comprar."
                     </p>
                     <div class="section2-div-5">
                         <div class="section2-div-6">
@@ -453,7 +523,8 @@
                         <i class="fa-solid fa-quote-left"></i>
                     </div>
                     <p class="section2-p-2">
-                        "Encontré varios modelos de polos crop y bodies que estaba buscando para mi tienda. Muy buena atención en su tienda de Gamarra."
+                        "Encontré varios modelos de polos crop y bodies que estaba buscando para mi tienda. Muy buena
+                        atención en su tienda de Gamarra."
                     </p>
                     <div class="section2-div-5">
                         <div class="section2-div-7">
@@ -471,7 +542,8 @@
                         <i class="fa-solid fa-quote-left"></i>
                     </div>
                     <p class="section2-p-2">
-                        "Los diseños son super modernos y tienen bastante variedad de colores. Hice mi pedido por WhatsApp y me llegó rápido a provincia."
+                        "Los diseños son super modernos y tienen bastante variedad de colores. Hice mi pedido por
+                        WhatsApp y me llegó rápido a provincia."
                     </p>
                     <div class="section2-div-5">
                         <div class="section2-div-8">
@@ -562,7 +634,8 @@
                         <span class="footer1-span-2">ESTILOS</span>
                     </div>
                     <p class="footer1-p">
-                        Moda femenina para expresar tu estilo. Confección y venta exclusiva de bodies y polos para damas en Gamarra, Lima, Perú.
+                        Moda femenina para expresar tu estilo. Confección y venta exclusiva de bodies y polos para damas
+                        en Gamarra, Lima, Perú.
                     </p>
                     <div class="footer1-div-3">
                         <a href="https://facebook.com" target="_blank" aria-label="Facebook" class="footer1-a">
@@ -616,7 +689,8 @@
                 <div>
                     <h3 class="footer1-h3">Consulta Rápida</h3>
                     <p class="footer1-p-2">¿Deseas atención inmediata o catálogo mayorista?</p>
-                    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20informaci%C3%B3n%20para%20ventas%20por%20mayor%20y%20menor." target="_blank" class="footer1-a-4">
+                    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20informaci%C3%B3n%20para%20ventas%20por%20mayor%20y%20menor."
+                        target="_blank" class="footer1-a-4">
                         <i class="fa-brands fa-whatsapp header-actions-i-3"></i>
                         <span>Escribir al WhatsApp</span>
                     </a>
@@ -628,7 +702,8 @@
             <div class="footer1-div-4">
                 <p>© 2026 Francesca Estilos. Todos los derechos reservados.</p>
                 <div class="footer1-div-5">
-                    <button onclick="openModal('politicas-modal')" class="footer1-button">Política de privacidad</button>
+                    <button onclick="openModal('politicas-modal')" class="footer1-button">Política de
+                        privacidad</button>
                     <button onclick="openModal('terminos-modal')" class="footer1-button">Términos y condiciones</button>
                 </div>
             </div>
@@ -636,7 +711,8 @@
     </footer>
 
     <!-- FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float footer1-a-5">
+    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos."
+        target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float footer1-a-5">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -657,7 +733,8 @@
                     <h3 id="modal-title" class="modal-title">Nombre del Producto</h3>
                     <p id="modal-price" class="modal-price">Consultar precio</p>
                     <p id="modal-description" class="modal-description">
-                        Confeccionado en tela de alta calidad, suave al tacto y con ajuste perfecto que realza la silueta femenina. Ideal para combinar con jeans, faldas o pantalones de vestir.
+                        Confeccionado en tela de alta calidad, suave al tacto y con ajuste perfecto que realza la
+                        silueta femenina. Ideal para combinar con jeans, faldas o pantalones de vestir.
                     </p>
 
                     <!-- Color Swatches -->
@@ -711,9 +788,9 @@
                     <span>Total estimado:</span>
                     <span id="cart-total" class="cart-total">Consultar por WhatsApp</span>
                 </div>
-                <button onclick="sendCartToWhatsApp()" class="cart-footer-button">
+                  <button onclick="openCheckout()" class="cart-footer-button">
                     <i class="fa-brands fa-whatsapp header-actions-i"></i>
-                    <span>Finalizar pedido por WhatsApp</span>
+                    <span>Continuar con el Pedido</span>
                 </button>
             </div>
         </div>
@@ -728,7 +805,8 @@
             </button>
         </div>
         <div class="search-modal-div-2">
-            <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar por 'Body', 'Polo', 'Escote', 'Básico'..." class="search-input">
+            <input type="text" id="search-input" onkeyup="handleSearch()"
+                placeholder="Buscar por 'Body', 'Polo', 'Escote', 'Básico'..." class="search-input">
             <i class="fa-solid fa-magnifying-glass search-modal-i"></i>
         </div>
         <div id="search-results" class="search-results">
@@ -739,19 +817,25 @@
     <!-- PRIVACY POLICY & TERMS MODALS -->
     <div id="politicas-modal" class="politicas-modal">
         <div class="politicas-modal-div">
-            <button onclick="closeModal('politicas-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="closeModal('politicas-modal')" class="politicas-modal-button"><i
+                    class="fa-solid fa-xmark"></i></button>
             <h3 class="politicas-modal-h3">Política de Privacidad</h3>
-            <p class="politicas-modal-p">En Francesca Estilos garantizamos la protección y confidencialidad de tus datos personales proporcionados para la realización de pedidos y consultas por WhatsApp.</p>
-            <p class="politicas-modal-p-2">No compartimos tu información con terceros y la utilizamos exclusivamente para coordinar envíos y atención al cliente.</p>
+            <p class="politicas-modal-p">En Francesca Estilos garantizamos la protección y confidencialidad de tus datos
+                personales proporcionados para la realización de pedidos y consultas por WhatsApp.</p>
+            <p class="politicas-modal-p-2">No compartimos tu información con terceros y la utilizamos exclusivamente
+                para coordinar envíos y atención al cliente.</p>
         </div>
     </div>
 
     <div id="terminos-modal" class="politicas-modal">
         <div class="politicas-modal-div">
-            <button onclick="closeModal('terminos-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <button onclick="closeModal('terminos-modal')" class="politicas-modal-button"><i
+                    class="fa-solid fa-xmark"></i></button>
             <h3 class="politicas-modal-h3">Términos y Condiciones</h3>
-            <p class="politicas-modal-p">Todos los pedidos se confirman formalmente por WhatsApp. Los envíos a provincias se realizan previa verificación de pago.</p>
-            <p class="politicas-modal-p-2">Los precios, disponibilidad de colores y modelos pueden variar según stock disponible en tienda física en Gamarra.</p>
+            <p class="politicas-modal-p">Todos los pedidos se confirman formalmente por WhatsApp. Los envíos a
+                provincias se realizan previa verificación de pago.</p>
+            <p class="politicas-modal-p-2">Los precios, disponibilidad de colores y modelos pueden variar según stock
+                disponible en tienda física en Gamarra.</p>
         </div>
     </div>
 
@@ -762,5 +846,7 @@
 
     <!-- JAVASCRIPT -->
     <script src="js/main.js"></script>
+    <script src="js/checkout.js"></script>
 </body>
+
 </html>
