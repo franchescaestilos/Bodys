@@ -1,0 +1,267 @@
+/* =========================================================
+   producto.css | Página de detalle de producto
+   Enlazar DESPUÉS de styles.css y checkout.css
+   ========================================================= */
+
+:root {
+    --pp-pink: #e6007e;
+    --pp-pink-dark: #c4006b;
+    --pp-brown: #a0644c;
+    --pp-ink: #121212;
+    --pp-line: #e6e6e6;
+}
+
+.pp-hidden { display: none !important; }
+
+.pp-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* sin header: poco espacio arriba; ajusta si hace falta */
+    padding: 56px 24px 100px;
+    min-height: 100vh; /* evita que el footer suba mientras carga */
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: var(--pp-ink);
+}
+
+/* Breadcrumb */
+.pp-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 28px;
+}
+.pp-breadcrumb a { color: #777; text-decoration: none; }
+.pp-breadcrumb a:hover { color: var(--pp-pink); }
+.pp-breadcrumb span:last-child { color: var(--pp-ink); font-weight: 500; }
+
+.pp-state { text-align: center; padding: 80px 0; color: #777; }
+.pp-state h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: var(--pp-ink); margin-bottom: 8px; }
+.pp-state p { margin-bottom: 24px; }
+
+/* Layout */
+.pp-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 56px;
+    align-items: start;
+}
+
+/* Galería */
+.pp-gallery { display: flex; gap: 16px; align-items: flex-start; }
+.pp-thumbs { display: flex; flex-direction: column; gap: 12px; }
+.pp-thumb {
+    width: 76px;
+    aspect-ratio: 3 / 4;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 0;
+    background: #f2f2f2;
+    cursor: pointer;
+    opacity: .7;
+    transition: opacity .2s, border-color .2s;
+}
+.pp-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pp-thumb:hover { opacity: 1; }
+.pp-thumb.active { border-color: var(--pp-ink); opacity: 1; }
+
+.pp-main-img {
+    flex: 1;
+    aspect-ratio: 3 / 4;
+    background: #f2f2f2;
+    border-radius: 16px;
+    overflow: hidden;
+}
+.pp-main-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Info */
+.pp-info { position: sticky; top: 32px; }
+.pp-category {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #8a5a44;
+    background: #f6ede8;
+    padding: 7px 14px;
+    border-radius: 999px;
+}
+.pp-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 44px;
+    line-height: 1.1;
+    font-weight: 600;
+    margin: 16px 0 10px;
+}
+.pp-price { font-size: 26px; font-weight: 700; color: var(--pp-brown); margin-bottom: 16px; }
+.pp-desc { font-size: 15px; line-height: 1.7; color: #555; margin-bottom: 26px; }
+
+.pp-block { margin-bottom: 24px; }
+.pp-label { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 12px; }
+.pp-label strong { font-weight: 500; text-transform: none; letter-spacing: 0; }
+
+/* Colores */
+.pp-colors { display: flex; flex-wrap: wrap; gap: 12px; }
+.pp-color {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #cfcfcf;
+    padding: 0;
+    cursor: pointer;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    transition: outline-color .15s, transform .15s;
+}
+.pp-color:hover { transform: scale(1.06); }
+.pp-color.active { outline-color: var(--pp-ink); }
+
+/* Tallas */
+.pp-sizes { display: flex; flex-wrap: wrap; gap: 10px; }
+.pp-size {
+    min-width: 52px;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--pp-ink);
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all .15s;
+}
+.pp-size:hover:not(:disabled) { border-color: var(--pp-ink); }
+.pp-size.active { background: var(--pp-ink); color: #fff; border-color: var(--pp-ink); }
+.pp-size:disabled { opacity: .35; text-decoration: line-through; cursor: not-allowed; }
+.pp-error { display: none; color: #c0392b; font-size: 13px; margin-top: 10px; }
+.pp-error.show { display: block; }
+
+/* Botones */
+.pp-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; padding-top: 28px; border-top: 1px solid var(--pp-line); }
+.pp-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 54px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .2s;
+}
+.pp-btn-primary { background: var(--pp-pink); color: #fff; border: 2px solid var(--pp-pink); box-shadow: 0 10px 24px rgba(230, 0, 126, .25); }
+.pp-btn-primary:hover { background: var(--pp-pink-dark); border-color: var(--pp-pink-dark); }
+.pp-btn-outline { background: #fff; color: var(--pp-ink); border: 2px solid var(--pp-ink); }
+.pp-btn-outline:hover { background: var(--pp-ink); color: #fff; }
+/* Fila: cantidad (- 1 +) + Agregar a la bolsa */
+.pp-add-row { display: flex; gap: 12px; align-items: stretch; }
+.pp-add-row .pp-btn { flex: 1; width: auto; }
+.pp-qty {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    min-width: 128px;
+    height: 54px;
+    padding: 0 8px;
+    border: 2px solid var(--pp-ink);
+    border-radius: 999px;
+    background: #fff;
+}
+.pp-qty button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--pp-ink);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s;
+}
+.pp-qty button:hover { background: #f0f0f0; }
+.pp-qty span { min-width: 24px; text-align: center; font-weight: 700; font-size: 16px; }
+
+/* Responsive */
+@media (max-width: 900px) {
+    .pp-main { padding: 36px 16px 100px; }
+    .pp-detail { grid-template-columns: 1fr; gap: 28px; }
+    .pp-info { position: static; }
+    .pp-gallery { flex-direction: column-reverse; }
+    .pp-thumbs { flex-direction: row; overflow-x: auto; }
+    .pp-thumb { flex: 0 0 64px; width: 64px; }
+    .pp-main-img { width: 100%; flex: none; }
+    .pp-title { font-size: 34px; }
+}
+/* Sin aviso "agregado a la bolsa" en esta página */
+.page-producto .toast { display: none !important; }
+
+/* Bolsa flotante (reemplaza al botón de WhatsApp) */
+.pp-bag-float {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 900;
+    width: 62px;
+    height: 62px;
+    border: none;
+    border-radius: 50%;
+    background: var(--pp-pink);
+    color: #fff;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 10px 26px rgba(230, 0, 126, .38);
+    transition: background .2s;
+}
+.pp-bag-float:hover { background: var(--pp-pink-dark); }
+
+.pp-bag-count {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: #fc351b;
+    color: #fff;
+    border: 2px solid #fff;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+}
+
+/* Vibración tipo reloj, solo al agregar un producto */
+.pp-bag-float.pp-bag-pop { animation: pp-ring-pop .8s ease-in-out; }
+@keyframes pp-ring-pop {
+    0%, 100% { transform: rotate(0) scale(1); }
+    10%, 50%, 90% { transform: rotate(-18deg) scale(1.12); }
+    30%, 70%      { transform: rotate(18deg) scale(1.12); }
+}
+
+/* La bolsa flotante se esconde mientras la bolsa o el checkout están abiertos */
+body:has(.cart-drawer.is-open) .pp-bag-float,
+body:has(.ck-overlay.open) .pp-bag-float {
+    display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pp-bag-float.pp-bag-pop { animation: none; }
+}

@@ -21,11 +21,40 @@
       'CCI: 002-000-000000000000-00',
       'Titular: Franchesca Estilos'
     ],
-    envio: { delivery: 0, recojo: 0, agencia: 0 }, // costo de envío por tipo (S/)
+    envio: { delivery: 0, agencia: 0 }, // costo de envío por tipo (S/) // costo de envío por tipo (S/)
     maxArchivoMB: 5,
     // Si tienes un backend, pon aquí una función async que reciba (pedido, archivo)
     // y devuelva true. Si es null, se abre WhatsApp con el resumen del pedido.
-    enviarABackend: null
+    enviarABackend: async function (pedido, archivo) {
+    const sb = db;
+
+    // 1) Subir comprobante
+    const id = crypto.randomUUID();
+    const ext = (archivo.name.split('.').pop() || 'jpg').toLowerCase();
+    const ruta = id + '.' + ext;
+    const up = await sb.storage.from('comprobantes').upload(ruta, archivo, { contentType: archivo.type });
+    if (up.error) throw up.error;
+
+    // 2) Guardar pedido + items + descontar stock (todo en una transacción)
+    const { error } = await sb.rpc('crear_pedido', {
+      p_id: id,
+      p_nombre: pedido.nombre,
+      p_celular: pedido.celular,
+      p_tipo_entrega: pedido.tipoEntrega,
+      p_direccion: pedido.direccion || null,
+      p_referencia: pedido.referencia || null,
+      p_observaciones: pedido.observaciones || null,
+      p_metodo_pago: pedido.metodoPago,
+      p_comprobante_path: ruta,
+      p_items: pedido.items.map(i => ({
+        producto_id: String(i.id),
+        color: i.color,
+        talla: i.size,
+        cantidad: i.qty
+      }))
+    });
+    if (error) throw error;
+  }
   };
 
   // Los estilos ahora están en css/checkout.css (enlázalo en el <head> de catalogo.html)
@@ -52,11 +81,10 @@
         </div>
         <div class="ck-field">
           <label class="ck-label" for="ck-tipo">Tipo de entrega *</label>
-          <select class="ck-select" id="ck-tipo">
-            <option value="delivery">Delivery</option>
-            <option value="recojo">Recojo en tienda</option>
-            <option value="agencia">Envío por agencia</option>
-          </select>
+         <select class="ck-select" id="ck-tipo">
+  <option value="delivery">Delivery</option>
+  <option value="agencia">Envío por agencia</option>
+</select>
         </div>
       </div>
       <div class="ck-field" id="ck-dir-wrap">
@@ -116,18 +144,18 @@
   function parsePrice(v) {
     return parseFloat(String(v == null ? '' : v).replace(/[^\d.]/g, '')) || 0;
   }
-
-  function readCart() {
-    let c = [];
-    try { c = cart; } catch (e) {}
-    const map = new Map();
-      c.forEach((p) => {
-      const key = (p.id != null ? p.id : p.name) + '|' + (p.color || '') + '|' + (p.size || '');
-      if (map.has(key)) map.get(key).qty++;
-      else map.set(key, { name: p.name, category: p.category || '', price: parsePrice(p.price), qty: 1, size: p.size || '', color: p.color || '' });
-    });
-    return Array.from(map.values());
-  }
+function readCart() {
+  let c = [];
+  try { c = cart; } catch (e) {}
+  const map = new Map();
+  c.forEach((p) => {
+    const key = (p.id != null ? p.id : p.name) + '|' + (p.color || '') + '|' + (p.size || '');
+    const q = p.qty || 1;
+    if (map.has(key)) map.get(key).qty += q;
+    else map.set(key, { id: p.id, name: p.name, category: p.category || '', price: parsePrice(p.price), qty: q, size: p.size || '', color: p.color || '' });
+  });
+  return Array.from(map.values());
+}
 
   /* ---------- CÁLCULOS ---------- */
   const money = (n) => 'S/ ' + n.toFixed(2);
@@ -255,9 +283,12 @@
       }
       cerrar();
       try { cart.length = 0; updateCartUI(); } catch (er) {}
-    } catch (err) {
-      showMsg('No se pudo enviar el pedido. Inténtalo otra vez.');
-    } finally {
+  } catch (err) {
+  const m = err && err.message ? err.message : '';
+  showMsg(m.indexOf('Sin stock') === 0
+    ? m + '. Quita ese producto o baja la cantidad.'
+    : 'No se pudo enviar el pedido. Inténtalo otra vez.');
+} finally {
       btn.disabled = false;
       btn.textContent = 'Confirmar pedido';
     }

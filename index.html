@@ -21,6 +21,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://vlfcuyekpnsmziamacle.supabase.co" crossorigin>
     <title>Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,8 +76,9 @@
                 </button>
                 <script>
                 try {
-                    document.getElementById('cart-count').textContent =
-                        (JSON.parse(localStorage.getItem('franchesca_cart')) || []).length;
+                  document.getElementById('cart-count').textContent =
+    (JSON.parse(localStorage.getItem('franchesca_cart')) || [])
+        .reduce((s, i) => s + (i.qty || 1), 0);
                 } catch (e) {}
             </script>
 
@@ -163,7 +165,7 @@
 
             <!-- CARD 1: BODIES -->
             <div class="group categorias-div-4" onclick="filterCatalog('body')">
-                <img src="img/coleccion1.png" alt="Bodies Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion1.png" alt="Bodies Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
@@ -180,7 +182,7 @@
 
             <!-- CARD 2: POLOS -->
             <div class="group categorias-div-4" onclick="filterCatalog('polo')">
-                <img src="img/coleccion2.png" alt="Polos Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion2.png" alt="Polos Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
@@ -197,7 +199,7 @@
 
             <!-- CARD 3: CONJUNTOS -->
             <div class="group categorias-div-4" onclick="filterCatalog('conjunto')">
-                <img src="img/coleccion3.png" alt="Conjuntos Francesca Estilos" class="categorias-img">
+                <img src="img/coleccion3.png" alt="Conjuntos Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
                 <div class="categorias-div-6">
@@ -338,7 +340,7 @@
                 <!-- Image Column with Overlay Frame -->
                 <div class="nosotros-div-2">
                     <div class="nosotros-div-3">
-                        <img src="img/historia.png" alt="Bodies y Polos Francesca Estilos" class="nosotros-img">
+                        <img src="img/historia.png" alt="Bodies y Polos Francesca Estilos" class="nosotros-img" loading="lazy" decoding="async">
                     </div>
                     <!-- Aesthetic Accent Box -->
                     <div class="nosotros-div-4"></div>
@@ -578,31 +580,31 @@
                     </div>
                 </div>
                 <div class="group section3-div-3">
-                    <img src="img/novedad3.png" alt="Lookbook Francesca Estilos" class="section3-img">
+                    <img src="img/novedad3.png" alt="Lookbook Francesca Estilos " class="section3-img" loading="lazy" decoding="async">
                     <div class="section3-div-4">
                         <i class="fa-brands fa-instagram header-actions-i-2"></i>
                     </div>
                 </div>
                 <div class="group section3-div-3">
-                    <img src="img/novedad4.png" alt="Lookbook Francesca Estilos" class="section3-img">
+                    <img src="img/novedad4.png" alt="Lookbook Francesca Estilos" class="section3-img" loading="lazy" decoding="async">
                     <div class="section3-div-4">
                         <i class="fa-brands fa-facebook-f header-actions-i-2"></i>
                     </div>
                 </div>
                 <div class="group section3-div-3">
-                    <img src="img/novedad1.png" alt="Lookbook Francesca Estilos" class="section3-img">
+                    <img src="img/novedad1.png" alt="Lookbook Francesca Estilos" class="section3-img" loading="lazy" decoding="async">
                     <div class="section3-div-4">
                         <i class="fa-brands fa-instagram header-actions-i-2"></i>
                     </div>
                 </div>
                 <div class="group section3-div-3">
-                    <img src="img/novedad2.png" alt="Lookbook Francesca Estilos" class="section3-img">
+                    <img src="img/novedad2.png" alt="Lookbook Francesca Estilos" class="section3-img" loading="lazy" decoding="async">
                     <div class="section3-div-4">
                         <i class="fa-brands fa-facebook-f header-actions-i-2"></i>
                     </div>
                 </div>
                 <div class="group section3-div-3">
-                    <img src="img/novedad5.png" alt="Lookbook Francesca Estilos" class="section3-img">
+                    <img src="img/novedad5.png" alt="Lookbook Francesca Estilos" class="section3-img" loading="lazy" decoding="async">
                     <div class="section3-div-4">
                         <i class="fa-brands fa-instagram header-actions-i-2"></i>
                     </div>

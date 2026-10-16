@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://vlfcuyekpnsmziamacle.supabase.co" crossorigin>
+    <title>Producto | Franchesca Estilos</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/checkout.css">
+    <link rel="stylesheet" href="css/producto.css">
+</head>
+<body class="page-body page-producto">
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="page-div">
+          <span>Confección en Gamarra | Viste lo que te hace única</span>
+        <span class="page-dot">•</span>
+        <span>Envíos a todo el Perú</span>
+    </div>
+
+    <!-- CONTENIDO DEL PRODUCTO -->
+    <main class="pp-main">
+        <nav class="pp-breadcrumb" aria-label="Ruta">
+            <a href="index.html">Inicio</a>
+            <span>/</span>
+            <a href="catalogo.html">Catálogo</a>
+            <span>/</span>
+            <span id="pp-crumb-name">Producto</span>
+        </nav>
+
+        <!-- Estado de carga -->
+        <div id="pp-loading" class="pp-state">Cargando producto...</div>
+
+        <!-- Producto no encontrado -->
+        <div id="pp-notfound" class="pp-state pp-hidden">
+            <h2>No encontramos este producto</h2>
+            <p>Puede que ya no esté disponible.</p>
+            <a href="catalogo.html" class="pp-btn pp-btn-primary" style="display:inline-flex; width:auto; padding:0 28px;">Volver al catálogo</a>
+        </div>
+
+        <!-- Detalle -->
+        <section id="pp-detail" class="pp-detail pp-hidden">
+            <!-- Galería -->
+            <div class="pp-gallery">
+                <div class="pp-thumbs" id="pp-thumbs"></div>
+                <div class="pp-main-img">
+                    <img id="pp-img" src="" alt="Producto" fetchpriority="high" decoding="async">
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="pp-info">
+                <span id="pp-category" class="pp-category">Categoría</span>
+                <h1 id="pp-title" class="pp-title">Nombre del producto</h1>
+                <p id="pp-price" class="pp-price">S/ 0.00</p>
+                <p id="pp-desc" class="pp-desc"></p>
+
+                <div class="pp-block">
+                    <p class="pp-label">Color: <strong id="pp-color-name"></strong></p>
+                    <div id="pp-colors" class="pp-colors"></div>
+                </div>
+
+                <div class="pp-block">
+                    <p class="pp-label">Talla</p>
+                    <div id="pp-sizes" class="pp-sizes"></div>
+                    <p id="pp-size-error" class="pp-error">Elige una talla para continuar.</p>
+                </div>
+
+                <div class="pp-actions">
+                    <div class="pp-add-row">
+                        <div class="pp-qty" aria-label="Cantidad">
+                            <button type="button" id="pp-minus" aria-label="Menos">&minus;</button>
+                            <span id="pp-qty-value">1</span>
+                            <button type="button" id="pp-plus" aria-label="Más">+</button>
+                        </div>
+                        <button id="pp-add" class="pp-btn pp-btn-outline" type="button">Agregar a la bolsa</button>
+                    </div>
+                    <button id="pp-buy" class="pp-btn pp-btn-primary" type="button">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span>Comprar ahora</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer1-footer">
+        <div class="coleccion-div">
+            <div class="footer1-div-4">
+                <p>© 2026 Francesca Estilos. Todos los derechos reservados.</p>
+                <div class="footer1-div-5">
+                    <button onclick="openModal('politicas-modal')" class="footer1-button">Política de privacidad</button>
+                    <button onclick="openModal('terminos-modal')" class="footer1-button">Términos y condiciones</button>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING CART BUTTON (bolsa flotante; vibra al agregar un producto) -->
+    <button id="pp-bag-float" class="pp-bag-float" onclick="toggleCartDrawer()" aria-label="Abrir bolsa de compras" type="button">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span id="cart-count" class="pp-bag-count">0</span>
+    </button>
+
+    <!-- CART SLIDE-OVER DRAWER -->
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-drawer-div">
+            <div>
+                <div class="cart-drawer-div-2">
+                    <div class="footer1-li">
+                        <i class="fa-solid fa-bag-shopping cart-drawer-i"></i>
+                        <h3 class="cart-drawer-h3">Tu Bolsa de Compras</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="cart-drawer-button">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+                <div id="cart-items" class="cart-items">
+                    <p class="cart-items-p">Tu bolsa está vacía actualmente.</p>
+                </div>
+            </div>
+            <div id="cart-footer" class="is-hidden cart-footer">
+                <div class="cart-footer-div">
+                    <span>Total estimado:</span>
+                    <span id="cart-total" class="cart-total">Consultar por WhatsApp</span>
+                </div>
+                <button onclick="openCheckout()" class="cart-footer-button">
+                    <i class="fa-brands fa-whatsapp header-actions-i"></i>
+                    <span>Continuar con el Pedido</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH MODAL -->
+    <div id="search-modal" class="search-modal">
+        <div class="search-modal-div">
+            <span class="search-modal-span">Búsqueda de Modelos</span>
+            <button onclick="toggleSearchModal()" class="search-modal-button">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="search-modal-div-2">
+            <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Buscar por 'Body', 'Polo', 'Escote', 'Básico'..." class="search-input">
+            <i class="fa-solid fa-magnifying-glass search-modal-i"></i>
+        </div>
+        <div id="search-results" class="search-results"></div>
+    </div>
+
+    <!-- PRIVACY POLICY & TERMS MODALS -->
+    <div id="politicas-modal" class="politicas-modal">
+        <div class="politicas-modal-div">
+            <button onclick="closeModal('politicas-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="politicas-modal-h3">Política de Privacidad</h3>
+            <p class="politicas-modal-p">En Francesca Estilos garantizamos la protección y confidencialidad de tus datos personales proporcionados para la realización de pedidos y consultas por WhatsApp.</p>
+            <p class="politicas-modal-p-2">No compartimos tu información con terceros y la utilizamos exclusivamente para coordinar envíos y atención al cliente.</p>
+        </div>
+    </div>
+
+    <div id="terminos-modal" class="politicas-modal">
+        <div class="politicas-modal-div">
+            <button onclick="closeModal('terminos-modal')" class="politicas-modal-button"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="politicas-modal-h3">Términos y Condiciones</h3>
+            <p class="politicas-modal-p">Todos los pedidos se confirman formalmente por WhatsApp. Los envíos a provincias se realizan previa verificación de pago.</p>
+            <p class="politicas-modal-p-2">Los precios, disponibilidad de colores y modelos pueden variar según stock disponible en tienda física en Gamarra.</p>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast">
+        <span id="toast-msg">Mensaje de notificación</span>
+    </div>
+
+    <!-- JAVASCRIPT (el orden importa: main.js, producto.js, checkout.js) -->
+    <script src="js/main.js"></script>
+    <script src="js/producto.js"></script>
+    <script src="js/checkout.js"></script>
+</body>
+</html>

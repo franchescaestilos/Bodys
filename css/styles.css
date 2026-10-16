@@ -1471,46 +1471,6 @@ img {
   padding-right: 0.5rem;
 }
 
-.product-grid-div {
-  margin-top: 4rem;
-  text-align: center;
-}
-
-.product-grid-p {
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: #6b7280;
-}
-
-.product-grid-a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  border-radius: 9999px;
-  background-color: var(--tinta);
-  padding: 1rem 2rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #ffffff;
-  box-shadow: var(--sombra-lg);
-  transition: all 150ms var(--ease);
-}
-
-.product-grid-a:hover {
-  transform: translateY(-0.125rem);
-  background-color: #6a4236;
-}
-
-.product-grid-i {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  color: var(--wa-icono);
-}
-
 
 /* ==========================================================================
    14. UBICACIÓN
@@ -3183,7 +3143,7 @@ img {
 
   .inicio-botones {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end; 
     justify-content: flex-start;
     gap: 0.6rem;
   }

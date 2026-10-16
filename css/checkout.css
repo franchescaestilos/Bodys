@@ -299,3 +299,11 @@
     display: none;
   }
 }
+/* Total de la bolsa: monto junto a la etiqueta y cantidad a la derecha */
+#cart-total {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 12px;
+    margin-left: 16px;
+}

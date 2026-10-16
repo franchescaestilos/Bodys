@@ -21,6 +21,7 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://vlfcuyekpnsmziamacle.supabase.co" crossorigin>
     <title>Catálogo | Franchesca Estilos | Bodies y Polos de Moda Femenina en Gamarra</title>
     <!-- Google Fonts -->
      
@@ -38,9 +39,9 @@
 
     <!-- ANNOUNCEMENT BAR -->
     <div class="page-div">
-        <span>Confección exclusiva en Gamarra | Envíos a todo el Perú</span>
+      <span>Confección en Gamarra | Viste lo que te hace única</span>
         <span class="page-dot">•</span>
-        <span>WhatsApp: +51 944 737 700</span>
+        <span>Envíos a todo el Perú</span>
     </div>
 
     <!-- HEADER / NAVBAR -->
@@ -74,7 +75,8 @@
         <script>
             try {
                 document.getElementById('cart-count').textContent =
-                    (JSON.parse(localStorage.getItem('franchesca_cart')) || []).length;
+    (JSON.parse(localStorage.getItem('franchesca_cart')) || [])
+        .reduce((s, i) => s + (i.qty || 1), 0);
             } catch (e) {}
         </script>
                 <!-- Mobile Hamburger Button -->
@@ -155,14 +157,6 @@
             <!-- Products Grid (4 cols desktop, 2 cols mobile) -->
             <div id="product-grid" class="product-grid">
                 <!-- Dynamic products rendered via Javascript -->
-            </div>
-
-            <div class="product-grid-div">
-                <p class="product-grid-p">¿Buscas algún color, talla especial o diseño al por mayor?</p>
-                <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20ver%20el%20cat%C3%A1logo%20completo%20con%20m%C3%A1s%20de%2020%20modelos." target="_blank" class="product-grid-a">
-                    <i class="fa-brands fa-whatsapp product-grid-i"></i>
-                    <span>Solicitar Catálogo Completo (+20 Modelos)</span>
-                </a>
             </div>
 
         </div>
@@ -252,11 +246,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos." target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float footer1-a-5">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
 
     <!-- PRODUCT QUICK VIEW MODAL -->
     <div id="product-modal" class="product-modal">

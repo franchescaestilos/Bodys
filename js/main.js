@@ -86,6 +86,12 @@ window.addEventListener('DOMContentLoaded', async () => {
         const categoria = new URLSearchParams(window.location.search).get('categoria');
         if (categoria) filterCatalog(categoria);
     }
+
+    if (typeof initProductPage === 'function') initProductPage();
+
+    // Con los productos ya dibujados, recién se restaura el scroll
+    restoreScroll();
+    document.documentElement.classList.remove('restoring');
 });
 
 
@@ -100,14 +106,15 @@ function setupHeaderScroll() {
     noAnim.textContent = '.no-anim, .no-anim * { transition: none !important; animation: none !important; }';
     document.head.appendChild(noAnim);
 
-    const apply = () => {
-        const y = window.scrollY;
-        if (!stuck && y > 40) stuck = true;
-        else if (stuck && y < 15) stuck = false;
-        header.classList.toggle('scrolled', stuck);
-        header.classList.toggle('header-up', stuck);
-    };
+const apply = () => {
+    const y = window.scrollY;
+    if (!stuck && y > 40) stuck = true;
+    else if (stuck && y < 15) stuck = false;
 
+    const forced = document.body.classList.contains('page-producto');
+    header.classList.toggle('scrolled', stuck || forced);
+    header.classList.toggle('header-up', stuck || forced);
+};
     // Estado inicial: sin animación
     header.classList.add('no-anim');
     apply();
@@ -123,13 +130,12 @@ function setupHeaderScroll() {
     window.addEventListener('scroll', apply, { passive: true });
 }
 
-// Render Product Catalog Cards
 // (sin botones "Detalle" y "Comprar": toda la tarjeta abre el detalle del producto)
 function renderProducts(items) {
     const grid = document.getElementById('product-grid');
     grid.innerHTML = '';
 
-    items.forEach(product => {
+    items.forEach((product, i) => {
         const card = document.createElement('div');
         card.className = "group product-card";
         card.style.cursor = "pointer";
@@ -137,7 +143,7 @@ function renderProducts(items) {
 
         card.innerHTML = `
             <div class="js-div">
-                <img src="${product.img}" alt="${product.name}" class="js-img">
+               <img src="${product.img}" alt="${product.name}" class="js-img" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async">
                 <span class="js-span">
                     ${product.category}
                 </span>
@@ -168,18 +174,27 @@ function renderProducts(items) {
 }
 
 // Filter Products by Category
+const CATEGORIAS_VALIDAS = {
+    all: 'all', todos: 'all',
+    body: 'body', bodies: 'body', bodys: 'body',
+    polo: 'polo', polos: 'polo'
+};
+
 function filterCatalog(category) {
+    // Si la categoría no existe, se muestran todos los productos
+    const cat = CATEGORIAS_VALIDAS[String(category || 'all').toLowerCase()] || 'all';
+
     // En el index no hay grilla: ir al catálogo con la categoría
     if (!document.getElementById('product-grid')) {
-        window.location.href = 'catalogo.html?categoria=' + category;
+        window.location.href = 'catalogo.html?categoria=' + cat;
         return;
     }
 
     document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-    const activeBtn = document.getElementById(`filter-${category}`);
+    const activeBtn = document.getElementById(`filter-${cat}`);
     if (activeBtn) activeBtn.classList.add('active');
 
-    renderProducts(category === 'all' ? products : products.filter(p => p.type === category));
+    renderProducts(cat === 'all' ? products : products.filter(p => p.type === cat));
 }
 
 
@@ -245,51 +260,90 @@ function itemSeleccionado() {
 }
 
 function openProductModal(id) {
-    currentProduct = products.find(p => p.id === id);
-    if (!currentProduct) return;
-
-    selectedColorIdx = 0;
-    selectedSize = null;
-
-    document.getElementById('modal-title').innerText = currentProduct.name;
-    document.getElementById('modal-category').innerText = currentProduct.category;
-    document.getElementById('modal-price').innerText = currentProduct.price;
-    document.getElementById('modal-description').innerText = currentProduct.desc;
-
-    renderModalOptions();
-
-    // Comprar ahora: agrega a la bolsa y abre la bolsa
-    document.getElementById('modal-buy-wa').onclick = () => {
-        const item = itemSeleccionado();
-        if (!item) return;
-        cart.push(item);
-        updateCartUI();
-        closeModal('product-modal');
-        document.getElementById('cart-drawer').classList.add('is-open');
-    };
-
-    // Agregar a la bolsa
-    document.getElementById('modal-add-cart').onclick = () => {
-        const item = itemSeleccionado();
-        if (!item) return;
-        addToCart(item);
-        closeModal('product-modal');
-    };
-
-    openModal('product-modal');
+    window.location.href = 'producto.html?id=' + encodeURIComponent(id);
 }
 
 
 // Cart Drawer Logic
-function addToCart(product) {
-    cart.push(product);
+function addToCart(product, silent) {
+    const qty = product.qty || 1;
+    const igual = cart.find(i =>
+        i.id === product.id && i.color === product.color && i.size === product.size
+    );
+    if (igual) igual.qty = (igual.qty || 1) + qty;
+    else cart.push({ ...product, qty });
     updateCartUI();
-    showToast(`¡${product.name} agregado a la bolsa!`);
+    if (!silent) showToast(`¡${product.name} agregado a la bolsa!` + (qty > 1 ? ` (x${qty})` : ''));
+}
+
+function changeQty(index, delta) {
+    const item = cart[index];
+    if (!item) return;
+    item.qty = Math.max(1, Math.min(10, (item.qty || 1) + delta));
+    updateCartUI();
+}
+
+// Modal de confirmación para quitar un producto de la bolsa
+(function () {
+    const s = document.createElement('style');
+    s.textContent = `
+    .cf-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px}
+    .cf-overlay.open{display:flex}
+    .cf-box{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:28px 24px 24px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);font-family:'Plus Jakarta Sans',sans-serif}
+    .cf-icon{width:56px;height:56px;border-radius:50%;background:#fdecf5;color:#e6007e;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px}
+    .cf-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin:0 0 6px;color:#121212}
+    .cf-text{font-size:14px;color:#666;line-height:1.5;margin:0 0 22px}
+    .cf-actions{display:flex;gap:10px}
+    .cf-btn{flex:1;height:48px;border-radius:999px;font-family:inherit;font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer}
+    .cf-cancel{background:#fff;color:#121212;border:2px solid #121212}
+    .cf-ok{background:#e6007e;color:#fff;border:2px solid #e6007e}`;
+    document.head.appendChild(s);
+})();
+
+let cfIndex = null;
+
+function getConfirmModal() {
+    let ov = document.getElementById('cf-overlay');
+    if (ov) return ov;
+    ov = document.createElement('div');
+    ov.id = 'cf-overlay';
+    ov.className = 'cf-overlay';
+    ov.innerHTML = `
+        <div class="cf-box" role="dialog" aria-modal="true">
+            <div class="cf-icon"><i class="fa-solid fa-trash-can"></i></div>
+            <h3 class="cf-title">¿Quitar de la bolsa?</h3>
+            <p class="cf-text" id="cf-text"></p>
+            <div class="cf-actions">
+                <button type="button" class="cf-btn cf-cancel" id="cf-cancel">Cancelar</button>
+                <button type="button" class="cf-btn cf-ok" id="cf-ok">Sí, quitar</button>
+            </div>
+        </div>`;
+    document.body.appendChild(ov);
+    ov.addEventListener('mousedown', e => { if (e.target === ov) closeConfirm(); });
+    document.getElementById('cf-cancel').onclick = closeConfirm;
+    document.getElementById('cf-ok').onclick = () => {
+        if (cfIndex !== null) { cart.splice(cfIndex, 1); updateCartUI(); }
+        closeConfirm();
+    };
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeConfirm(); });
+    return ov;
+}
+
+function closeConfirm() {
+    cfIndex = null;
+    const ov = document.getElementById('cf-overlay');
+    if (ov) ov.classList.remove('open');
 }
 
 function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartUI();
+    const item = cart[index];
+    if (!item) return;
+    cfIndex = index;
+    const detalle = [item.color, item.size && 'Talla ' + item.size].filter(Boolean).join(' · ');
+    const ov = getConfirmModal();
+    document.getElementById('cf-text').textContent =
+        `Vas a quitar "${item.name}"${detalle ? ' (' + detalle + ')' : ''} de tu bolsa.`;
+    ov.classList.add('open');
 }
 
 function updateCartUI() {
@@ -298,7 +352,7 @@ function updateCartUI() {
     const cartItems = document.getElementById('cart-items');
     const cartFooter = document.getElementById('cart-footer');
 
-    cartCount.innerText = cart.length;
+   cartCount.innerText = cart.reduce((s, i) => s + (i.qty || 1), 0);
 
     if (cart.length === 0) {
         cartItems.innerHTML = '<p class="cart-items-p">Tu bolsa está vacía actualmente.</p>';
@@ -307,13 +361,24 @@ function updateCartUI() {
     }
 
     cartFooter.classList.remove('is-hidden');
+    const unidades = cart.reduce((s, i) => s + (i.qty || 1), 0);
+const total = cart.reduce((s, i) =>
+    s + (parseFloat(String(i.price).replace(/[^\d.]/g, '')) || 0) * (i.qty || 1), 0);
+document.getElementById('cart-total').innerHTML =
+    `<span>S/ ${total.toFixed(2)}</span>` +
+    `<span>(${unidades} ${unidades === 1 ? 'producto' : 'productos'})</span>`;
     cartItems.innerHTML = cart.map((item, idx) => `
         <div class="js-div-8">
             <div class="js-div-9">
-                <img src="${item.img}" alt="${item.name}" class="js-img-2">
+             <img src="${item.img}" alt="${item.name}" class="js-img-2" loading="lazy" decoding="async">
                 <div>
                     <h4 class="js-h4">${item.name}</h4>
                     <p class="js-p-2">${item.price}</p>
+                    <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
+    <button onclick="changeQty(${idx}, -1)" style="width:26px;height:26px;border:1px solid #d9d9d9;border-radius:50%;background:#fff;cursor:pointer;">&minus;</button>
+    <span style="font-weight:600;">${item.qty || 1}</span>
+    <button onclick="changeQty(${idx}, 1)" style="width:26px;height:26px;border:1px solid #d9d9d9;border-radius:50%;background:#fff;cursor:pointer;">+</button>
+</div>
                     <p class="js-p-2">${[item.color, item.size && 'Talla ' + item.size].filter(Boolean).join(' · ')}</p>
                 </div>
             </div>
@@ -344,7 +409,7 @@ function handleSearch() {
 
     resultsContainer.innerHTML = matches.map(p => `
         <div onclick="openProductModal('${p.id}'); toggleSearchModal();" class="js-div-10">
-            <img src="${p.img}" class="js-img-3">
+           <img src="${p.img}" class="js-img-3" loading="lazy" decoding="async">
             <div>
                 <p class="js-p-4">${p.name}</p>
                 <p class="js-p-5">${p.category}</p>
@@ -403,8 +468,3 @@ function restoreScroll() {
     if (y) window.scrollTo({ top: y, behavior: 'instant' });
 }
 
-window.addEventListener('DOMContentLoaded', restoreScroll);
-window.addEventListener('load', () => {
-    restoreScroll();
-    requestAnimationFrame(() => document.documentElement.classList.remove('restoring'));
-});
