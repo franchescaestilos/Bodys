@@ -94,8 +94,8 @@
     <div id="mobile-menu" class="mobile-menu">
         <div class="mobile-menu-div">
             <div class="navbar-container-a">
-                <span class="mobile-menu-span">FRANCHESCA</span>
-                <span class="mobile-menu-span-2">ESTILOS • GAMARRA</span>
+                <span class="mobile-menu-span">Franchesca</span>
+                <span class="mobile-menu-span-2">ESTILOS</span>
             </div>
             <button onclick="toggleMobileMenu()" aria-label="Cerrar Menú" class="mobile-menu-button">
                 <i class="fa-solid fa-xmark"></i>
@@ -114,13 +114,27 @@
             <a href="#contacto" onclick="toggleMobileMenu()" class="mobile-menu-a"><span>Contacto</span> <i
                     class="fa-solid fa-chevron-right mobile-menu-i"></i></a>
         </nav>
-
+     <div class="mobile-menu-info">
+    <ul class="footer1-ul-2">
+        <li class="footer1-li-2">
+            <span class="mobile-menu-dot">•</span>
+            <span>Tienda física en Emporio Comercial de Gamarra</span>
+        </li>
+        <li class="footer1-li">
+            <span class="mobile-menu-dot">•</span>
+            <span>Gamarra – La Victoria, Lima</span>
+        </li>
+        <li class="footer1-li">
+            <span class="mobile-menu-dot">•</span>
+            <span>Envíos a todo el Perú</span>
+        </li>
+    </ul>
+</div>
         <div class="mobile-menu-div-2">
-            <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos."
-                target="_blank" class="mobile-menu-a-2">
-                <i class="fa-brands fa-whatsapp header-actions-i"></i>
-                <span>Comprar por WhatsApp</span>
-            </a>
+                <a href="https://wa.me/51944737700?text=Hola%2C%20Francesca%20Estilos.%20%C2%BFMe%20podr%C3%ADan%20ayudar%20con%20una%20consulta%2C%20por%20favor%3F" target="_blank" rel="noopener" class="mobile-menu-a-2">
+            <i class="fa-brands fa-whatsapp header-actions-i"></i>
+            <span>Escribir por WhatsApp</span>
+        </a>
             <p class="mobile-menu-p">Atención personalizada en Gamarra, Lima</p>
         </div>
     </div>
@@ -164,7 +178,7 @@
         <div class="categorias-div-3">
 
             <!-- CARD 1: BODIES -->
-            <div class="group categorias-div-4" onclick="filterCatalog('body')">
+         <div class="group categorias-div-4" onclick="filterCatalog('polo')">
                 <img src="img/coleccion1.png" alt="Bodies Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
@@ -173,7 +187,7 @@
                     <h3 class="categorias-h3">POLOS</h3>
                     <p class="categorias-p-2">Diseños femeninos modernos, cómodos y fáciles de combinar. Confeccionados
                         con telas suaves de alta durabilidad.</p>
-                    <a href="#coleccion" class="categorias-a">
+                   <a href="catalogo.html?categoria=polo" class="categorias-a">
                         <span>Ver Polos</span>
                         <i class="fa-solid fa-arrow-right categorias-i"></i>
                     </a>
@@ -181,7 +195,7 @@
             </div>
 
             <!-- CARD 2: POLOS -->
-            <div class="group categorias-div-4" onclick="filterCatalog('polo')">
+            <div class="group categorias-div-4" onclick="filterCatalog('body')">
                 <img src="img/coleccion2.png" alt="Polos Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
@@ -190,7 +204,7 @@
                     <h3 class="categorias-h3">BODIES</h3>
                     <p class="categorias-p-2">Más de 20 modelos diseñados para realzar tu figura con elegancia para
                         diferentes estilos y ocasiones.</p>
-                    <a href="#coleccion" class="categorias-a">
+                    <a href="catalogo.html?categoria=body" class="categorias-a">
                         <span>Ver Bodies</span>
                         <i class="fa-solid fa-arrow-right categorias-i"></i>
                     </a>
@@ -198,7 +212,7 @@
             </div>
 
             <!-- CARD 3: CONJUNTOS -->
-            <div class="group categorias-div-4" onclick="filterCatalog('conjunto')">
+            <div class="group categorias-div-4" onclick="filterCatalog('all')">
                 <img src="img/coleccion3.png" alt="Conjuntos Francesca Estilos" class="categorias-img" loading="lazy" decoding="async">
                 <div class="categorias-div-5"></div>
 
@@ -207,7 +221,7 @@
                     <h3 class="categorias-h3">CONJUNTOS</h3>
                     <p class="categorias-p-2">Combinaciones listas para lucir, cómodas y con estilo para cualquier
                         ocasión.</p>
-                    <a href="#coleccion" class="categorias-a">
+                   <a href="catalogo.html?categoria=all" class="categorias-a">
                         <span>Ver Conjuntos</span>
                         <i class="fa-solid fa-arrow-right categorias-i"></i>
                     </a>
@@ -239,8 +253,8 @@
                     <div class="fe-media">
                         <img class="fe-img fe-img--main" src="img/destacado-1.png" alt="Body manga larga"
                             loading="lazy">
-                        <img class="fe-img fe-img--alt" src="img/destacado-1-a.jpeg" alt="" loading="lazy">
-                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body manga larga"></a>
+                        <img class="fe-img fe-img--alt" src="img/destacado-1-a.png" alt="" loading="lazy">
+                       <a href="catalogo.html?categoria=body" class="fe-media-link" aria-label="Ver catálogo: Body manga larga"></a>
                         <span class="fe-badge">Más vendido</span>
                     </div>
                 </article>
@@ -248,25 +262,25 @@
                 <article class="fe-card">
                     <div class="fe-media">
                         <img class="fe-img fe-img--main" src="img/destacado-2.png" alt="Polo oversize" loading="lazy">
-                        <img class="fe-img fe-img--alt" src="img/destacado-2-a.jpeg" alt="" loading="lazy">
-                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Polo oversize"></a>
+                        <img class="fe-img fe-img--alt" src="img/destacado-2-a.png" alt="" loading="lazy">
+                       <a href="catalogo.html?categoria=polo" class="fe-media-link" aria-label="Ver catálogo: Polo oversize"></a>
                     </div>
                 </article>
 
                 <article class="fe-card">
                     <div class="fe-media">
                         <img class="fe-img fe-img--main" src="img/destacado-5.png" alt="Body básico" loading="lazy">
-                        <img class="fe-img fe-img--alt" src="img/destacado-5-a.jpeg" alt="" loading="lazy">
-                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body básico"></a>
+                        <img class="fe-img fe-img--alt" src="img/destacado-5-a.png" alt="" loading="lazy">
+                        <a href="catalogo.html?categoria=polo" class="fe-media-link" aria-label="Ver catálogo: Polo crop"></a>
                         <span class="fe-badge fe-badge--new">Nuevo</span>
                     </div>
                 </article>
 
                 <article class="fe-card">
                     <div class="fe-media">
-                        <img class="fe-img fe-img--main" src="img/destacado-4.jpeg" alt="Polo crop" loading="lazy">
+                        <img class="fe-img fe-img--main" src="img/destacado-4.png" alt="Polo crop" loading="lazy">
                         <img class="fe-img fe-img--alt" src="img/destacado-4-a.png" alt="" loading="lazy">
-                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Polo crop"></a>
+                       <a href="catalogo.html?categoria=body" class="fe-media-link" aria-label="Ver catálogo: Body básico"></a>
                         <span class="fe-badge fe-badge--new">Nuevo</span>
                     </div>
                 </article>
@@ -275,8 +289,8 @@
                     <div class="fe-media">
                         <img class="fe-img fe-img--main" src="img/destacado-3.png" alt="Body cuello alto"
                             loading="lazy">
-                        <img class="fe-img fe-img--alt" src="img/destacado-3-a.jpeg" alt="" loading="lazy">
-                        <a href="catalogo.html" class="fe-media-link" aria-label="Ver catálogo: Body cuello alto"></a>
+                        <img class="fe-img fe-img--alt" src="img/destacado-3-a.png" alt="" loading="lazy">
+                       <a href="catalogo.html?categoria=body" class="fe-media-link" aria-label="Ver catálogo: Body cuello alto"></a>
                     </div>
                 </article>
 
@@ -709,14 +723,14 @@
                     <button onclick="openModal('terminos-modal')" class="footer1-button">Términos y condiciones</button>
                 </div>
             </div>
-        </div>
+        </div>  
     </footer>
 
-    <!-- FLOATING WHATSAPP BUTTON -->
-    <a href="https://wa.me/51944737700?text=Hola%20Francesca%20Estilos%2C%20quisiera%20consultar%20por%20sus%20modelos%20de%20bodies%20y%20polos."
-        target="_blank" rel="noopener" aria-label="Contacto WhatsApp" class="wa-float footer1-a-5">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+<!-- FLOATING TRACKING BUTTON -->
+<a href="seguimiento.html" aria-label="Seguimiento de mi pedido" title="Seguimiento de mi pedido" class="wa-float footer1-a-5">
+    <i class="fa-solid fa-truck-fast"></i>
+    <span class="wa-float-label">Seguir mi pedido</span>
+</a>
 
     <!-- PRODUCT QUICK VIEW MODAL -->
     <div id="product-modal" class="product-modal">
@@ -787,11 +801,11 @@
 
             <div id="cart-footer" class="is-hidden cart-footer">
                 <div class="cart-footer-div">
-                    <span>Total estimado:</span>
-                    <span id="cart-total" class="cart-total">Consultar por WhatsApp</span>
+                    <span>Total a pagar:</span>
+                    <span id="cart-total" class="cart-total">precio total</span>
                 </div>
                   <button onclick="openCheckout()" class="cart-footer-button">
-                    <i class="fa-brands fa-whatsapp header-actions-i"></i>
+                    <i class="fa-solid fa-bag-shopping header-actions-i"></i>
                     <span>Continuar con el Pedido</span>
                 </button>
             </div>

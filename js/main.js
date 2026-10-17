@@ -77,6 +77,7 @@ updateCartUI();
 // Initialize Page
 window.addEventListener('DOMContentLoaded', async () => {
     setupHeaderScroll();
+    setupActiveNav();  
     updateCartUI();
 
     await cargarProductos();
@@ -94,6 +95,36 @@ window.addEventListener('DOMContentLoaded', async () => {
     document.documentElement.classList.remove('restoring');
 });
 
+
+// Menú: marca en cuál página o sección estás
+function setupActiveNav() {
+    const links = document.querySelectorAll('#nav-links a, #mobile-menu .mobile-menu-nav a');
+    if (!links.length) return;
+
+    const setActive = (key) => {
+        links.forEach(a => a.classList.toggle('is-active', a.getAttribute('href') === key));
+    };
+
+    // Catálogo: es otra página
+    if (location.pathname.endsWith('catalogo.html')) {
+        setActive('catalogo.html');
+        return;
+    }
+
+    // Inicio: según la sección que se ve al hacer scroll
+    const ids = ['inicio', 'nosotros', 'ubicacion', 'contacto'];
+    const update = () => {
+        const linea = window.innerHeight * 0.35;
+        let actual = 'inicio';
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (el && el.getBoundingClientRect().top <= linea) actual = id;
+        });
+        setActive('#' + actual);
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+}
 
 // Header: efecto al hacer scroll (.scrolled) + se pega arriba al bajar (.header-up)
 function setupHeaderScroll() {
@@ -288,6 +319,8 @@ function changeQty(index, delta) {
     const s = document.createElement('style');
     s.textContent = `
     .cf-overlay{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:20px}
+    .cf-ok{background:#e6007e;color:#fff;border:2px solid #e6007e}
+    .cart-envio-aviso{margin:0 0 12px;padding:10px 12px;border-radius:0px;background:none;color:#c4006c;font-size:12.5px;font-weight:600;line-height:1.4;text-align:center}
     .cf-overlay.open{display:flex}
     .cf-box{background:#fff;border-radius:20px;max-width:380px;width:100%;padding:28px 24px 24px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.25);font-family:'Plus Jakarta Sans',sans-serif}
     .cf-icon{width:56px;height:56px;border-radius:50%;background:#fdecf5;color:#e6007e;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px}
@@ -361,6 +394,13 @@ function updateCartUI() {
     }
 
     cartFooter.classList.remove('is-hidden');
+      if (!document.getElementById('cart-envio-aviso')) {
+        const aviso = document.createElement('p');
+        aviso.id = 'cart-envio-aviso';
+        aviso.className = 'cart-envio-aviso';
+        aviso.textContent = 'Envío gratis desde S/ 199 en Lima y S/ 249 a provincias seleccionadas.';
+        cartFooter.insertBefore(aviso, cartFooter.firstChild);
+    }
     const unidades = cart.reduce((s, i) => s + (i.qty || 1), 0);
 const total = cart.reduce((s, i) =>
     s + (parseFloat(String(i.price).replace(/[^\d.]/g, '')) || 0) * (i.qty || 1), 0);
@@ -468,3 +508,11 @@ function restoreScroll() {
     if (y) window.scrollTo({ top: y, behavior: 'instant' });
 }
 
+function openCheckout() {
+    if (!cart.length) return;
+    window.location.href = 'checkout.html';
+}
+
+function sendCartToWhatsApp() {
+    openCheckout();
+}

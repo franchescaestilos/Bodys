@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finalizar pedido | Franchesca Estilos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Yellowtail&display=swap" rel="stylesheet">
+<link
+        href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+<link rel="stylesheet" href="css/checkout.css">
+</head>
+<body class="page-checkout">
+
+<header class="ck-top">
+  <a class="ck-brand" href="index.html" aria-label="Franchesca Estilos">
+    <span class="ck-brand-name">Franchesca</span>
+    <span class="ck-brand-sub">Estilos</span>
+  </a>
+  <a class="back" href="catalogo.html">← Seguir comprando</a>
+</header>
+
+<main>
+  <!-- Bolsa vacía -->
+  <div id="ck-empty" class="box-center hidden">
+    <h1 style="font-size:32px">Tu bolsa está vacía</h1>
+    <p>Agrega un producto para continuar con tu pedido.</p>
+    <a class="btn" href="catalogo.html">Ir al catálogo</a>
+  </div>
+
+ <!-- Pedido confirmado -->
+<div id="ck-done" class="box-center hidden">
+  <h1 style="font-size:34px">¡Pedido confirmado!</h1>
+  <p id="ck-done-text"></p>
+
+  <div class="ck-order hidden" id="ck-order-box">
+    <span class="ck-order-label">Tu número de pedido</span>
+    <strong class="ck-order-num" id="ck-order-num"></strong>
+    <button type="button" class="ck-copy ck-order-copy" id="ck-order-copy">Copiar</button>
+  </div>
+
+  <p style="color:#6b7280;font-size:14px">Revisaremos tu comprobante y te contactaremos pronto.</p>
+  <a class="btn" href="catalogo.html">Seguir comprando</a>
+</div>
+
+  <!-- Formulario -->
+  <form id="ck-form" class="ck-layout hidden" novalidate>
+    <section>
+      <h1>Finalizar pedido</h1>
+
+      <div class="card">
+        <h2>1. Tipo de entrega</h2>
+        <div class="tipo-opts">
+          <label><input type="radio" name="ck-tipo" value="delivery" checked><span>Delivery<small>Lima y Callao</small></span></label>
+        <label><input type="radio" name="ck-tipo" value="agencia"><span>Envío nacional<small>A todo el Perú</small></span></label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>2. Tus datos</h2>
+
+        <div class="ck-field hidden" id="ck-dni-wrap">
+          <label class="ck-label" for="ck-dni">DNI *</label>
+          <input class="ck-input" id="ck-dni" inputmode="numeric" maxlength="8" placeholder="Ej. 12345678" autocomplete="off">
+          <p class="ck-found hidden" id="ck-found">Encontramos tus datos anteriores. Revisa que estén correctos.</p>
+        </div>
+
+        <div class="ck-field">
+          <label class="ck-label" for="ck-nombre">Nombre completo *</label>
+          <input class="ck-input" id="ck-nombre" placeholder="Ej. María Pérez" autocomplete="name">
+        </div>
+        <div class="ck-field">
+          <label class="ck-label" for="ck-celular">Celular *</label>
+          <input class="ck-input" id="ck-celular" type="tel" inputmode="numeric" maxlength="9" placeholder="Ej. 987654321" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>3. Datos de entrega</h2>
+
+        <div id="ck-bloque-delivery">
+          <div class="ck-field">
+            <label class="ck-label" for="ck-del-distrito">Distrito de entrega *</label>
+            <select class="ck-select" id="ck-del-distrito"></select>
+          </div>
+          <div class="ck-field">
+            <label class="ck-label" for="ck-direccion">Dirección de entrega *</label>
+            <input class="ck-input" id="ck-direccion" placeholder="Ej. Av. Arenales 245, piso 3" autocomplete="street-address">
+          </div>
+        </div>
+
+        <div id="ck-bloque-agencia" class="hidden">
+          <div class="ck-field">
+            <label class="ck-label" for="ck-dep">Departamento *</label>
+            <select class="ck-select" id="ck-dep"></select>
+          </div>
+          <div class="ck-row">
+            <div class="ck-field">
+              <label class="ck-label" for="ck-prov">Provincia *</label>
+              <select class="ck-select" id="ck-prov"></select>
+            </div>
+            <div class="ck-field">
+              <label class="ck-label" for="ck-dist">Distrito *</label>
+              <select class="ck-select" id="ck-dist"></select>
+            </div>
+          </div>
+          <div class="ck-field">
+            <label class="ck-label" for="ck-agencia">Agencia de destino *</label>
+            <input class="ck-input" id="ck-agencia" placeholder="Ej. Olva Courier - Av. Ejército 123">
+          </div>
+        </div>
+
+        <div class="ck-field" style="margin-bottom:0">
+          <label class="ck-label" for="ck-referencia">Referencias o indicaciones adicionales (opcional)</label>
+          <textarea class="ck-textarea" id="ck-referencia" placeholder="Ej. Frente al banco, avisarme cuando llegue a la agencia..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <aside class="ck-side">
+      <div class="card">
+        <h2>Tu pedido</h2>
+        <div id="ck-items"></div>
+        <div class="sum-rows">
+  <div class="sum-row"><span>Subtotal</span><span id="ck-subtotal">S/ 0.00</span></div>
+  <div class="sum-row"><span id="ck-envio-label">Envío</span><span id="ck-envio">S/ 0.00</span></div>
+</div>
+<div class="sum-total">
+  <span>Total a pagar</span>
+  <strong id="ck-total">S/ 0.00</strong>
+</div>
+        <small id="ck-envio-note" style="color:#6b7280"></small><br>
+        <a class="edit-link" href="catalogo.html">Editar bolsa</a>
+      </div>
+
+      <div class="card">
+        <h2>Método de pago</h2>
+        <div class="ck-methods" id="ck-methods">
+          <label><input type="radio" name="ck-pago" value="Yape" checked> Yape</label>
+          <label><input type="radio" name="ck-pago" value="Plin"> Plin</label>
+          <label><input type="radio" name="ck-pago" value="Transferencia"> Transferencia</label>
+        </div>
+        <div class="ck-pay-panel" id="ck-pay-panel"></div>
+
+        <div class="ck-field">
+          <label class="ck-label">Comprobante de pago *</label>
+          <label class="ck-file" for="ck-comprobante">
+            <span id="ck-file-text">📎 Toca para adjuntar captura o PDF</span>
+            <input type="file" id="ck-comprobante" accept="image/*,application/pdf">
+            <img id="ck-file-preview" class="hidden" alt="Vista previa del comprobante">
+          </label>
+        </div>
+
+        <p class="ck-msg" id="ck-msg"></p>
+        <button class="ck-submit" type="submit" id="ck-submit">Confirmar pedido</button>
+      </div>
+    </aside>
+  </form>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

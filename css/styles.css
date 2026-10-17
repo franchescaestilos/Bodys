@@ -150,20 +150,6 @@ img {
   display: none;
 }
 
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--rosa);
-  border-radius: 4px;
-}
-
 /* Patrón de puntos (banner de contacto) */
 .bg-pattern {
   background-image: radial-gradient(#d7beaa 0.5px, transparent 0.5px);
@@ -175,14 +161,9 @@ img {
    03. ANIMACIONES
    ========================================================================== */
 @keyframes pulseGlow {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 0 14px rgba(37, 211, 102, 0);
-  }
+  0%   { box-shadow: 0 0 0 0 rgba(230, 0, 126, 0.55); }
+  70%  { box-shadow: 0 0 0 14px rgba(230, 0, 126, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(230, 0, 126, 0);  }
 }
 
 @keyframes bounce {
@@ -348,7 +329,7 @@ img {
 
 .header-actions-button:hover,
 .header-actions-button-2:hover {
-  color: #e8c5b8;
+  color: var(--rosa);
 }
 
 .header-actions-button-3 {
@@ -424,7 +405,36 @@ img {
 #main-header.scrolled #header-actions button i {
   color: #1f2937;
 }
+/* Menú: indicador de la página o sección actual */
+#nav-links .nav-links-a {
+    position: relative;
+}
+#nav-links .nav-links-a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: #e6007e;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .25s ease;
+}
+#main-header #nav-links .nav-links-a.is-active,
+#main-header #nav-links .nav-links-a.is-active:hover {
+    color: #e6007e;
+    font-weight: 600;
+}
+#nav-links .nav-links-a.is-active::after {
+    transform: scaleX(1);
+}
 
+/* Menú móvil */
+.mobile-menu-a.is-active {
+    color: #e6007e;
+    font-weight: 600;
+}
 
 /* ==========================================================================
    06. MENÚ MÓVIL
@@ -455,20 +465,49 @@ img {
 }
 
 .mobile-menu-span {
-  font-family: "Cormorant Garamond", serif;
+  font-family: "WindSong", cursive;
   font-size: 1.5rem;
   line-height: 2rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--rosa);
+  transition: color 0.3s ease;
 }
 
 .mobile-menu-span-2 {
+  margin-top: -0.25rem;
+  text-align: center;
   font-family: "Plus Jakarta Sans", sans-serif;
-  font-size: 10px;
+  font-size: 9px;
+  font-weight: 400;
+  text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: #d7beaa;
+  color: #faf8f8;
+}
+/* Solo el menú móvil */
+#mobile-menu .mobile-menu-nav {
+    margin-bottom: 2rem;
+}
+.mobile-menu-info {
+    margin-top: 7rem;    /* baja SOLO la info de la tienda */
+    margin-bottom: auto;   /* mantiene el botón de WhatsApp abajo */
+}
+/* Punto de la info de la tienda en el menú móvil */
+.mobile-menu-dot {
+    color: #e6007e;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+/* Con el menú abierto, la página de fondo no se puede desplazar */
+html:has(.mobile-menu.is-open),
+body:has(.mobile-menu.is-open) {
+    overflow: hidden;
 }
 
+/* El scroll del menú no "traspasa" a la página */
+.mobile-menu {
+    overscroll-behavior: contain;
+}
 .mobile-menu-button {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -480,8 +519,8 @@ img {
 }
 
 .mobile-menu-nav {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-top: 2rem;     /* distancia desde la cabecera del menú */
+  margin-bottom: auto;  /* empuja el resto hacia abajo */
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -490,7 +529,6 @@ img {
   line-height: 1.75rem;
   letter-spacing: 0.05em;
 }
-
 .mobile-menu-a {
   display: flex;
   align-items: center;
@@ -699,8 +737,7 @@ img {
   display: block;
   font-weight: 400;
   text-align: center;
-  color: var(--marron);
-  text-shadow: 0 2px 12px rgba(255, 252, 252, 0.74);
+  color: #b1013ce1;
 }
 
 /* Indicador "Descubre nuestra colección" */
@@ -725,8 +762,7 @@ img {
 }
 
 .inicio-a-3:hover {
-  background-color: #fa058c;
-  color: #ffffff;
+ color: #fa058c;
 }
 
 .inicio-span-3 {
@@ -2161,9 +2197,8 @@ img {
   color: #9ca3af;
 }
 
-
 /* ==========================================================================
-   19. BOTÓN FLOTANTE DE WHATSAPP
+   19. BOTÓN FLOTANTE DE SEGUIMIENTO DE PEDIDO
    ========================================================================== */
 .wa-float {
   animation: pulseGlow 2.5s infinite;
@@ -2180,9 +2215,9 @@ img {
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
-  background-color: var(--wa-claro);
-  font-size: 1.875rem;
-  line-height: 2.25rem;
+  background-color: var(--ck-pink, #d6336c); /* ya no es verde de WhatsApp */
+  font-size: 1.5rem;
+  line-height: 1;
   color: #ffffff;
   box-shadow: var(--sombra-2xl);
   transition: transform 150ms var(--ease);
@@ -2192,6 +2227,31 @@ img {
   transform: scale(1.1);
 }
 
+/* Etiqueta que aparece al pasar el mouse (solo escritorio) */
+.wa-float-label {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: #18181b;
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms var(--ease);
+}
+
+@media (hover: hover) {
+  .footer1-a-5:hover .wa-float-label {
+    opacity: 1;
+  }
+}
 
 /* ==========================================================================
    20. MODAL DE PRODUCTO
@@ -2481,11 +2541,19 @@ img {
 }
 
 .cart-total {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  color: var(--marron-oscuro);
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    gap: 12px;
+    margin-left: 5px;
 }
-
+.cart-footer-div > span:first-child {
+    color: #000000;
+}
+#cart-total,
+#cart-total span {
+    color: #595959;
+}
 .cart-footer-button {
   display: flex;
   width: 100%;
@@ -3211,7 +3279,7 @@ img {
   }
 
   .inicio-span-2 {
-    text-shadow: 0 2px 5px rgb(230, 230, 230);
+    text-align: left;
   }
 }
 

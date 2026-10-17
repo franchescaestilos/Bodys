@@ -204,6 +204,7 @@
     .pp-thumb { flex: 0 0 64px; width: 64px; }
     .pp-main-img { width: 100%; flex: none; }
     .pp-title { font-size: 34px; }
+    
 }
 /* Sin aviso "agregado a la bolsa" en esta página */
 .page-producto .toast { display: none !important; }
@@ -214,38 +215,40 @@
     right: 20px;
     bottom: 20px;
     z-index: 900;
-    width: 62px;
-    height: 62px;
+    width: 50px;
+    height: 50px;
     border: none;
     border-radius: 50%;
-    background: var(--pp-pink);
+    background: #e50101;
     color: #fff;
     font-size: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 10px 26px rgba(230, 0, 126, .38);
+    box-shadow: 0 10px 26px rgba(230, 42, 0, 0.38);
     transition: background .2s;
 }
-.pp-bag-float:hover { background: var(--pp-pink-dark); }
-
+.pp-bag-float:hover { background: #fc351b; }
 .pp-bag-count {
     position: absolute;
     top: -4px;
     right: -4px;
-    min-width: 24px;
-    height: 24px;
-    padding: 0 6px;
+    box-sizing: border-box;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 999px;
-    background: #fc351b;
+    background: #e50101;
     color: #fff;
     border: 2px solid #fff;
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
-    line-height: 20px;
-    text-align: center;
+    line-height: 1;
 }
 
 /* Vibración tipo reloj, solo al agregar un producto */
@@ -264,4 +267,22 @@ body:has(.ck-overlay.open) .pp-bag-float {
 
 @media (prefers-reduced-motion: reduce) {
     .pp-bag-float.pp-bag-pop { animation: none; }
+}
+
+/* Bolsa flotante más pequeña en celular (debe ir al final del archivo) */
+@media (max-width: 900px) {
+    .pp-bag-float {
+        width: 48px;
+        height: 48px;
+        right: 14px;
+        bottom: 14px;
+        font-size: 19px;
+    }
+    .pp-bag-count {
+        min-width: 20px;
+        height: 20px;
+        padding: 0 5px;
+        font-size: 11px;
+        line-height: 16px;
+    }
 }

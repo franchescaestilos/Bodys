@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguimiento de pedido | Franchesca Estilos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/checkout.css">
+<style>
+  .sg-wrap { max-width: 560px; margin: 0 auto; }
+  .sg-intro { color: var(--ck-muted); margin: -10px 0 22px; font-size: 14.5px; line-height: 1.5; }
+
+  .sg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
+  .sg-num { font-size: 22px; letter-spacing: .03em; }
+  .sg-fecha { font-size: 12.5px; color: var(--ck-muted); margin-top: 2px; }
+  .sg-badge { background: var(--ck-ink); color: #fff; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+  .sg-badge.cancelado { background: #c0392b; }
+  .sg-badge.entregado { background: #0a7a3d; }
+
+  .sg-steps { list-style: none; margin: 0; padding: 0; }
+  .sg-step { position: relative; padding: 0 0 22px 38px; color: #a1a1aa; }
+  .sg-step:last-child { padding-bottom: 0; }
+  .sg-step::before { content: ""; position: absolute; left: 11px; top: 24px; bottom: -2px; width: 2px; background: var(--ck-line); }
+  .sg-step:last-child::before { display: none; }
+  .sg-step::after { content: ""; position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ck-line); background: #fff; }
+  .sg-step h3 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
+  .sg-step p { margin: 0; font-size: 13px; }
+  .sg-step.done { color: var(--ck-ink); }
+  .sg-step.done::before { background: var(--ck-pink); }
+  .sg-step.done::after { background: var(--ck-pink); border-color: var(--ck-pink); box-shadow: inset 0 0 0 5px var(--ck-pink); background-image: none; }
+  .sg-step.done::after { content: "✓"; color: #fff; font-size: 13px; font-weight: 700; text-align: center; line-height: 20px; }
+  .sg-step.now::after { background: #fff; border-color: var(--ck-pink); box-shadow: 0 0 0 4px #fdecf5; }
+  .sg-step.now { color: var(--ck-ink); }
+  .sg-step.now h3 { color: var(--ck-pink); }
+
+  .sg-cancel { background: #fff7f6; border: 1px solid #f1c6c1; color: #c0392b; border-radius: 12px; padding: 12px 14px; font-size: 14px; }
+
+  .sg-item { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; margin-bottom: 10px; }
+  .sg-item small { display: block; color: var(--ck-muted); font-size: 12.5px; }
+  .sg-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+  .sg-row.total { border-top: 1px solid var(--ck-line); padding-top: 12px; margin-top: 6px; font-size: 18px; font-weight: 700; }
+
+  .sg-again { display: block; text-align: center; margin-top: 4px; font-size: 13px; color: var(--ck-ink); cursor: pointer; background: none; border: 0; font-family: inherit; text-decoration: underline; width: 100%; }
+</style>
+</head>
+<body class="page-checkout">
+
+<header class="ck-top">
+  <a class="ck-brand" href="index.html" aria-label="Franchesca Estilos">
+    <span class="ck-brand-name">Franchesca</span>
+    <span class="ck-brand-sub">Estilos</span>
+  </a>
+  <a class="back" href="catalogo.html">← Seguir comprando</a>
+</header>
+
+<main>
+  <div class="sg-wrap">
+    <h1>Seguimiento de pedido</h1>
+    <p class="sg-intro">Ingresa tu número de pedido y el nombre con el que compraste para ver en qué estado está.</p>
+
+    <!-- Formulario de búsqueda -->
+    <form id="sg-form" class="card" novalidate>
+      <div class="ck-field">
+        <label class="ck-label" for="sg-numero">Número de pedido *</label>
+        <input class="ck-input" id="sg-numero" inputmode="numeric" maxlength="8" placeholder="Ej. 20264459" autocomplete="off">
+      </div>
+      <div class="ck-field">
+        <label class="ck-label" for="sg-nombre">Nombre *</label>
+        <input class="ck-input" id="sg-nombre" type="text" maxlength="60" placeholder="Ej. María Pérez" autocomplete="name">
+      </div>
+      <p class="ck-msg" id="sg-msg"></p>
+      <button class="ck-submit" type="submit" id="sg-submit">Consultar pedido</button>
+    </form>
+
+    <!-- Resultado -->
+    <div id="sg-result" class="hidden">
+      <div class="card">
+        <div class="sg-head">
+          <div>
+            <div class="sg-num" id="sg-r-num"></div>
+            <div class="sg-fecha" id="sg-r-fecha"></div>
+          </div>
+          <span class="sg-badge" id="sg-r-badge"></span>
+        </div>
+        <div id="sg-cancel" class="sg-cancel hidden">Este pedido fue cancelado. Si tienes dudas, escríbenos por WhatsApp.</div>
+        <ol class="sg-steps" id="sg-steps"></ol>
+      </div>
+
+      <div class="card">
+        <h2>Detalle del pedido</h2>
+        <div id="sg-items"></div>
+        <div class="sg-row" style="margin-top:12px"><span>Subtotal</span><span id="sg-r-sub"></span></div>
+        <div class="sg-row"><span id="sg-r-envio-label">Envío</span><span id="sg-r-envio"></span></div>
+        <div class="sg-row total"><span>Total</span><span id="sg-r-total"></span></div>
+      </div>
+
+      <button type="button" class="sg-again" id="sg-again">Consultar otro pedido</button>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  'use strict';
+
+  // Mismo proyecto de Supabase que main.js y checkout.js (clave pública)
+  const db = window.supabase.createClient(
+    'https://vlfcuyekpnsmziamacle.supabase.co',
+    'sb_publishable_6NCCtkox0sQIR2zXT-6vEQ_Xv7_6Uia'
+  );
+
+  // Pasos que ve el cliente. Los nombres deben ser iguales a los valores de la columna "estado" en "pedidos".
+  const PASOS = [
+    { estado: 'Pendiente',  titulo: 'Pedido recibido',      desc: 'Recibimos tu pedido y tu comprobante.' },
+    { estado: 'Confirmado', titulo: 'Pago confirmado',      desc: 'Verificamos tu pago.' },
+    { estado: 'Preparando', titulo: 'Preparando tu pedido', desc: 'Estamos alistando tus prendas.' },
+    { estado: 'Enviado',    titulo: 'Enviado',              desc: 'Tu pedido ya salió hacia su destino.' },
+    { estado: 'Entregado',  titulo: 'Entregado',            desc: 'Tu pedido fue entregado. ¡Gracias por tu compra!' }
+  ];
+
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = (n) => n == null ? '—' : 'S/ ' + Number(n).toFixed(2);
+
+  function showMsg(t) {
+    const m = $('sg-msg');
+    m.textContent = t || '';
+    m.classList.toggle('show', !!t);
+  }
+
+  function pintar(p) {
+    const estado = p.estado || 'Pendiente';
+    const cancelado = estado === 'Cancelado';
+    const idx = PASOS.findIndex((x) => x.estado === estado);
+
+    $('sg-r-num').textContent = 'Pedido #' + p.numero;
+    $('sg-r-fecha').textContent = p.fecha
+      ? new Date(p.fecha).toLocaleDateString('es-PE', { day: 'numeric', month: 'long', year: 'numeric' })
+      : '';
+
+    const badge = $('sg-r-badge');
+    badge.textContent = cancelado ? 'Cancelado' : (PASOS[idx] ? PASOS[idx].titulo : estado);
+    badge.className = 'sg-badge' + (cancelado ? ' cancelado' : estado === 'Entregado' ? ' entregado' : '');
+
+    $('sg-cancel').classList.toggle('hidden', !cancelado);
+    $('sg-steps').classList.toggle('hidden', cancelado);
+    $('sg-steps').innerHTML = PASOS.map((s, i) => {
+      const clase = i < idx || (i === idx && estado === 'Entregado') ? 'done' : (i === idx ? 'now' : '');
+      return '<li class="sg-step ' + clase + '"><h3>' + esc(s.titulo) + '</h3><p>' + esc(s.desc) + '</p></li>';
+    }).join('');
+
+    $('sg-items').innerHTML = (p.items || []).map((i) => {
+      const extra = [i.color, i.talla && 'Talla ' + i.talla].filter(Boolean).join(' · ');
+      return '<div class="sg-item"><div>' + esc(i.nombre) + (extra ? '<small>' + esc(extra) + '</small>' : '') +
+        '<small>' + i.cantidad + ' x ' + money(i.precio_unitario) + '</small></div>' +
+        '<strong>' + money(i.precio_unitario * i.cantidad) + '</strong></div>';
+    }).join('');
+
+    $('sg-r-sub').textContent = money(p.subtotal);
+    $('sg-r-envio-label').textContent = 'Envío (' + (p.tipo_entrega || '') + ')';
+    $('sg-r-envio').textContent = Number(p.costo_envio) === 0 ? '¡Gratis!' : money(p.costo_envio);
+    $('sg-r-total').textContent = money(p.total);
+
+    $('sg-form').classList.add('hidden');
+    $('sg-result').classList.remove('hidden');
+    window.scrollTo({ top: 0 });
+  }
+
+  // Solo números en el campo de pedido
+  $('sg-numero').addEventListener('input', function () { this.value = this.value.replace(/\D/g, ''); });
+
+  $('sg-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const numero = $('sg-numero').value.trim();
+    const nombre = $('sg-nombre').value.trim();
+
+    const numBad = !/^\d{8}$/.test(numero);
+    const nomBad = nombre.length < 3;
+    $('sg-numero').classList.toggle('err', numBad);
+    $('sg-nombre').classList.toggle('err', nomBad);
+    if (numBad) { showMsg('Ingresa tu número de pedido de 8 dígitos.'); return; }
+    if (nomBad) { showMsg('Ingresa tu nombre (mínimo 3 letras).'); return; }
+    showMsg('');
+
+    const btn = $('sg-submit');
+    btn.disabled = true;
+    btn.textContent = 'Consultando...';
+    try {
+      const { data, error } = await db.rpc('consultar_pedido', {
+        p_numero: Number(numero),
+        p_nombre: nombre
+      });
+      if (error) throw error;
+      if (!data) {
+        showMsg('No encontramos un pedido con esos datos. Revisa el número y el nombre.');
+      } else {
+        pintar(data);
+      }
+    } catch (err) {
+      console.error('Error consultando pedido:', err && err.message, err);
+      showMsg('No se pudo consultar el pedido. Inténtalo otra vez.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Consultar pedido';
+    }
+  });
+
+  $('sg-again').addEventListener('click', function () {
+    $('sg-result').classList.add('hidden');
+    $('sg-form').classList.remove('hidden');
+    $('sg-numero').value = '';
+    $('sg-nombre').value = '';
+    showMsg('');
+  });
+
+  // Si llega con ?numero=20264459, lo deja escrito
+  const q = new URLSearchParams(location.search).get('numero');
+  if (q && /^\d{8}$/.test(q)) $('sg-numero').value = q;
+})();
+</script>
+</body>
+</html>
