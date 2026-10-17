@@ -285,7 +285,7 @@ img {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: #000000;
+  color: var(--tinta);
 }
 
 /* Menú de escritorio */
@@ -390,20 +390,23 @@ img {
 }
 
 #main-header.scrolled #brand-sublogo {
-  color: #060606;
+  color: var(--tinta);
 }
 
 #main-header.scrolled #nav-links a {
-  color: #1f2937;
+  color: #322f2f;
 }
 
 #main-header.scrolled #nav-links a:hover {
-  color: #e8c5b8;
+  color: var(--rosa);
 }
 
 #main-header.scrolled #header-actions button,
 #main-header.scrolled #header-actions button i {
-  color: #1f2937;
+  color: #322f2f;
+  &:hover{
+    color: var(--rosa)
+  }
 }
 /* Menú: indicador de la página o sección actual */
 #nav-links .nav-links-a {
@@ -555,34 +558,124 @@ body:has(.mobile-menu.is-open) {
 .mobile-menu-div-2 > * + * {
   margin-top: 1rem;
 }
-
-.mobile-menu-a-2 {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  border-radius: 9999px;
-  background-color: var(--wa);
-  padding: 0.875rem 0;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #ffffff;
-  box-shadow: var(--sombra-lg);
-}
-
-.mobile-menu-a-2:hover {
-  background-color: var(--wa-hover);
-}
+/*  boton de rastreo*/
 
 .mobile-menu-p {
   text-align: center;
   font-size: 0.75rem;
   line-height: 1rem;
   color: #9ca3af;
+}
+
+/* Botón */
+.mobile-menu-a-2 {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    border-radius: 9999px;
+    background-color: var(--rosa);
+    color: #fff;
+    text-decoration: none;
+    box-shadow: var(--sombra-lg);
+
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mobile-menu-a-2:hover {
+    background-color: var(--rosa-hover);
+}
+
+/* Camión: recorre el botón completo */
+.truck-animation {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+
+    transform: translateY(-50%);
+    animation: truckTravel 4s linear infinite;
+}
+
+.truck-animation i {
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Texto */
+.tracking-text {
+    position: relative;
+    z-index: 1;
+    white-space: nowrap;
+
+    animation: textVisibility 4s linear infinite;
+}
+
+/* El camión va hasta el borde derecho y vuelve a entrar
+   por la izquierda */
+@keyframes truckTravel {
+    0% {
+        left: 12px;
+        opacity: 1;
+    }
+
+    42% {
+        left: calc(100% - 38px);
+        opacity: 1;
+    }
+
+    46% {
+        left: calc(100% - 38px);
+        opacity: 0;
+    }
+
+    47% {
+        left: 12px;
+        opacity: 0;
+    }
+
+    52% {
+        left: 12px;
+        opacity: 1;
+    }
+
+    100% {
+        left: 12px;
+        opacity: 1;
+    }
+}
+
+/* El texto se oculta mientras el camión recorre el botón */
+@keyframes textVisibility {
+    0%, 10% {
+        opacity: 1;
+    }
+
+    18%, 48% {
+        opacity: 0;
+    }
+
+    55%, 100% {
+        opacity: 1;
+    }
+}
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+    .truck-animation,
+    .tracking-text {
+        animation: none;
+    }
 }
 
 
@@ -2197,61 +2290,6 @@ body:has(.mobile-menu.is-open) {
   color: #9ca3af;
 }
 
-/* ==========================================================================
-   19. BOTÓN FLOTANTE DE SEGUIMIENTO DE PEDIDO
-   ========================================================================== */
-.wa-float {
-  animation: pulseGlow 2.5s infinite;
-}
-
-.footer1-a-5 {
-  position: fixed;
-  bottom: 1.5rem;
-  right: 1.5rem;
-  z-index: 40;
-  display: flex;
-  height: 3.5rem;
-  width: 3.5rem;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background-color: var(--ck-pink, #d6336c); /* ya no es verde de WhatsApp */
-  font-size: 1.5rem;
-  line-height: 1;
-  color: #ffffff;
-  box-shadow: var(--sombra-2xl);
-  transition: transform 150ms var(--ease);
-}
-
-.footer1-a-5:hover {
-  transform: scale(1.1);
-}
-
-/* Etiqueta que aparece al pasar el mouse (solo escritorio) */
-.wa-float-label {
-  position: absolute;
-  right: calc(100% + 10px);
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #18181b;
-  color: #fff;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 12.5px;
-  font-weight: 600;
-  line-height: 1;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 150ms var(--ease);
-}
-
-@media (hover: hover) {
-  .footer1-a-5:hover .wa-float-label {
-    opacity: 1;
-  }
-}
 
 /* ==========================================================================
    20. MODAL DE PRODUCTO

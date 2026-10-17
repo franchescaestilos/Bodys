@@ -474,7 +474,26 @@
   letter-spacing: .05em;
   text-transform: uppercase;
 }
+.box-center .ck-pdf {
+  display: inline-block;
+  margin: 18px 6px 0;
+  background: var(--ck-pink);
+  color: #fff;
+  border: 0;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
 
+.box-center .ck-pdf:disabled {
+  opacity: .6;
+  cursor: wait;
+}
 /* ---------- 10. Responsive ---------- */
 @media (max-width: 900px) {
   .ck-layout {

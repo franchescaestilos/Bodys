@@ -332,6 +332,131 @@
       items
     };
   }
+  let ultimoPedido = null;
+
+  function lugarEntrega(p) {
+    return p.tipoEntrega === 'Delivery'
+      ? [p.direccion, p.distrito, p.provincia].filter(Boolean).join(', ')
+      : [p.departamento, p.provincia, p.distrito].filter(Boolean).join(' / ') +
+        (p.agenciaDestino ? ' - Agencia: ' + p.agenciaDestino : '');
+  }
+
+  // Datos oficiales desde la base de datos (si la función existe); si no, se usan los de la pantalla
+  async function datosServidor(numero, celular) {
+    try {
+      const { data, error } = await db.rpc('consultar_pedido', { p_numero: Number(numero), p_celular: celular });
+      if (!error && data) return data;
+    } catch (e) {}
+    return null;
+  }
+
+  function datosPDF(u, srv) {
+    const detalle = (c, t) => [c, t && 'Talla ' + t].filter(Boolean).join(' · ');
+    const items = srv && srv.items && srv.items.length
+      ? srv.items.map((i) => ({ nombre: i.nombre, detalle: detalle(i.color, i.talla), cant: Number(i.cantidad), pu: Number(i.precio_unitario) }))
+      : u.items.map((i) => ({ nombre: i.name, detalle: detalle(i.color, i.size), cant: i.qty, pu: i.price }));
+    const sub = srv && srv.subtotal != null ? Number(srv.subtotal) : u.subtotal;
+    const env = srv && srv.costo_envio != null ? Number(srv.costo_envio) : u.envio;
+    const tot = srv && srv.total != null ? Number(srv.total) : sub + env;
+    const fecha = srv && srv.fecha ? new Date(srv.fecha) : u.fecha;
+    return {
+      numero: u.numero, nombre: u.nombre, celular: u.celular, tipoEntrega: u.tipoEntrega,
+      lugar: u.lugar, metodoPago: u.metodoPago, items, subtotal: sub, envio: env, total: tot,
+      fechaTxt: fecha.toLocaleString('es-PE', { dateStyle: 'long', timeStyle: 'short' })
+    };
+  }
+
+  function generarPDF(d) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+    const W = 210, M = 18, R = W - M;
+    const rosa = [230, 0, 126], tinta = [18, 18, 18], gris = [107, 114, 128];
+    const color = (c) => doc.setTextColor(c[0], c[1], c[2]);
+    let y = 24;
+
+    // Encabezado (logo en texto)
+    doc.setFont('times', 'italic'); doc.setFontSize(30); color(rosa);
+    doc.text('Franchesca', M, y);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8); color(tinta);
+    doc.text('E S T I L O S', M + 2, y + 6);
+
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(15); color(tinta);
+    doc.text('COMPROBANTE DE PEDIDO', R, y - 2, { align: 'right' });
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(10); color(gris);
+    doc.text('Pedido #' + d.numero, R, y + 5, { align: 'right' });
+    doc.text(d.fechaTxt, R, y + 11, { align: 'right' });
+
+    y += 20;
+    doc.setDrawColor(228, 228, 231); doc.line(M, y, R, y);
+    y += 9;
+
+    // Datos del cliente y entrega
+    const fila = (k, v) => {
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(10); color(tinta); doc.text(k, M, y);
+      doc.setFont('helvetica', 'normal'); color(gris);
+      const lineas = doc.splitTextToSize(v || '-', R - M - 38);
+      doc.text(lineas, M + 38, y);
+      y += 6 * lineas.length;
+    };
+    fila('Cliente:', d.nombre);
+    fila('Celular:', d.celular);
+    fila('Entrega:', d.tipoEntrega);
+    fila('Destino:', d.lugar);
+    fila('Método de pago:', d.metodoPago);
+
+    // Tabla de productos
+    y += 4;
+    doc.setFillColor(250, 249, 248); doc.rect(M, y - 5, R - M, 9, 'F');
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(9); color(tinta);
+    doc.text('PRODUCTO', M + 2, y + 1);
+    doc.text('CANT.', 118, y + 1, { align: 'center' });
+    doc.text('P. UNIT.', 152, y + 1, { align: 'right' });
+    doc.text('IMPORTE', R - 2, y + 1, { align: 'right' });
+    y += 11;
+
+    d.items.forEach((it) => {
+      const nombre = doc.splitTextToSize(it.nombre, 85);
+      const alto = 5 * nombre.length + (it.detalle ? 5 : 0) + 3;
+      if (y + alto > 270) { doc.addPage(); y = 24; }
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(10); color(tinta);
+      doc.text(nombre, M + 2, y);
+      doc.text(String(it.cant), 118, y, { align: 'center' });
+      doc.text(money(it.pu), 152, y, { align: 'right' });
+      doc.text(money(it.pu * it.cant), R - 2, y, { align: 'right' });
+      if (it.detalle) {
+        doc.setFontSize(8.5); color(gris);
+        doc.text(it.detalle, M + 2, y + 5 * (nombre.length - 1) + 5);
+      }
+      y += alto;
+    });
+
+    // Totales
+    if (y > 245) { doc.addPage(); y = 24; }
+    doc.setDrawColor(228, 228, 231); doc.line(M, y, R, y);
+    y += 8;
+    const tot = (k, v, fuerte) => {
+      doc.setFont('helvetica', fuerte ? 'bold' : 'normal');
+      doc.setFontSize(fuerte ? 13 : 10);
+      color(fuerte ? tinta : gris);
+      doc.text(k, 130, y);
+      doc.text(v, R - 2, y, { align: 'right' });
+      y += fuerte ? 8 : 6;
+    };
+    tot('Subtotal', money(d.subtotal));
+    tot('Envío', d.envio ? money(d.envio) : 'Gratis');
+    tot('Total', money(d.total), true);
+
+    // Nota final
+    y += 8;
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9); color(gris);
+    const nota = doc.splitTextToSize(
+      'Este documento confirma la recepción de tu pedido. Verificaremos tu comprobante de pago y te ' +
+      'contactaremos pronto. Con tu número de pedido puedes rastrear su estado en la sección ' +
+      '"Seguimiento de pedido" de nuestra tienda. ¡Gracias por tu compra!', R - M);
+    doc.text(nota, M, y);
+
+    doc.save('Comprobante-' + d.numero + '.pdf');
+  } 
 
   async function enviarPedido(pedido, archivo) {
     // 1) Subir comprobante
@@ -376,18 +501,31 @@
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     try {
-      const numero = await enviarPedido(armarPedido(), $('ck-comprobante').files[0]);
+            const pedido = armarPedido();
+      const resumen = { items: items.map((i) => ({ ...i })), subtotal: subtotal(), envio: costoEnvio() };
+      const numero = await enviarPedido(pedido, $('ck-comprobante').files[0]);
+      ultimoPedido = {
+        numero, fecha: new Date(), nombre: pedido.nombre, celular: pedido.celular,
+        tipoEntrega: pedido.tipoEntrega, metodoPago: pedido.metodoPago,
+        lugar: lugarEntrega(pedido), ...resumen
+      };
       try { localStorage.removeItem(CONFIG.cartKey); } catch (er) {}
       $('ck-form').classList.add('hidden');
-  if (numero) {
-  $('ck-order-num').textContent = '#' + numero;
-  $('ck-order-box').classList.remove('hidden');
-  $('ck-done-text').textContent = 'Guarda este número: lo necesitarás para consultar el seguimiento de tu pedido.';
-} else {
-  $('ck-done-text').textContent = 'Recibimos tu pedido.';
-}
+      $('ck-order-box').classList.toggle('hidden', !numero);
+      $('ck-pdf-btn').classList.toggle('hidden', !numero);
+      if (numero) {
+        $('ck-order-num').textContent = '#' + numero;
+        $('ck-done-text').innerHTML =
+          'Con tu número de pedido <strong>#' + esc(numero) + '</strong> puedes rastrear tu pedido en ' +
+          '<a href="seguimiento.html?numero=' + encodeURIComponent(numero) + '">Seguimiento de pedido</a>.';
+      } else {
+        $('ck-done-text').textContent = 'Recibimos tu pedido.';
+      }
       $('ck-done').classList.remove('hidden');
       window.scrollTo({ top: 0 });
+
+
+
     } catch (err) {
       console.error('Error pedido:', err && err.message, err);
       const m = err && err.message ? err.message : '';
@@ -412,6 +550,22 @@
     $('ck-file-text').textContent = '✅ ' + f.name;
     if (f.type.startsWith('image/')) { prev.src = URL.createObjectURL(f); prev.classList.remove('hidden'); }
     else prev.classList.add('hidden');
+  });
+
+    $('ck-pdf-btn').addEventListener('click', async function () {
+    if (!ultimoPedido) return;
+    const btn = this;
+    btn.disabled = true;
+    btn.textContent = 'Generando...';
+    try {
+      const srv = await datosServidor(ultimoPedido.numero, ultimoPedido.celular);
+      generarPDF(datosPDF(ultimoPedido, srv));
+      btn.textContent = 'Descargar comprobante PDF';
+    } catch (err) {
+      console.error('Error generando PDF:', err);
+      btn.textContent = 'No se pudo generar. Reintentar';
+    }
+    btn.disabled = false;
   });
   $('ck-order-copy').addEventListener('click', function () {
     const n = $('ck-order-num').textContent.replace('#', '');
