@@ -217,6 +217,7 @@
 
       // Solo completa lo que el cliente aún no escribió
       if (!$('ck-nombre').value.trim() && c.nombre) $('ck-nombre').value = c.nombre;
+      if (!$('ck-celular').value.trim() && c.celular) $('ck-celular').value = String(c.celular).replace(/\D/g, '').slice(-9);
       if (!$('ck-dep').value && c.departamento && setSelect($('ck-dep'), c.departamento)) {
         onDepartamento();
         if (setSelect($('ck-prov'), c.provincia)) {
