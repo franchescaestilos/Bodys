@@ -22,7 +22,11 @@ const COLORES_HEX = {
     "Marrón": "#81503e", "Humo": "#8e8e93", "Plomo": "#6b7280",
     "Rojo": "#ef4444", "Vino": "#722f37", "Rosa": "#f4b6c2",
     "Melón": "#f4a283", "Camello": "#c19a6b", "Verde": "#10b981",
-    "Azul": "#3b82f6", "Celeste": "#7dd3fc"
+    "Azul": "#3b82f6", "Celeste": "#7dd3fc",
+    // Colores nuevos
+    "Verde olivo": "#6b7140", "Cobalto": "#0047ab", "Azul oscuro": "#1f2a5a",
+    "Topo": "#8b7d74", "Amarillo bebé": "#fdf0a6", "Palo rosa": "#d4a5a5",
+    "Rosado bebé": "#f8c8dc", "Perla": "#f1ece4"
 };
 
 function adaptarProducto(p) {
@@ -35,13 +39,29 @@ function adaptarProducto(p) {
     );
     const esBody = p.categoria === "Bodys";
 
+    // Galería: la columna "imagenes" de Supabase (la 1ª es la principal).
+    // Si un producto no la tiene, se usan las fotos de sus variantes.
+    const imagenes = (Array.isArray(p.imagenes) && p.imagenes.length)
+        ? p.imagenes
+        : [...new Set(variantes.map(v => v.imagen).filter(Boolean))];
+
     return {
         id: p.id,
         name: p.nombre,
         category: esBody ? "Body" : "Polo",
         type: esBody ? "body" : "polo",
         price: `S/ ${Number(p.precio).toFixed(2)}`,
-        img: variantes[0]?.imagen || "",
+        // Precio anterior (tachado): solo si es mayor que el precio actual
+        oldPrice: Number(p.precio_anterior) > Number(p.precio)
+            ? `S/ ${Number(p.precio_anterior).toFixed(2)}` : "",
+        // Promoción: solo si está activa y tiene precio (ej. "Promo 2 por S/ 50")
+        promo: (p.promocion_activa && Number(p.promocion_precio) > 0)
+            ? `Promo 2 por S/ ${Number(p.promocion_precio)}` : "",
+        // Precio de la promo por dos unidades (0 si no tiene promo); se usa para calcular la bolsa
+        promoPrecio: (p.promocion_activa && Number(p.promocion_precio) > 0)
+            ? Number(p.promocion_precio) : 0,
+        img: imagenes[0] || "",
+        imagenes: imagenes,
         colors: variantes.map(v => COLORES_HEX[v.color] || "#cccccc"),
         colorNames: variantes.map(v => v.color),
         sizes: ["S", "M", "L", "XL"].filter(t => tallasConStock.has(t)),
@@ -81,6 +101,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     updateCartUI();
 
     await cargarProductos();
+    sincronizarCarrito();
 
     if (document.getElementById('product-grid')) {
         renderProducts(products);
@@ -161,6 +182,149 @@ const apply = () => {
     window.addEventListener('scroll', apply, { passive: true });
 }
 
+// Cuántos colores se muestran en cada tarjeta del catálogo (el resto se ve en el producto)
+const MAX_COLORES_TARJETA = 6;
+
+// Evita que un texto escrito desde el panel rompa el HTML
+function escHTML(s) {
+    return String(s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// Precio actual, con el precio anterior tachado antes (si existe)
+function precioHTML(p) {
+    const viejo = p.oldPrice
+        ? `<span style="text-decoration: line-through; color: #9a9a9a; font-weight: 400; margin-right: 8px;">${p.oldPrice}</span>`
+        : '';
+    return viejo + p.price;
+}
+
+// Convierte "S/ 26.90" en 26.9
+function precioNumero(item) {
+    return parseFloat(String(item.price).replace(/[^\d.]/g, '')) || 0;
+}
+
+// Calcula la bolsa aplicando la promo "2 por X":
+// - las unidades con la misma promo se juntan de a dos y cada par cuesta el precio de la promo
+//   (solo si es más barato que comprarlas sueltas)
+// - la unidad que sobra y los productos sin promo van a precio normal
+function calcularBolsa(items) {
+    let subtotal = 0;
+    const grupos = {}; // precio de la promo -> precios de cada unidad con esa promo
+    items.forEach(it => {
+        const qty = it.qty || 1;
+        const precio = precioNumero(it);
+        subtotal += precio * qty;
+        if (it.promoPrecio > 0) {
+            if (!grupos[it.promoPrecio]) grupos[it.promoPrecio] = [];
+            for (let i = 0; i < qty; i++) grupos[it.promoPrecio].push(precio);
+        }
+    });
+    let descuento = 0, pares = 0;
+    Object.entries(grupos).forEach(([promo, precios]) => {
+        precios.sort((a, b) => b - a);
+        for (let i = 0; i + 1 < precios.length; i += 2) {
+            const ahorro = (precios[i] + precios[i + 1]) - Number(promo);
+            if (ahorro > 0) { descuento += ahorro; pares++; }
+        }
+    });
+    descuento = Math.round(descuento * 100) / 100;
+    return {
+        subtotal: Math.round(subtotal * 100) / 100,
+        descuento,
+        pares,
+        total: Math.round((subtotal - descuento) * 100) / 100
+    };
+}
+
+// Ahorro de un grupo de prendas con la misma promo "2 por X"
+function ahorroPares(precios, promo) {
+    const p = [...precios].sort((a, b) => b - a);
+    let d = 0;
+    for (let i = 0; i + 1 < p.length; i += 2) {
+        const a = p[i] + p[i + 1] - promo;
+        if (a > 0) d += a;
+    }
+    return Math.round(d * 100) / 100;
+}
+
+function fmtS(n) { return Number.isInteger(n) ? String(n) : n.toFixed(2); }
+
+// Mensaje de aviso según cuántas prendas participantes hay en la bolsa
+function avisoPromoHTML(items) {
+    const grupos = {}; // precio de la promo -> precio de cada unidad participante
+    items.forEach(it => {
+        if (!(it.promoPrecio > 0)) return;
+        if (!grupos[it.promoPrecio]) grupos[it.promoPrecio] = [];
+        for (let i = 0; i < (it.qty || 1); i++) grupos[it.promoPrecio].push(precioNumero(it));
+    });
+
+    return Object.entries(grupos).map(([promoStr, precios]) => {
+        const promo = Number(promoStr);
+        const n = precios.length;
+        const ahorroActual = ahorroPares(precios, promo);
+        let titulo, texto;
+
+        if (n % 2 === 1) {
+            // 1, 3, 5... falta una prenda para completar el siguiente par
+            if (n === 1) {
+                titulo = '¡Te falta 1 prenda para aprovechar la promo!';
+                texto = `Agrega otra prenda participante y llévate 2 por S/ ${fmtS(promo)}.`;
+            } else {
+                const ahorroFuturo = ahorroPares([...precios, Math.min(...precios)], promo);
+                titulo = `¡Agrega 1 prenda más y ahorra S/ ${fmtS(ahorroFuturo)} en total!`;
+                texto = `Lleva ${n + 1} prendas participantes por S/ ${fmtS(((n + 1) / 2) * promo)}.`;
+            }
+        } else if (n === 2) {
+            titulo = `¡Excelente! Estás ahorrando S/ ${fmtS(ahorroActual)}.`;
+            texto = `Ya tienes activa tu promoción de 2 por S/ ${fmtS(promo)}.`;
+        } else {
+            // 4, 6, 8... todos los pares completos
+            titulo = '¡Promo aprovechada al máximo!';
+            texto = `Ahorraste S/ ${fmtS(ahorroActual)} en tu compra.`;
+        }
+
+        return `<div class="cart-promo-aviso">
+            <strong>${titulo}</strong>
+            <span>${texto}</span>
+        </div>`;
+    }).join('');
+}
+// Al cargar la página, actualiza la bolsa con los datos actuales de Supabase
+// (precio, precio anterior y promo), por si cambiaron desde que se agregó el producto
+function sincronizarCarrito() {
+    if (!products.length || !cart.length) return;
+    cart = cart.filter(it => products.some(p => String(p.id) === String(it.id)));
+    cart.forEach(it => {
+        const p = products.find(x => String(x.id) === String(it.id));
+        it.name = p.name;
+        it.price = p.price;
+        it.oldPrice = p.oldPrice;
+        it.promo = p.promo;
+        it.promoPrecio = p.promoPrecio;
+        it.img = p.img;
+    });
+    updateCartUI();
+}
+
+// Etiqueta de promoción sobre la foto (solo si la promo está activa)
+function promoBadge(p) {
+    if (!p.promo) return '';
+    return `<span style="position: absolute; top: 12px; right: 12px; z-index: 2; background: #e11d2e; color: #fff; font-weight: 800; font-size: 12px; letter-spacing: .03em; text-transform: uppercase; padding: 5px 10px; border-radius: 6px;">${escHTML(p.promo)}</span>`;
+}
+
+// Elige 6 colores distintos para la tarjeta; cada producto muestra una combinación diferente
+// (siempre la misma para ese producto, así no cambia cada vez que se recarga)
+function coloresTarjeta(product) {
+    let seed = 0;
+    for (const ch of String(product.name)) seed = (Math.imul(seed, 31) + ch.charCodeAt(0)) | 0;
+    return product.colors
+        .map((c, i) => ({ c, k: Math.imul(seed ^ (i + 1), 2654435761) >>> 0 }))
+        .sort((a, b) => a.k - b.k)
+        .slice(0, MAX_COLORES_TARJETA)
+        .map(o => o.c);
+}
+
 // (sin botones "Detalle" y "Comprar": toda la tarjeta abre el detalle del producto)
 function renderProducts(items) {
     const grid = document.getElementById('product-grid');
@@ -175,6 +339,7 @@ function renderProducts(items) {
         card.innerHTML = `
             <div class="js-div">
                <img src="${product.img}" alt="${product.name}" class="js-img" loading="${i < 4 ? 'eager' : 'lazy'}" decoding="async">
+               ${promoBadge(product)}
                 <span class="js-span">
                     ${product.category}
                 </span>
@@ -190,12 +355,12 @@ function renderProducts(items) {
                     <div class="js-div-4">
                         <h3 class="js-h3">${product.name}</h3>
                     </div>
-                    <p class="js-p">${product.price}</p>
+                    <p class="js-p">${precioHTML(product)}</p>
 
                     <!-- Color Dot Preview -->
                     <div class="js-div-5">
-                        ${product.colors.map(color => `<span class="js-span-3" style="background-color: ${color}"></span>`).join('')}
-                        <span class="js-span-4">+ colores</span>
+                        ${coloresTarjeta(product).map(color => `<span class="js-span-3" style="background-color: ${color}; border-radius: 50%; width: 20px; height: 20px; flex-shrink: 0; border: 1px solid rgba(0,0,0,.15);"></span>`).join('')}
+                        ${product.colors.length > MAX_COLORES_TARJETA ? `<span class="js-span-4" style="white-space: nowrap;">+${product.colors.length - MAX_COLORES_TARJETA} colores</span>` : ''}
                     </div>
                 </div>
             </div>
@@ -239,8 +404,8 @@ function renderModalOptions() {
     const p = currentProduct;
     const variante = p.variantes[selectedColorIdx] || { tallas: {} };
 
-    // La foto cambia según el color elegido
-    document.getElementById('modal-img').src = variante.imagen || p.img;
+    // La foto ya no cambia con el color: se queda la principal
+    document.getElementById('modal-img').src = p.img;
 
     // Colores
     document.getElementById('modal-colors').innerHTML = p.variantes.map((v, i) => {
@@ -286,8 +451,8 @@ function itemSeleccionado() {
         return null;
     }
     const v = currentProduct.variantes[selectedColorIdx] || {};
-    const { variantes, ...base } = currentProduct;
-    return { ...base, color: v.color || '', size: selectedSize, img: v.imagen || currentProduct.img };
+    const { variantes, imagenes, ...base } = currentProduct;
+    return { ...base, color: v.color || '', size: selectedSize, img: currentProduct.img };
 }
 
 function openProductModal(id) {
@@ -387,33 +552,54 @@ function updateCartUI() {
 
    cartCount.innerText = cart.reduce((s, i) => s + (i.qty || 1), 0);
 
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<p class="cart-items-p">Tu bolsa está vacía actualmente.</p>';
-        cartFooter.classList.add('is-hidden');
-        return;
-    }
+   if (cart.length === 0) {
+    cartItems.innerHTML = '<p class="cart-items-p">Tu bolsa está vacía actualmente.</p>';
+    cartFooter.classList.add('is-hidden');
+    const av = document.getElementById('cart-promo-aviso');
+    if (av) av.innerHTML = '';
+    return;
+}
 
     cartFooter.classList.remove('is-hidden');
-      if (!document.getElementById('cart-envio-aviso')) {
-        const aviso = document.createElement('p');
-        aviso.id = 'cart-envio-aviso';
-        aviso.className = 'cart-envio-aviso';
-        aviso.textContent = 'Envío gratis desde S/ 199 en Lima y S/ 249 a provincias seleccionadas.';
-        cartFooter.insertBefore(aviso, cartFooter.firstChild);
-    }
+    // (ya no hay aviso de envío gratis)
+    const avisoViejo = document.getElementById('cart-envio-aviso');
+    if (avisoViejo) avisoViejo.remove();
     const unidades = cart.reduce((s, i) => s + (i.qty || 1), 0);
-const total = cart.reduce((s, i) =>
-    s + (parseFloat(String(i.price).replace(/[^\d.]/g, '')) || 0) * (i.qty || 1), 0);
+const bolsa = calcularBolsa(cart);
+
 document.getElementById('cart-total').innerHTML =
-    `<span>S/ ${total.toFixed(2)}</span>` +
-    `<span>(${unidades} ${unidades === 1 ? 'producto' : 'productos'})</span>`;
+    `<div class="cart-resumen">
+        <h4 class="cart-resumen-titulo">Resumen de tu compra</h4>
+        <div class="cart-resumen-fila">
+            <span>Productos (${unidades} ${unidades === 1 ? 'prenda' : 'prendas'})</span>
+            <span>S/ ${bolsa.subtotal.toFixed(2)}</span>
+        </div>
+        ${bolsa.descuento > 0 ? `
+        <div class="cart-resumen-fila cart-resumen-promo">
+            <span><i class="fa-regular fa-circle-check"></i> Promociones aplicadas</span>
+            <span>– S/ ${bolsa.descuento.toFixed(2)}</span>
+        </div>` : ''}
+        <div class="cart-resumen-total">
+            <span>Total a pagar</span>
+            <strong>S/ ${bolsa.total.toFixed(2)}</strong>
+        </div>
+    </div>`;
+        // Aviso de promociones
+    let avisoPromo = document.getElementById('cart-promo-aviso');
+    if (!avisoPromo) {
+        avisoPromo = document.createElement('div');
+        avisoPromo.id = 'cart-promo-aviso';
+        cartItems.parentNode.insertBefore(avisoPromo, cartItems);
+    }
+    avisoPromo.innerHTML = avisoPromoHTML(cart);
     cartItems.innerHTML = cart.map((item, idx) => `
         <div class="js-div-8">
             <div class="js-div-9">
              <img src="${item.img}" alt="${item.name}" class="js-img-2" loading="lazy" decoding="async">
                 <div>
                     <h4 class="js-h4">${item.name}</h4>
-                    <p class="js-p-2">${item.price}</p>
+                    <p class="js-p-2">${precioHTML(item)}</p>
+                    ${item.promo ? `<p class="js-p-2" style="color:#e11d2e; font-weight:700; font-size:12px; text-transform:uppercase;">${escHTML(item.promo)}</p>` : ''}
                     <div style="display:flex; align-items:center; gap:10px; margin-top:6px;">
     <button onclick="changeQty(${idx}, -1)" style="width:26px;height:26px;border:1px solid #d9d9d9;border-radius:50%;background:#fff;cursor:pointer;">&minus;</button>
     <span style="font-weight:600;">${item.qty || 1}</span>
@@ -464,7 +650,9 @@ function toggleMobileMenu() {
 }
 
 function toggleCartDrawer() {
-    document.getElementById('cart-drawer').classList.toggle('is-open');
+    const abierto = document.getElementById('cart-drawer').classList.toggle('is-open');
+    document.documentElement.classList.toggle('no-scroll', abierto);
+    document.body.classList.toggle('no-scroll', abierto);
 }
 
 function toggleSearchModal() {

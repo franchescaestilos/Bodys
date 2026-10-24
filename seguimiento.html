@@ -7,42 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=WindSong:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/checkout.css">
-<style>
-  .sg-wrap { max-width: 560px; margin: 0 auto; }
-  .sg-intro { color: var(--ck-muted); margin: -10px 0 22px; font-size: 14.5px; line-height: 1.5; }
 
-  .sg-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 18px; }
-  .sg-num { font-size: 22px; letter-spacing: .03em; }
-  .sg-fecha { font-size: 12.5px; color: var(--ck-muted); margin-top: 2px; }
-  .sg-badge { background: var(--ck-ink); color: #fff; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
-  .sg-badge.cancelado { background: #c0392b; }
-  .sg-badge.entregado { background: #0a7a3d; }
-
-  .sg-steps { list-style: none; margin: 0; padding: 0; }
-  .sg-step { position: relative; padding: 0 0 22px 38px; color: #a1a1aa; }
-  .sg-step:last-child { padding-bottom: 0; }
-  .sg-step::before { content: ""; position: absolute; left: 11px; top: 24px; bottom: -2px; width: 2px; background: var(--ck-line); }
-  .sg-step:last-child::before { display: none; }
-  .sg-step::after { content: ""; position: absolute; left: 0; top: 0; width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ck-line); background: #fff; }
-  .sg-step h3 { margin: 0 0 2px; font-size: 15px; font-weight: 600; }
-  .sg-step p { margin: 0; font-size: 13px; }
-  .sg-step.done { color: var(--ck-ink); }
-  .sg-step.done::before { background: var(--ck-pink); }
-  .sg-step.done::after { background: var(--ck-pink); border-color: var(--ck-pink); box-shadow: inset 0 0 0 5px var(--ck-pink); background-image: none; }
-  .sg-step.done::after { content: "✓"; color: #fff; font-size: 13px; font-weight: 700; text-align: center; line-height: 20px; }
-  .sg-step.now::after { background: #fff; border-color: var(--ck-pink); box-shadow: 0 0 0 4px #fdecf5; }
-  .sg-step.now { color: var(--ck-ink); }
-  .sg-step.now h3 { color: var(--ck-pink); }
-
-  .sg-cancel { background: #fff7f6; border: 1px solid #f1c6c1; color: #c0392b; border-radius: 12px; padding: 12px 14px; font-size: 14px; }
-
-  .sg-item { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; margin-bottom: 10px; }
-  .sg-item small { display: block; color: var(--ck-muted); font-size: 12.5px; }
-  .sg-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
-  .sg-row.total { border-top: 1px solid var(--ck-line); padding-top: 12px; margin-top: 6px; font-size: 18px; font-weight: 700; }
-
-  .sg-again { display: block; text-align: center; margin-top: 4px; font-size: 13px; color: var(--ck-ink); cursor: pointer; background: none; border: 0; font-family: inherit; text-decoration: underline; width: 100%; }
-</style>
 </head>
 <body class="page-checkout">
 
@@ -69,6 +34,11 @@
         <label class="ck-label" for="sg-nombre">Nombre *</label>
         <input class="ck-input" id="sg-nombre" type="text" maxlength="60" placeholder="Ej. María Pérez" autocomplete="name">
       </div>
+      <div id="sg-lock" class="sg-lock hidden">
+  <strong>Consultas bloqueadas temporalmente</strong>
+  Por seguridad, no pudimos validar tus datos tras varios intentos. Escríbenos por WhatsApp y te ayudamos con tu pedido.
+  <br><a class="sg-wa" id="sg-wa" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+</div>
       <p class="ck-msg" id="sg-msg"></p>
       <button class="ck-submit" type="submit" id="sg-submit">Consultar pedido</button>
     </form>
@@ -91,10 +61,16 @@
         <h2>Detalle del pedido</h2>
         <div id="sg-items"></div>
         <div class="sg-row" style="margin-top:12px"><span>Subtotal</span><span id="sg-r-sub"></span></div>
+        <div class="sg-row hidden" id="sg-r-desc-row"><span>Promoción</span><span id="sg-r-desc"></span></div>
         <div class="sg-row"><span id="sg-r-envio-label">Envío</span><span id="sg-r-envio"></span></div>
         <div class="sg-row total"><span>Total</span><span id="sg-r-total"></span></div>
       </div>
-
+    <div class="card hidden" id="sg-envio-card">
+      <h2>Comprobante de envío</h2>
+      <img class="sg-foto" id="sg-foto" alt="Comprobante de envío" loading="lazy">
+      <a class="sg-foto-link" id="sg-foto-link" target="_blank" rel="noopener">Abrir imagen</a>
+<a class="sg-foto-link" id="sg-foto-dl" style="margin-left:14px">Descargar imagen</a>
+    </div>
       <button type="button" class="sg-again" id="sg-again">Consultar otro pedido</button>
     </div>
   </div>
@@ -120,7 +96,41 @@
     { estado: 'Entregado',  titulo: 'Entregado',            desc: 'Tu pedido fue entregado. ¡Gracias por tu compra!' }
   ];
 
+
   const $ = (id) => document.getElementById(id);
+  const WA_NUMERO = '51999999999'; // <-- tu número, con 51 y sin espacios
+const MAX_INTENTOS = 3;
+const BLOQUEO_MIN = 30;
+const KEY = 'sg_intentos';
+
+function leerIntentos() {
+  try { return JSON.parse(localStorage.getItem(KEY)) || { n: 0, hasta: 0 }; }
+  catch (e) { return { n: 0, hasta: 0 }; }
+}
+function guardarIntentos(s) {
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch (e) {}
+}
+function estaBloqueado() {
+  const s = leerIntentos();
+  if (s.hasta && s.hasta <= Date.now()) { guardarIntentos({ n: 0, hasta: 0 }); return false; }
+  return s.hasta > Date.now();
+}
+function aplicarBloqueo(bloqueado) {
+  $('sg-lock').classList.toggle('hidden', !bloqueado);
+  $('sg-numero').disabled = bloqueado;
+  $('sg-nombre').disabled = bloqueado;
+  $('sg-submit').disabled = bloqueado;
+  if (bloqueado) {
+    const s = leerIntentos();
+    setTimeout(function () {
+      if (!estaBloqueado()) aplicarBloqueo(false);
+    }, Math.max(s.hasta - Date.now(), 0) + 500);
+
+    $('sg-wa').href = 'https://wa.me/51956931873?text=' +
+      encodeURIComponent('Hola Francesca Estilos, no puedo consultar mi pedido en la web. Mi número de pedido es: ');
+    showMsg('');
+  }
+}
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const money = (n) => n == null ? '—' : 'S/ ' + Number(n).toFixed(2);
@@ -132,7 +142,9 @@
   }
 
   function pintar(p) {
-    const estado = p.estado || 'Pendiente';
+    const estadoRaw = String(p.estado || 'Pendiente').toLowerCase();
+const paso = PASOS.find((x) => x.estado.toLowerCase() === estadoRaw);
+const estado = paso ? paso.estado : estadoRaw.charAt(0).toUpperCase() + estadoRaw.slice(1);
     const cancelado = estado === 'Cancelado';
     const idx = PASOS.findIndex((x) => x.estado === estado);
 
@@ -152,17 +164,46 @@
       return '<li class="sg-step ' + clase + '"><h3>' + esc(s.titulo) + '</h3><p>' + esc(s.desc) + '</p></li>';
     }).join('');
 
-    $('sg-items').innerHTML = (p.items || []).map((i) => {
+      $('sg-items').innerHTML = (p.items || []).map((i) => {
       const extra = [i.color, i.talla && 'Talla ' + i.talla].filter(Boolean).join(' · ');
-      return '<div class="sg-item"><div>' + esc(i.nombre) + (extra ? '<small>' + esc(extra) + '</small>' : '') +
-        '<small>' + i.cantidad + ' x ' + money(i.precio_unitario) + '</small></div>' +
+      const anterior = Number(i.precio_anterior) > Number(i.precio_unitario)
+        ? ' <s>' + money(i.precio_anterior) + '</s>' : '';
+      const promo = i.promo && i.unidades_promo
+        ? '<small style="color:var(--ck-pink);font-weight:600">' + esc(i.promo) +
+          (i.unidades_promo < i.cantidad ? ' (' + i.unidades_promo + ' de ' + i.cantidad + ' uds)' : '') +
+          '</small>' : '';
+      return '<div class="sg-item"><div>' + esc(i.nombre) +
+        (extra ? '<small>' + esc(extra) + '</small>' : '') + promo +
+        '<small>' + i.cantidad + ' x ' + money(i.precio_unitario) + anterior + '</small></div>' +
         '<strong>' + money(i.precio_unitario * i.cantidad) + '</strong></div>';
     }).join('');
-
+    
     $('sg-r-sub').textContent = money(p.subtotal);
-    $('sg-r-envio-label').textContent = 'Envío (' + (p.tipo_entrega || '') + ')';
-    $('sg-r-envio').textContent = Number(p.costo_envio) === 0 ? '¡Gratis!' : money(p.costo_envio);
+const tipo = String(p.tipo_entrega || '').toLowerCase();
+const envioNum = Number(p.costo_envio) || 0;
+$('sg-r-envio-label').textContent = 'Envío';
+$('sg-r-envio').textContent = envioNum > 0
+  ? money(envioNum)
+  : !tipo ? '' : tipo.includes('delivery')
+    ? 'Delivery · pagas al motorizado al recibir'
+    : 'Shalom · pagas en la agencia al recibir';
+
+const desc = Number(p.descuento) || 0;
+$('sg-r-desc-row').classList.toggle('hidden', desc <= 0);
+$('sg-r-desc').textContent = '- ' + money(desc);
     $('sg-r-total').textContent = money(p.total);
+       const foto = /^https:\/\//.test(p.comprobante_envio_url || '') ? p.comprobante_envio_url : '';
+$('sg-envio-card').classList.toggle('hidden', !foto);
+if (foto) {
+  $('sg-foto').src = foto;
+  $('sg-foto-link').href = foto;
+
+  const ext = (foto.split('?')[0].split('.').pop() || 'jpg').toLowerCase();
+  const sep = foto.includes('?') ? '&' : '?';
+  $('sg-foto-dl').href = foto + sep + 'download=' +
+    encodeURIComponent('voucher-envio-' + p.numero + '.' + ext);
+
+}
 
     $('sg-form').classList.add('hidden');
     $('sg-result').classList.remove('hidden');
@@ -174,6 +215,7 @@
 
   $('sg-form').addEventListener('submit', async function (e) {
     e.preventDefault();
+    if (estaBloqueado()) { aplicarBloqueo(true); return; }
     const numero = $('sg-numero').value.trim();
     const nombre = $('sg-nombre').value.trim();
 
@@ -189,23 +231,39 @@
     btn.disabled = true;
     btn.textContent = 'Consultando...';
     try {
-      const { data, error } = await db.rpc('consultar_pedido', {
-        p_numero: Number(numero),
-        p_nombre: nombre
-      });
-      if (error) throw error;
-      if (!data) {
-        showMsg('No encontramos un pedido con esos datos. Revisa el número y el nombre.');
-      } else {
-        pintar(data);
-      }
-    } catch (err) {
-      console.error('Error consultando pedido:', err && err.message, err);
-      showMsg('No se pudo consultar el pedido. Inténtalo otra vez.');
-    } finally {
-      btn.disabled = false;
-      btn.textContent = 'Consultar pedido';
-    }
+
+ const { data, error } = await db.rpc('consultar_pedido', {
+  p_numero: Number(numero),
+  p_nombre: nombre
+});
+if (error) throw error;
+
+if (data && data.bloqueado) {
+  guardarIntentos({ n: 0, hasta: Date.now() + BLOQUEO_MIN * 60000 });
+  aplicarBloqueo(true);
+} else if (!data) {
+  const s = leerIntentos();
+  s.n += 1;
+  if (s.n >= MAX_INTENTOS) {
+    guardarIntentos({ n: 0, hasta: Date.now() + BLOQUEO_MIN * 60000 });
+    aplicarBloqueo(true);
+  } else {
+    guardarIntentos(s);
+    const quedan = MAX_INTENTOS - s.n;
+    showMsg('No encontramos un pedido con esos datos. Revisa el número y el nombre. Te ' +
+      (quedan === 1 ? 'queda 1 intento.' : 'quedan ' + quedan + ' intentos.'));
+  }
+} else {
+  guardarIntentos({ n: 0, hasta: 0 });
+  pintar(data);
+}
+} catch (err) {
+  console.error('Error consultando pedido:', err && err.message, err);
+  showMsg('No se pudo consultar el pedido. Inténtalo otra vez.'); // un error de red no cuenta como intento
+} finally {
+  btn.disabled = estaBloqueado();
+  btn.textContent = 'Consultar pedido';
+}
   });
 
   $('sg-again').addEventListener('click', function () {
@@ -219,6 +277,7 @@
   // Si llega con ?numero=20264459, lo deja escrito
   const q = new URLSearchParams(location.search).get('numero');
   if (q && /^\d{8}$/.test(q)) $('sg-numero').value = q;
+  if (estaBloqueado()) aplicarBloqueo(true);
 })();
 </script>
 </body>

@@ -7,23 +7,35 @@
   'use strict';
 
   /* ---------- CONFIGURACIÓN (edita aquí) ---------- */
-  const CONFIG = {
-    pagoNumero: '944 737 700',
-    pagoTitular: 'Franchesca Estilos',
-    yapeQR: 'img/yape-qr.png',
-    plinQR: 'img/plin-qr.png',
-    transferencia: [
-      'Banco: BCP',
-      'Cuenta: 000-00000000-0-00',
-      'CCI: 002-000-000000000000-00',
-      'Titular: Franchesca Estilos'
-    ],
-    // IMPORTANTE: estas tarifas deben ser iguales a las de la función crear_pedido en Supabase
-    envio: { delivery: 8.90, agencia: 8.90 },
-    gratisDesde: { delivery: 199, agencia: 249 },
-    maxArchivoMB: 5,
-    cartKey: 'franchesca_cart'
+const CONFIG = {
+  pagoNumero: '956 931 873',
+  pagoTitular: 'Jhojan de la Cruz',
+  yapeQR: 'img/yape-qr.png',
+  transferencia: [
+    'Banco: BCP',
+    'Cuenta de ahorros: 19173753346027',
+    'CCI: 00219117375334602751',
+    'Titular: Jhojan de la Cruz'
+  ],
+  agenciaFija: 'Shalom',
+  maxArchivoMB: 5,
+  cartKey: 'franchesca_cart'
+};
+  // Textos que cambian según el tipo de entrega
+  const TEXTOS = {
+    delivery: {
+      aviso: 'Delivery: costo según distrito y distancia. Pagas al motorizado al recibir tu pedido.',
+      titulo: 'Referencias o indicaciones adicionales (opcional)',
+      ejemplo: 'Ej. Frente al banco, puerta azul, avisarme cuando llegue'
+    },
+    agencia: {
+      aviso: 'Envío nacional (Shalom): el envío se paga por separado al recoger tu pedido en la agencia. ' +
+             'Si Shalom no llega a tu zona, escríbenos por WhatsApp y coordinamos otra opción.',
+      titulo: 'Referencia o agencia Shalom preferida (opcional)',
+      ejemplo: 'Ej. Shalom de Av. Grau, cerca de la plaza'
+    }
   };
+
   // Mismo proyecto de Supabase que main.js (clave pública)
   const db = window.supabase.createClient(
     'https://vlfcuyekpnsmziamacle.supabase.co',
@@ -31,6 +43,7 @@
   );
 
   const $ = (id) => document.getElementById(id);
+  const setText = (id, t) => { const e = $(id); if (e) e.textContent = t; };
   const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const money = (n) => 'S/ ' + n.toFixed(2);
@@ -50,7 +63,11 @@
       const q = p.qty || 1;
       if (map.has(key)) map.get(key).qty += q;
       else map.set(key, {
-        id: p.id, name: p.name, category: p.category || '', price: parsePrice(p.price),
+        id: p.id, name: p.name, category: p.category || '',
+        price: parsePrice(p.price),
+        oldPrice: parsePrice(p.oldPrice),
+        promo: p.promo || '',
+        promoPrecio: Number(p.promoPrecio) || 0,
         qty: q, size: p.size || '', color: p.color || '', img: p.img || ''
       });
     });
@@ -58,37 +75,54 @@
   }
 
   const items = readCart();
-    const subtotal = () => Math.round(items.reduce((s, i) => s + i.price * i.qty, 0) * 100) / 100;
-  const costoEnvio = () => {
-    const t = tipoActual();
-    return subtotal() >= CONFIG.gratisDesde[t] ? 0 : (CONFIG.envio[t] || 0);
-  };
+
+  // Misma lógica que la bolsa (main.js): promo "2 por X"
+  function calcularBolsa(list) {
+    let subtotal = 0;
+    const grupos = {};
+    list.forEach((it) => {
+      subtotal += it.price * it.qty;
+      if (it.promoPrecio > 0) {
+        if (!grupos[it.promoPrecio]) grupos[it.promoPrecio] = [];
+        for (let i = 0; i < it.qty; i++) grupos[it.promoPrecio].push(it.price);
+      }
+    });
+    let descuento = 0;
+    Object.entries(grupos).forEach(([promo, precios]) => {
+      precios.sort((a, b) => b - a);
+      for (let i = 0; i + 1 < precios.length; i += 2) {
+        const ahorro = precios[i] + precios[i + 1] - Number(promo);
+        if (ahorro > 0) descuento += ahorro;
+      }
+    });
+    descuento = Math.round(descuento * 100) / 100;
+    subtotal = Math.round(subtotal * 100) / 100;
+    return { subtotal, descuento, total: Math.round((subtotal - descuento) * 100) / 100 };
+  }
 
   function pintarResumen() {
     $('ck-items').innerHTML = items.map((i) => {
       const extra = [i.color, i.size && 'Talla ' + i.size].filter(Boolean).join(' · ');
+      const viejo = i.oldPrice > i.price
+        ? '<span class="sum-old">' + money(i.oldPrice) + '</span> ' : '';
       return '<div class="sum-item">' +
         (i.img ? '<img src="' + esc(i.img) + '" alt="' + esc(i.name) + '">' : '') +
         '<div><h4>' + esc(i.name) + '</h4>' +
         (extra ? '<p>' + esc(extra) + '</p>' : '') +
-        '<p>' + i.qty + ' x ' + money(i.price) + '</p></div></div>';
+        '<p>' + i.qty + ' x ' + viejo + money(i.price) + '</p>' +
+        (i.promo ? '<p class="sum-promo">' + esc(i.promo) + '</p>' : '') +
+        '</div></div>';
     }).join('');
     refreshTotal();
   }
 
-   function refreshTotal() {
-    const t = tipoActual();
-    const sub = subtotal();
-    const envio = costoEnvio();
-    const falta = CONFIG.gratisDesde[t] - sub;
-
-    $('ck-subtotal').textContent = money(sub);
-    $('ck-envio-label').textContent = 'Envío (' + (t === 'delivery' ? 'Delivery' : 'Nacional') + ')';
-    $('ck-envio').textContent = envio ? money(envio) : '¡Gratis!';
-    $('ck-total').textContent = money(sub + envio);
-    $('ck-envio-note').textContent = falta > 0
-      ? 'Te faltan ' + money(falta) + ' para envío gratis'
-      : '';
+  function refreshTotal() {
+    const b = calcularBolsa(items);
+    setText('ck-subtotal', money(b.subtotal));
+    const fila = $('ck-desc-row');
+    if (fila) fila.classList.toggle('hidden', b.descuento <= 0);
+    setText('ck-desc', '– ' + money(b.descuento));
+    setText('ck-total', money(b.total));
   }
 
   /* ---------- UBIGEO ---------- */
@@ -184,14 +218,39 @@
     llenar($('ck-dist'), 'Elige distrito', dists.map((d) => [d, d]));
   }
 
-  /* ---------- TIPO DE ENTREGA ---------- */
-  function refreshTipo() {
-    const t = tipoActual();
-    $('ck-bloque-delivery').classList.toggle('hidden', t !== 'delivery');
-    $('ck-bloque-agencia').classList.toggle('hidden', t !== 'agencia');
-    $('ck-dni-wrap').classList.toggle('hidden', t !== 'agencia');
-    refreshTotal();
+  let toastTimer;
+function toast(msg) {
+  let t = $('ck-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'ck-toast';
+    t.setAttribute('role', 'status');
+    document.body.appendChild(t);
   }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 5000);
+}
+
+  /* ---------- TIPO DE ENTREGA ---------- */
+function refreshTipo(avisar) {
+  const t = tipoActual();
+  $('ck-bloque-delivery').classList.toggle('hidden', t !== 'delivery');
+  $('ck-bloque-agencia').classList.toggle('hidden', t !== 'agencia');
+  $('ck-dni-wrap').classList.toggle('hidden', t !== 'agencia');
+
+  setText('ck-ref-label', TEXTOS[t].titulo);
+  const ref = $('ck-referencia');
+  if (ref) ref.placeholder = TEXTOS[t].ejemplo;
+
+  // Agencia fija
+  const ag = $('ck-agencia');
+  if (ag) { ag.value = CONFIG.agenciaFija; ag.readOnly = true; }
+
+  if (avisar === true) toast(TEXTOS[t].aviso);
+  refreshTotal();
+}
 
   /* ---------- AUTOCOMPLETAR POR DNI ---------- */
   let dniUltimo = '';
@@ -225,7 +284,6 @@
           setSelect($('ck-dist'), c.distrito);
         }
       }
-      if (!$('ck-agencia').value.trim() && c.agencia_destino) $('ck-agencia').value = c.agencia_destino;
       $('ck-found').classList.remove('hidden');
     } catch (err) {
       console.error('Error buscando cliente:', err);
@@ -240,10 +298,10 @@
       panel.innerHTML = '<div class="ck-bank">' + CONFIG.transferencia.map((l) => '<div>' + esc(l) + '</div>').join('') + '</div>';
       return;
     }
-    const qr = metodo === 'Yape' ? CONFIG.yapeQR : CONFIG.plinQR;
+    const qr = CONFIG.yapeQR;
     panel.innerHTML =
       (qr ? '<img src="' + qr + '" alt="QR ' + metodo + '" onerror="this.style.display=\'none\'">' : '') +
-      '<div>Escanea para pagar, o copia el número:</div>' +
+      '<div>Copia el número para pagar por Yape:</div>' +
       '<div class="ck-pay-num"><strong>' + CONFIG.pagoNumero + '</strong>' +
       '<button type="button" class="ck-copy" id="ck-copy">Copiar</button></div>' +
       '<div style="margin-top:6px;color:#666">' + esc(CONFIG.pagoTitular) + '</div>';
@@ -290,9 +348,6 @@
       if (!$('ck-dep').value || !$('ck-prov').value || !$('ck-dist').value) {
         errores.push('Elige departamento, provincia y distrito.');
       }
-      const agBad = $('ck-agencia').value.trim().length < 2;
-      marca('ck-agencia', agBad);
-      if (agBad) errores.push('Indica la agencia de destino.');
     }
 
     if (!file) errores.push('Adjunta tu comprobante de pago.');
@@ -326,7 +381,7 @@
       tipoEntrega: esDelivery ? 'Delivery' : 'Envío nacional',
       dni: esDelivery ? '' : $('ck-dni').value,
       direccion: esDelivery ? $('ck-direccion').value.trim() : '',
-      agenciaDestino: esDelivery ? '' : $('ck-agencia').value.trim(),
+      agenciaDestino: esDelivery ? '' : CONFIG.agenciaFija,
       departamento, provincia, distrito,
       referencia: $('ck-referencia').value.trim(),
       metodoPago: document.querySelector('input[name="ck-pago"]:checked').value,
@@ -353,16 +408,16 @@
 
   function datosPDF(u, srv) {
     const detalle = (c, t) => [c, t && 'Talla ' + t].filter(Boolean).join(' · ');
-    const items = srv && srv.items && srv.items.length
+    const lista = srv && srv.items && srv.items.length
       ? srv.items.map((i) => ({ nombre: i.nombre, detalle: detalle(i.color, i.talla), cant: Number(i.cantidad), pu: Number(i.precio_unitario) }))
       : u.items.map((i) => ({ nombre: i.name, detalle: detalle(i.color, i.size), cant: i.qty, pu: i.price }));
     const sub = srv && srv.subtotal != null ? Number(srv.subtotal) : u.subtotal;
-    const env = srv && srv.costo_envio != null ? Number(srv.costo_envio) : u.envio;
-    const tot = srv && srv.total != null ? Number(srv.total) : sub + env;
+    const desc = srv && srv.descuento != null ? Number(srv.descuento) : u.descuento;
+    const tot = srv && srv.total != null ? Number(srv.total) : sub - desc;
     const fecha = srv && srv.fecha ? new Date(srv.fecha) : u.fecha;
     return {
       numero: u.numero, nombre: u.nombre, celular: u.celular, tipoEntrega: u.tipoEntrega,
-      lugar: u.lugar, metodoPago: u.metodoPago, items, subtotal: sub, envio: env, total: tot,
+      lugar: u.lugar, metodoPago: u.metodoPago, items: lista, subtotal: sub, descuento: desc, total: tot,
       fechaTxt: fecha.toLocaleString('es-PE', { dateStyle: 'long', timeStyle: 'short' })
     };
   }
@@ -444,7 +499,7 @@
       y += fuerte ? 8 : 6;
     };
     tot('Subtotal', money(d.subtotal));
-    tot('Envío', d.envio ? money(d.envio) : 'Gratis');
+    if (d.descuento > 0) tot('Promoción', '- ' + money(d.descuento));
     tot('Total', money(d.total), true);
 
     // Nota final
@@ -452,12 +507,13 @@
     doc.setFont('helvetica', 'normal'); doc.setFontSize(9); color(gris);
     const nota = doc.splitTextToSize(
       'Este documento confirma la recepción de tu pedido. Verificaremos tu comprobante de pago y te ' +
-      'contactaremos pronto. Con tu número de pedido puedes rastrear su estado en la sección ' +
-      '"Seguimiento de pedido" de nuestra tienda. ¡Gracias por tu compra!', R - M);
+      'contactaremos pronto. El costo de envío se paga por separado al recibir tu pedido. Con tu número ' +
+      'de pedido puedes rastrear su estado en la sección "Seguimiento de pedido" de nuestra tienda. ' +
+      '¡Gracias por tu compra!', R - M);
     doc.text(nota, M, y);
 
     doc.save('Comprobante-' + d.numero + '.pdf');
-  } 
+  }
 
   async function enviarPedido(pedido, archivo) {
     // 1) Subir comprobante
@@ -502,8 +558,13 @@
     btn.disabled = true;
     btn.textContent = 'Enviando...';
     try {
-            const pedido = armarPedido();
-      const resumen = { items: items.map((i) => ({ ...i })), subtotal: subtotal(), envio: costoEnvio() };
+      const pedido = armarPedido();
+      const b = calcularBolsa(items);
+      const resumen = {
+        items: items.map((i) => ({ ...i })),
+        subtotal: b.subtotal,
+        descuento: b.descuento
+      };
       const numero = await enviarPedido(pedido, $('ck-comprobante').files[0]);
       ultimoPedido = {
         numero, fecha: new Date(), nombre: pedido.nombre, celular: pedido.celular,
@@ -524,9 +585,6 @@
       }
       $('ck-done').classList.remove('hidden');
       window.scrollTo({ top: 0 });
-
-
-
     } catch (err) {
       console.error('Error pedido:', err && err.message, err);
       const m = err && err.message ? err.message : '';
@@ -539,7 +597,8 @@
   });
 
   /* ---------- EVENTOS Y ARRANQUE ---------- */
-  document.querySelectorAll('input[name="ck-tipo"]').forEach((r) => r.addEventListener('change', refreshTipo));
+  document.querySelectorAll('input[name="ck-tipo"]').forEach((r) =>
+  r.addEventListener('change', () => refreshTipo(true)));
   $('ck-dep').addEventListener('change', onDepartamento);
   $('ck-prov').addEventListener('change', onProvincia);
   $('ck-methods').addEventListener('change', refreshPayPanel);
@@ -553,7 +612,7 @@
     else prev.classList.add('hidden');
   });
 
-    $('ck-pdf-btn').addEventListener('click', async function () {
+  $('ck-pdf-btn').addEventListener('click', async function () {
     if (!ultimoPedido) return;
     const btn = this;
     btn.disabled = true;
@@ -581,7 +640,8 @@
 
   $('ck-form').classList.remove('hidden');
   pintarResumen();
-  refreshTipo();
+ refreshTipo();
+setTimeout(() => toast(TEXTOS[tipoActual()].aviso), 700);
   refreshPayPanel();
 
   $('ck-del-distrito').innerHTML = '<option value="">Cargando distritos...</option>';
