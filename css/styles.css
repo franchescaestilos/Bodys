@@ -3083,6 +3083,41 @@ body:has(.mobile-menu.is-open) {
   font-weight: 700;
   color: #ffffff;
 }
+  /* promo */
+.promo-badge {
+    position: absolute;
+    top: 12px;
+    right: 10px;
+    z-index: 2;
+    background: #e11d2e;
+    color: #fff;
+    font-weight: 800;
+    font-size: 10px;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 15px;
+    white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+    .js-span {
+        top: 0.6rem;
+        left: 0.6rem;
+        padding: 0.2rem 0.55rem;
+        font-size: 8px;
+        letter-spacing: 0.06em;
+    }
+
+    .promo-badge {
+        top: 0.6rem;
+        right: 0.6rem;
+        padding: 4px 7px;
+        font-size: 6.5px;
+        letter-spacing: 0.02em;
+    }
+}
+
 
 /* Carrito: ítem */
 .js-div-8 {

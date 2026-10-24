@@ -56,7 +56,7 @@ function adaptarProducto(p) {
             ? `S/ ${Number(p.precio_anterior).toFixed(2)}` : "",
         // Promoción: solo si está activa y tiene precio (ej. "Promo 2 por S/ 50")
         promo: (p.promocion_activa && Number(p.promocion_precio) > 0)
-            ? `Promo 2 por S/ ${Number(p.promocion_precio)}` : "",
+            ? `2 por S/ ${Number(p.promocion_precio)}` : "",
         // Precio de la promo por dos unidades (0 si no tiene promo); se usa para calcular la bolsa
         promoPrecio: (p.promocion_activa && Number(p.promocion_precio) > 0)
             ? Number(p.promocion_precio) : 0,
@@ -310,9 +310,8 @@ function sincronizarCarrito() {
 // Etiqueta de promoción sobre la foto (solo si la promo está activa)
 function promoBadge(p) {
     if (!p.promo) return '';
-    return `<span style="position: absolute; top: 12px; right: 12px; z-index: 2; background: #e11d2e; color: #fff; font-weight: 800; font-size: 12px; letter-spacing: .03em; text-transform: uppercase; padding: 5px 10px; border-radius: 6px;">${escHTML(p.promo)}</span>`;
+    return `<span class="promo-badge">${escHTML(p.promo)}</span>`;
 }
-
 // Elige 6 colores distintos para la tarjeta; cada producto muestra una combinación diferente
 // (siempre la misma para ese producto, así no cambia cada vez que se recarga)
 function coloresTarjeta(product) {
