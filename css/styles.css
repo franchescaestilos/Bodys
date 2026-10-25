@@ -834,7 +834,7 @@ body:has(.mobile-menu.is-open) {
   display: block;
   font-weight: 400;
   text-align: center;
-  color: #b1013ce1;
+  color: var(--rosa);
 }
 
 /* Indicador "Descubre nuestra colección" */
