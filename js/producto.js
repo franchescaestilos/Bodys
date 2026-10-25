@@ -49,7 +49,7 @@ function initProductPage() {
         ppEl('pp-price').insertAdjacentElement('afterend', promo);
     }
     ppEl('pp-desc').textContent = ppProduct.desc ||
-        'Confeccionado en tela de alta calidad, suave al tacto y con ajuste perfecto que realza la silueta femenina.';
+        'Confeccionado en tela suplex de alta calidad, suave al tacto y con ajuste perfecto que realza la silueta femenina.';
 
     ppEl('pp-buy').onclick = ppComprarAhora;
     ppEl('pp-add').onclick = ppAgregar;
