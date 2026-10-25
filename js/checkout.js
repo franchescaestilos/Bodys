@@ -514,13 +514,34 @@ function refreshTipo(avisar) {
 
     doc.save('Comprobante-' + d.numero + '.pdf');
   }
+  // Convierte la imagen a webp y la achica. Los PDF se dejan igual.
+  async function aWebp(file, maxLado = 1280, calidad = 0.75) {
+    if (!file || !file.type.startsWith('image/')) return file;
+    try {
+      const bmp = await createImageBitmap(file);
+      const factor = Math.min(1, maxLado / Math.max(bmp.width, bmp.height));
+      const w = Math.round(bmp.width * factor);
+      const h = Math.round(bmp.height * factor);
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d').drawImage(bmp, 0, 0, w, h);
+      const blob = await new Promise((r) => canvas.toBlob(r, 'image/webp', calidad));
+      // Si el navegador no soporta webp o no se logra reducir, se queda el original
+      if (!blob || blob.type !== 'image/webp' || blob.size >= file.size) return file;
+      return new File([blob], file.name.replace(/\.[^.]+$/, '') + '.webp', { type: 'image/webp' });
+    } catch (e) {
+      return file;
+    }
+  }
 
   async function enviarPedido(pedido, archivo) {
     // 1) Subir comprobante
+   const listo = await aWebp(archivo);
     const id = crypto.randomUUID();
-    const ext = (archivo.name.split('.').pop() || 'jpg').toLowerCase();
+    const ext = (listo.name.split('.').pop() || 'jpg').toLowerCase();
     const ruta = id + '.' + ext;
-    const up = await db.storage.from('comprobantes').upload(ruta, archivo, { contentType: archivo.type });
+    const up = await db.storage.from('comprobantes').upload(ruta, listo, { contentType: listo.type });
     if (up.error) throw up.error;
 
     // 2) Guardar pedido + items + descontar stock (una sola transacción en el servidor)
