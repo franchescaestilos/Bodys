@@ -2046,6 +2046,11 @@ body:has(.mobile-menu.is-open) {
   opacity: 1;
 }
 
+
+/* ==========================================================================
+  Botones de redes sociales
+   ========================================================================== */
+
 .section3-div-5 {
   display: flex;
   justify-content: center;
@@ -2053,7 +2058,8 @@ body:has(.mobile-menu.is-open) {
 }
 
 .section3-a,
-.section3-a-2 {
+.section3-a-2,
+.section3-a-3 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -2093,7 +2099,22 @@ body:has(.mobile-menu.is-open) {
     3px 3px 0 #fe2c55,
     var(--sombra-md);
 }
+/* Instagram */
+.section3-a-3 {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+}
 
+.section3-a-3:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 16px rgba(220, 39, 67, 0.4);
+}
 
 /* ==========================================================================
    18. FOOTER
@@ -2156,7 +2177,7 @@ body:has(.mobile-menu.is-open) {
 
 .footer1-f,
 .footer1-t,
-.footer1-a-2 {
+.footer1-ig {
   display: flex;
   height: 2.25rem;
   width: 2.25rem;
@@ -2164,7 +2185,7 @@ body:has(.mobile-menu.is-open) {
   justify-content: center;
   border-radius: 9999px;
   color: #ffffff;
-  transition: background-color 150ms var(--ease);
+  transition: background-color 150ms var(--ease), box-shadow 150ms var(--ease), filter 150ms var(--ease);
 }
 
 .footer1-f,
@@ -2175,12 +2196,27 @@ body:has(.mobile-menu.is-open) {
 .footer1-f:hover {
   background-color: #1877f2;
 }
-.footer1-t:hover{
+.footer1-t:hover {
   background-color: #161823;
   box-shadow:
     -1px -1px 0 #25f4ee,
     1px 1px 0 #fe2c55,
     var(--sombra-md);
+}
+/* Instagram */
+.footer1-ig {
+  background-color: rgb(255 255 255 / 0.1);
+}
+
+.footer1-ig:hover {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
 }
 .footer1-a-2 {
   background-color: var(--wa);
